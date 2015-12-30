@@ -61,15 +61,24 @@ class Articles_model extends CI_Model
 
 	public function edit($art_id)
 	{
-		$data = array('content'=>$$this->input->post('content'));
-		$this->db->update('articles',$data,array('id'=>$art_id));
-		if($this->db->affected_rows() >0)
+		$query_str = "SELECT user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id WHERE articles.id='$art_id'";
+		$username = $this->db->query($query_str)->row_array()['username'];
+		if($username==$this->session->userdata('unnamed'))
 		{
-			return True;
+			$data = array('content'=>$$this->input->post('content'));
+			$this->db->update('articles',$data,array('id'=>$art_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		else
 		{
-			return False;
+			return -1;
 		}
 	}
 
