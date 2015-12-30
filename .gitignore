@@ -15,6 +15,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
 composer.json
 contributing.md
+user_guide/
 # IDE Files
 #-------------------------
 /nbproject/
