@@ -37,15 +37,22 @@ class Articles extends CI_Controller
 	public function view_detail($art_id)
 	{
 		return json_encode($this->articles_model->detail_view($art_id));     /*Returns a particular article with content and a json entry specifiyng whether
-																				to show delete button to User. Call this via AJAX if the user clicks a particular article
+																				to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
 																				title.Pass art_id as parameter.*/
 	}
 
 	public function art_delete($art_id)
 	{
 		return $this->articles_model->delete($art_id);		/*Return 1 if article deleted.
-															0 if not deleted.
-															-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+																	0 if not deleted.
+																	-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+	public function art_edit($art_id)
+	{
+		return $this->articles_model->edit($article_id);		/*Return 1 if article edited.
+																		0 if not deleted.
+																		-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
 	}
 
 	public function post($art_sec)
