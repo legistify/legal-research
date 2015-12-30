@@ -36,9 +36,9 @@ class Articles_model extends CI_Model
 		$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('unnamed')));
 		if($auth_query->num_rows <0)
 		{
-			return False;
+			return 0;
 		}
-		return True;
+		return 1;
 	}
 
 	public function post($art_sec)
@@ -51,11 +51,11 @@ class Articles_model extends CI_Model
 		$this->db->insert('articles',$data);
 		if($this->db->affected_rows() >0)
 		{
-			return True;
+			return 1;
 		}
 		else
 		{
-			return False;
+			return 0;
 		}
 	}
 

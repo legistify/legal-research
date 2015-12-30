@@ -75,14 +75,16 @@ class Articles extends CI_Controller
 		{
 
 		}*/
-		if(!$this->articles_model->validate())
+		if(!$this->articles_model->validate()==0)
 		{
-			echo 'Not Valid.';									/*Just to double check that user posting is lawyer. Only lawyer can see post button.*/
+			/*echo 'Not Valid.';*/
+			return -1;							/*Just to double check that user posting is lawyer. Only lawyer can see post button.*/
 		}
 		else
 		{
 			return $this->articles_model->post($art_sec);           /*Saves new article. Pass article_tag as parameter in redirect url.
-																	Returns true if post successful.*/
+																	Returns 1 if post successful.
+																	Returns 0 if not successful.*/
 		}
 	}
 
