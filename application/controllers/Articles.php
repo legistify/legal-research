@@ -20,6 +20,7 @@ class Articles extends CI_Controller
 															Also Passed is a boolean at end of json which indicates whether to show post button or not*/
 		/*$this->load->view('',$topic_list);*/
 		return ($topic_json);
+		
 	}
 
 	public function view($art_sec='anp')
@@ -42,7 +43,9 @@ class Articles extends CI_Controller
 
 	public function art_delete($art_id)
 	{
-		return $this->articles_model->delete($art_id);		/*Return True if article deleted.Use AJAX to call this method.*/
+		return $this->articles_model->delete($art_id);		/*Return 1 if article deleted.
+															0 if not deleted.
+															-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
 	}
 
 	public function post($art_sec)
