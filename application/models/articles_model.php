@@ -47,7 +47,9 @@ class Articles_model extends CI_Model
 		$user_id = $auth_query->row_array()['id'];
 		$data = array('topic'=>$art_sec,
 					  'content'=>$this->input->post('content'),
-					  'user_id'=>$user_id);
+					  'user_id'=>$user_id,
+					  'title'=>$this->input->post('title')
+					  );
 		$this->db->insert('articles',$data);
 		if($this->db->affected_rows() >0)
 		{
@@ -65,7 +67,9 @@ class Articles_model extends CI_Model
 		$username = $this->db->query($query_str)->row_array()['username'];
 		if($username==$this->session->userdata('unnamed'))
 		{
-			$data = array('content'=>$$this->input->post('content'));
+			$data = array('content'=>$this->input->post('content'),
+						  'title'=>$this->input->post('title')
+						  );
 			$this->db->update('articles',$data,array('id'=>$art_id));
 			if($this->db->affected_rows() >0)
 			{
