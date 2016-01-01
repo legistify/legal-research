@@ -23,11 +23,11 @@ class Forum_model extends CI_Model
 		$this->db->insert('questions',$data);
 		if($this->db->affected_rows() >0)
 		{
-			return True;
+			return 1;
 		}
 		else
 		{
-			return False;
+			return 0;
 		}
 	}
 
@@ -71,11 +71,11 @@ class Forum_model extends CI_Model
 		$this->db->insert('comments',$data);
 		if($this->db->affected_rows() >0)
 		{
-			return True;
+			return 1;
 		}
 		else
 		{
-			return False;
+			return 0;
 		}
 	}
 
