@@ -81,18 +81,27 @@ class Forum_model extends CI_Model
 
 	public function edit_comment($comment_id)
 	{
-		$datetime = date('Y-m-d H:i:s');
-		$data = array('comment'=>$this->input->post('comment'),
-					  'datetime'=>$datetime
-					  );
-		$this->db->update('comments',$data,array('id'=>$comment_id));
-		if($this->db->affected_rows() >0)
+		$query_str= "SELECT users.username FROM `comments` JOIN users ON comments.user_id=users.id WHERE comments.id='$comment_id'";
+		$username = $this->db->query($query_str)->row_array()['username'];
+		if($username = $this->session->userdata('unnamed'))
 		{
-			return True;
+			$datetime = date('Y-m-d H:i:s');
+			$data = array('comment'=>$this->input->post('comment'),
+						  'datetime'=>$datetime
+						  );
+			$this->db->update('comments',$data,array('id'=>$comment_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		else
 		{
-			return False;
+			return -1;
 		}
 	}
 	/*Delete comment pending.*/
