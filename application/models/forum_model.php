@@ -32,19 +32,28 @@ class Forum_model extends CI_Model
 	}
 
 	public function update($ques_id)
-	{	$datetime = date('Y-m-d H:i:s');
-		$data = array('title'=>$this->input->post('title'),
-					  'description'=>$this->input->post('description'),
-					  'datetime'=>$datetime
-					  );
-		$this->db->update('questions',$data,array('id'=>$ques_id));
-		if($this->db->affected_rows() >0)
+	{	$query_str= "SELECT users.username FROM `questions` JOIN users ON questions.user_id=users.id WHERE questions.id='$ques_id'";
+		$username = $this->db->query($query_str)->row_array()['username'];
+		if($username = $this->session->userdata('unnamed'))
 		{
-			return True;
+			$datetime = date('Y-m-d H:i:s');
+			$data = array('title'=>$this->input->post('title'),
+						  'description'=>$this->input->post('description'),
+						  'datetime'=>$datetime
+						  );
+			$this->db->update('questions',$data,array('id'=>$ques_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		else
 		{
-			return False;
+			return -1;
 		}
 	}
 	/*Ques Delete Pending.*/
