@@ -114,6 +114,44 @@ class Articles_model extends CI_Model
 		$query = $this->db->get('topics');
 		return ($query->result_array());
 	}
+
+	public function vote($art_id,$updown)
+	{
+		if($updown==1)
+		{
+			$query_str = "UPDATE `articles` SET `votes`= votes+1 WHERE `id`='$art_id'";
+			$query = $this->db->query($query_str);
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else if($updown== -1)
+		{
+			$query_str = "UPDATE `articles` SET `votes`= votes-1 WHERE `id`='$art_id'";
+			$query = $this->db->query($query_str);
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+
+
+
 }
 
 
