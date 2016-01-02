@@ -31,10 +31,10 @@ class Forum_model extends CI_Model
 		}
 	}
 
-	public function update($ques_id)
+	public function update($ques_id,$username_session)
 	{	$query_str= "SELECT users.username FROM `questions` JOIN users ON questions.user_id=users.id WHERE questions.id='$ques_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
-		if($username = $this->session->userdata('unnamed'))
+		if($username == $username_session)
 		{
 			$datetime = date('Y-m-d H:i:s');
 			$data = array('title'=>$this->input->post('title'),
@@ -58,7 +58,7 @@ class Forum_model extends CI_Model
 	}
 	/*Ques Delete Pending.*/
 
-	public function comment_ques($ques_id)
+	public function comment_ques($ques_id,$username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
@@ -79,13 +79,13 @@ class Forum_model extends CI_Model
 		}
 	}
 
-	public function comment_comm($comm_id)
+	public function comment_comm($comm_id,$username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
 		$data = array('comment'=>$this->input->post('comment'),
 					  'user_id'=>$user_id,
-					  'question_id'=>$ques_id,
+					  'comment_id'=>$comm_id,
 					  'votes'=>0,
 					  'datetime'=>$datetime
 					  );
@@ -102,11 +102,11 @@ class Forum_model extends CI_Model
 
 	
 
-	public function edit_commentq($comment_id)
+	public function edit_commentq($comment_id,$username_session)
 	{
 		$query_str= "SELECT users.username FROM `comments_q` JOIN users ON comments_q.user_id=users.id WHERE comments_q.id='$comment_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
-		if($username = $this->session->userdata('unnamed'))
+		if($username == $username_session)
 		{
 			$datetime = date('Y-m-d H:i:s');
 			$data = array('comment'=>$this->input->post('comment'),
@@ -128,11 +128,11 @@ class Forum_model extends CI_Model
 		}
 	}
 
-	public function edit_commentc($comment_id)
+	public function edit_commentc($comment_id,$username_session)
 	{
 		$query_str= "SELECT users.username FROM `comments_c` JOIN users ON comments_c.user_id=users.id WHERE comments_c.id='$comment_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
-		if($username = $this->session->userdata('unnamed'))
+		if($username == $username_session)
 		{
 			$datetime = date('Y-m-d H:i:s');
 			$data = array('comment'=>$this->input->post('comment'),
