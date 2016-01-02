@@ -88,6 +88,25 @@ class Articles extends CI_Controller
 		}
 	}
 
+	public function upvote($article_id)
+	{
+		return $this->articles_model->vote($article_id,1);			/*Does an upvote in  db. 
+																	Returns 1 if successful.
+																	0 if not.
+																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
+																	Second parameter of vote() is for model donot change/change at both places.*/
+	}
+
+	public function downvote($article_id)
+	{
+		return $this->articles_model->vote($article_id,-1);			/*Does an downvote in  db. 
+																	Returns 1 if successful.
+																	0 if not.
+																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
+																	Second parameter of vote() is for model donot change/change at both places.*/
+																	
+	}
+
 }
 
 
