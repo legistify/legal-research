@@ -68,7 +68,7 @@ class Forum_model extends CI_Model
 					  'votes'=>0,
 					  'datetime'=>$datetime
 					  );
-		$this->db->insert('comments',$data);
+		$this->db->insert('comments_q',$data);
 		if($this->db->affected_rows() >0)
 		{
 			return 1;
@@ -79,9 +79,11 @@ class Forum_model extends CI_Model
 		}
 	}
 
-	public function edit_comment($comment_id)
+	
+
+	public function edit_commentq($comment_id)
 	{
-		$query_str= "SELECT users.username FROM `comments` JOIN users ON comments.user_id=users.id WHERE comments.id='$comment_id'";
+		$query_str= "SELECT users.username FROM `comments_q` JOIN users ON comments_q.user_id=users.id WHERE comments_q.id='$comment_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
 		if($username = $this->session->userdata('unnamed'))
 		{
@@ -89,7 +91,7 @@ class Forum_model extends CI_Model
 			$data = array('comment'=>$this->input->post('comment'),
 						  'datetime'=>$datetime
 						  );
-			$this->db->update('comments',$data,array('id'=>$comment_id));
+			$this->db->update('comments_q',$data,array('id'=>$comment_id));
 			if($this->db->affected_rows() >0)
 			{
 				return 1;
@@ -104,9 +106,86 @@ class Forum_model extends CI_Model
 			return -1;
 		}
 	}
-	/*Delete comment pending.*/
-	/*Comment to a comment pending.*/
 
+
+
+
+	/*Delete comment pending.*/
+	/*Comment to a comment delete pending.*/
+
+
+	public function vote($id,$updown,$qc)
+	{
+		if($qc = 'q')
+		{
+			if($updown == 1)
+			{
+				$query_str = "UPDATE `questions` SET `votes`= votes+1 WHERE `id`='$id'";
+				$query = $this->db->query($query_str);
+				if($this->db->affected_rows() >0)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else if($updown == -1)
+			{
+				$query_str = "UPDATE `questions` SET `votes`= votes-1 WHERE `id`='$id'";
+				$query = $this->db->query($query_str);
+				if($this->db->affected_rows() >0)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				return -1;
+			}
+		}
+		else if($qc = 'c')
+		{
+			if($updown == 1)
+			{
+				$query_str = "UPDATE `comments_q` SET `votes`= votes+1 WHERE `id`='$id'";
+				$query = $this->db->query($query_str);
+				if($this->db->affected_rows() >0)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else if($updown == -1)
+			{
+				$query_str = "UPDATE `comments_q` SET `votes`= votes-1 WHERE `id`='$id'";
+				$query = $this->db->query($query_str);
+				if($this->db->affected_rows() >0)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				return -1;
+			}
+		}
+
+	}
+
+	
 }
 
 
