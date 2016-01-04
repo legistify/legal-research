@@ -9,6 +9,34 @@ class Forum_model extends CI_Model
 
 	}
 
+	public function fetch_ques()
+	{
+		$query_str = "SELECT questions.id,questions.title,questions.description,questions.votes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id";
+		$query =$this->db->query($query_str);
+		return $query->result_array();
+	}
+	public function fetch_ans($ques_id)
+	{
+		$query_str = "SELECT answers.id,answers.answer,answers.datetime,user_lawyer.username FROM `answers` JOIN `user_lawyer` ON answers.user_id=user_lawyer.id WHERE
+		answers.question_id='$ques_id'";
+		$query =$this->db->query($query_str);
+		return $query->result_array();
+	}
+	public function fetch_comm($ans_id)
+	{
+		$query_str = "SELECT comments_a.id,comments_a.comment,comments_a.datetime,users.username FROM `comments_a` JOIN `users` ON comments_a.user_id=users.id WHERE
+		comments_a.ans_id='$ans_id'";
+		$query =$this->db->query($query_str);
+		return $query->result_array();
+	}
+	public function fetch_reply($comm_id)
+	{
+		$query_str = "SELECT comments_c.id,comments_c.comment,comments_c.datetime,users.username FROM `comments_c` JOIN `users` ON comments_c.user_id=users.id WHERE
+		comments_c.comment_id='$comm_id'";
+		$query =$this->db->query($query_str);
+		return $query->result_array();	
+	}
+
 	public function post_ques($username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
@@ -58,17 +86,74 @@ class Forum_model extends CI_Model
 	}
 	/*Ques Delete Pending.*/
 
-	public function comment_ques($ques_id,$username)
+
+	public function answer($ques_id,$username_session)
+	{
+		$query_str = "SELECT `id` FROM `user_lawyer` WHERE `username`='$username_session'";
+		$query = $this->db->query($query_str);
+		if($query->num_rows() >0)
+		{
+			$user_id = $query->row_array()['id'];
+			$datetime = date('Y-m-d H:i:s');
+			$data = array('answer'=>$this->input->post('answer'),
+						  'question_id'=>$ques_id,
+						  'user_id'=>$user_id,
+						  'votes'=>0,
+						  'datetime'=>$datetime
+						  );
+			$this->db->insert('answers',$data);
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+		
+	}
+
+	public function edit_answer($ans_id,$username_session)
+	{
+		$query_str = "SELECT users.username FROM `answers` JOIN `users` ON answers.user_id=users.id WHERE answers.id='$ans_id'";
+		$username = $this->db->query($query_str)->row_array()['username'];
+		if($username == $username_session)
+		{
+			$datetime = date('Y-m-d H:i:s');
+			$data = array('answer'=>$this->input->post('answer'),
+						  'datetime'=>$datetime);
+			$this->db->update('answers',$data,array('id'=>$ans_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	public function comment_ans($ans_id,$username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
 		$data = array('comment'=>$this->input->post('comment'),
 					  'user_id'=>$user_id,
-					  'question_id'=>$ques_id,
+					  'answer_id'=>$ans_id,
 					  'votes'=>0,
 					  'datetime'=>$datetime
 					  );
-		$this->db->insert('comments_q',$data);
+		$this->db->insert('comments_a',$data);
 		if($this->db->affected_rows() >0)
 		{
 			return 1;
@@ -102,9 +187,9 @@ class Forum_model extends CI_Model
 
 	
 
-	public function edit_commentq($comment_id,$username_session)
+	public function edit_commenta($comment_id,$username_session)
 	{
-		$query_str= "SELECT users.username FROM `comments_q` JOIN users ON comments_q.user_id=users.id WHERE comments_q.id='$comment_id'";
+		$query_str= "SELECT users.username FROM `comments_a` JOIN users ON comments_q.user_id=users.id WHERE comments_q.id='$comment_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
 		if($username == $username_session)
 		{
@@ -112,7 +197,7 @@ class Forum_model extends CI_Model
 			$data = array('comment'=>$this->input->post('comment'),
 						  'datetime'=>$datetime
 						  );
-			$this->db->update('comments_q',$data,array('id'=>$comment_id));
+			$this->db->update('comments_a',$data,array('id'=>$comment_id));
 			if($this->db->affected_rows() >0)
 			{
 				return 1;
@@ -163,11 +248,11 @@ class Forum_model extends CI_Model
 
 	public function vote($id,$updown,$qc)
 	{
-		if($qc = 'q')
+		if($qc = 'a')
 		{
 			if($updown == 1)
 			{
-				$query_str = "UPDATE `questions` SET `votes`= votes+1 WHERE `id`='$id'";
+				$query_str = "UPDATE `answers` SET `votes`= votes+1 WHERE `id`='$id'";
 				$query = $this->db->query($query_str);
 				if($this->db->affected_rows() >0)
 				{
@@ -180,7 +265,7 @@ class Forum_model extends CI_Model
 			}
 			else if($updown == -1)
 			{
-				$query_str = "UPDATE `questions` SET `votes`= votes-1 WHERE `id`='$id'";
+				$query_str = "UPDATE `answers` SET `votes`= votes-1 WHERE `id`='$id'";
 				$query = $this->db->query($query_str);
 				if($this->db->affected_rows() >0)
 				{
@@ -200,7 +285,7 @@ class Forum_model extends CI_Model
 		{
 			if($updown == 1)
 			{
-				$query_str = "UPDATE `comments_q` SET `votes`= votes+1 WHERE `id`='$id'";
+				$query_str = "UPDATE `comments_a` SET `votes`= votes+1 WHERE `id`='$id'";
 				$query = $this->db->query($query_str);
 				if($this->db->affected_rows() >0)
 				{
@@ -213,7 +298,7 @@ class Forum_model extends CI_Model
 			}
 			else if($updown == -1)
 			{
-				$query_str = "UPDATE `comments_q` SET `votes`= votes-1 WHERE `id`='$id'";
+				$query_str = "UPDATE `comments_a` SET `votes`= votes-1 WHERE `id`='$id'";
 				$query = $this->db->query($query_str);
 				if($this->db->affected_rows() >0)
 				{
