@@ -6,6 +6,7 @@ class Forum extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->library('email');
 		$this->load->model('forum_model');
 
 	}
@@ -27,7 +28,7 @@ class Forum extends CI_Controller
 	{
 		echo "Hello! Welcome to Forum.";
 		echo "<br>";
-		print_r(json_encode($this->view_generate()));
+		print_r($this->forum_model->fetchmail_a(1));
 	}
 
 	public function post()
@@ -43,9 +44,19 @@ class Forum extends CI_Controller
 	}
 	public function answer($question_id)
 	{
-		return $this->forum_model->answer($ques_id,$this->session->userdata('unnamed'));     /*Returns 1 if successful.
-																								0 if not.
-																								-1 if User not allowed to do so. Call via AJAX. Pass question_id given in JSON.*/
+		if($this->forum_model->answer($ques_id,$this->session->userdata('unnamed')))
+		{
+			$maillist = $this->forum_model->fetchmail_a($question_id);
+			foreach ($maillist as $mailee)
+			{
+				$this->email->from();
+				$this->email->to($mailee['email']);
+				$this->email->message("Someone Answered.");
+				$this->email->send();
+			}
+		}																							    /*Returns 1 if successful.
+																										0 if not.
+																										-1 if User not allowed to do so. Call via AJAX. Pass question_id given in JSON.*/
 	}
 
 	public function edit_answer($ans_id)
@@ -57,12 +68,33 @@ class Forum extends CI_Controller
 
 	public function comment_a($ans_id)
 	{
-		return $this->forum_model->comment_ans($ans_id,$this->session->userdata('unnamed'));   /*Returns 1 if post successful.
+		if($this->forum_model->comment_ans($ans_id,$this->session->userdata('unnamed')))
+		{
+			$maillist = $this->forum_model->fetchmail_ca($ans_id);
+			foreach ($maillist as $mailee)
+			{
+				$this->email->from();
+				$this->email->to($mailee['email']);
+				$this->email->message("Someone Answered.");
+				$this->email->send();
+			}
+
+		}   																					/*Returns 1 if post successful.
 																								0 if not.*/  
 	}
-	public function comment_c($comm_id)
+	public function comment_q($ques_id)
 	{
-		return $this->forum_model->comment_comm($comm_id,$this->session->userdata('unnamed'));   /*Returns 1 if post successful.
+		if($this->forum_model->comment_q($ques_id,$this->session->userdata('unnamed')))
+		{
+			$maillist = $this->forum_model->fetchmail_cq($ques_id);
+			foreach ($maillist as $mailee)
+			{
+				$this->email->from();
+				$this->email->to($mailee['email']);
+				$this->email->message("Someone Commmented on question.");
+				$this->email->send();
+			}
+		}  																					/*Returns 1 if post successful.
 																								0 if not.*/ 
 	}
 
