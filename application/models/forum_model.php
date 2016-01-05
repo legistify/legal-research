@@ -104,6 +104,7 @@ class Forum_model extends CI_Model
 			$this->db->insert('answers',$data);
 			if($this->db->affected_rows() >0)
 			{
+				$this->fetchmail_a($ques_id);
 				return 1;
 			}
 			else
@@ -147,11 +148,13 @@ class Forum_model extends CI_Model
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
+		$question_id = $this->db->query("SELECT `question_id` FROM `answers` WHERE `id`='$ans_id'")->row_array()['id'];
 		$data = array('comment'=>$this->input->post('comment'),
 					  'user_id'=>$user_id,
 					  'answer_id'=>$ans_id,
 					  'votes'=>0,
-					  'datetime'=>$datetime
+					  'datetime'=>$datetime,
+					  'question_id'=>$question_id
 					  );
 		$this->db->insert('comments_a',$data);
 		if($this->db->affected_rows() >0)
@@ -164,17 +167,17 @@ class Forum_model extends CI_Model
 		}
 	}
 
-	public function comment_comm($comm_id,$username)
+	public function comment_q($ques_id,$username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
 		$data = array('comment'=>$this->input->post('comment'),
 					  'user_id'=>$user_id,
-					  'comment_id'=>$comm_id,
 					  'votes'=>0,
-					  'datetime'=>$datetime
+					  'datetime'=>$datetime,
+					  'question_id'=>$ques_id
 					  );
-		$this->db->insert('comments_c',$data);
+		$this->db->insert('comments_q',$data);
 		if($this->db->affected_rows() >0)
 		{
 			return 1;
@@ -317,7 +320,38 @@ class Forum_model extends CI_Model
 
 	}
 
+	public function fetchmail_a($ques_id)
+	{
+		$query_str = "SELECT users.email FROM `answers` JOIN `users` ON answers.user_id=users.id WHERE answers.question_id='$ques_id' UNION ALL
+		SELECT users.email FROM `comments_a` JOIN `users` ON comments_a.user_id = users.id WHERE comments_a.question_id='$ques_id' UNION ALL
+		SELECT users.email FROM `questions` JOIN `users` ON questions.user_id=users.id WHERE questions.id='$ques_id'";
+		$data1 = $this->db->query($query_str)->result_array();
+		return $data1;
+	}
+
+	public function fetchmail_ca($ans_id)
+	{
+		$query_str = "SELECT users.email FROM `comments_a` JOIN `users` ON comments_a.user_id=users.id WHERE comments_a.ans_id='$ans_id' UNION  ALL
+		SELECT users.email FROM `answers` JOIN `users` ON answers.user_id=users.id WHERE answers.id = '$ans_id'";
+		$data = $this->db->query($query_str)->result_array();
+		return $data;
+	}
+
+	public function fetchmail_cq($ques_id)
+	{
+		$query_str = "SELECT users.email FROM `comments_q` JOIN `users` ON comments_q.user_id=users.id WHERE comments_q.question_id='$ques_id' UNION  ALL
+		SELECT users.email FROM `questions` JOIN `users` ON questions.user_id=users.id WHERE questions.id = '$ques_id'";
+		$data = $this->db->query($query_str)->result_array();
+		return $data;
+	}
 	
+	public function fetchmail_up($ques_id)
+	{
+		$query_str = "SELECT users.email FROM `answers` JOIN `users` ON answers.user_id=users.id WHERE answers.question_id='$ques_id' UNION ALL
+		SELECT users.email FROM `questions` JOIN `users` ON questions.user_id=users.id WHERE questions.id='$ques_id'";
+		$data = $this->db->query($query_str)->result_array();
+		return $data;
+	}
 }
 
 
