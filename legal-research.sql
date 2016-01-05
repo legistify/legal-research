@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2016 at 07:24 PM
+-- Generation Time: Jan 05, 2016 at 07:54 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -19,6 +19,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `legal-research`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers`
+--
+
+CREATE TABLE IF NOT EXISTS `answers` (
+  `id` bigint(20) NOT NULL,
+  `answer` mediumtext NOT NULL,
+  `question_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `votes` int(11) NOT NULL DEFAULT '0',
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `answer`, `question_id`, `user_id`, `votes`, `datetime`) VALUES
+(1, 'TEST_ANSWER.', 1, 2, 0, '0000-00-00 00:00:00'),
+(2, 'TEST_ANSWER.', 1, 3, 0, '0000-00-00 00:00:00'),
+(3, 'TEST_ANSWER.', 2, 1, 0, '0000-00-00 00:00:00'),
+(4, 'TEST_ANSWER.', 2, 2, 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -40,32 +65,51 @@ CREATE TABLE IF NOT EXISTS `articles` (
 --
 
 INSERT INTO `articles` (`id`, `topic`, `content`, `votes`, `user_id`, `title`) VALUES
-(1, 'agr', 'HI', 0, 1, 'hello'),
+(1, 'agr', 'HI', 2, 1, 'hello'),
 (2, 'anp', 'HI', 0, 1, 'helli'),
 (3, 'agr', 'BYE', 0, 2, 'helle');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
+-- Table structure for table `comments_a`
 --
 
-CREATE TABLE IF NOT EXISTS `comments` (
+CREATE TABLE IF NOT EXISTS `comments_a` (
   `id` bigint(20) NOT NULL,
   `comment` text NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `question_id` bigint(20) NOT NULL,
+  `answer_id` bigint(20) NOT NULL,
   `votes` int(11) NOT NULL DEFAULT '0',
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `question_id` bigint(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `comments`
+-- Dumping data for table `comments_a`
 --
 
-INSERT INTO `comments` (`id`, `comment`, `user_id`, `question_id`, `votes`, `datetime`) VALUES
-(1, 'HEY!!HAppy New Year', 2, 1, 0, '2016-01-01 23:53:40'),
-(2, 'YO!Panky Happy new Year!!', 3, 1, 0, '2016-01-01 23:53:40');
+INSERT INTO `comments_a` (`id`, `comment`, `user_id`, `answer_id`, `votes`, `datetime`, `question_id`) VALUES
+(1, 'TEST_COMMENT', 2, 1, 0, '2016-01-04 13:23:21', 0),
+(2, 'TEST_COMMENT', 1, 2, 0, '2016-01-04 13:23:21', 0),
+(3, 'TEST_COMMENT', 3, 3, 0, '2016-01-04 13:23:21', 0),
+(4, 'TEST_COMMENT', 2, 1, 0, '2016-01-04 13:23:21', 0),
+(5, 'TEST_COMMENT', 2, 1, 0, '2016-01-04 13:23:21', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments_q`
+--
+
+CREATE TABLE IF NOT EXISTS `comments_q` (
+  `id` bigint(20) NOT NULL,
+  `comment` text NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `votes` int(11) NOT NULL DEFAULT '0',
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `question_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -199,16 +243,28 @@ INSERT INTO `user_lawyer` (`id`, `username`, `acc_type`, `phone`, `age`, `sex`, 
 --
 
 --
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`), ADD KEY `fk_questions` (`question_id`), ADD KEY `fk_use` (`user_id`);
+
+--
 -- Indexes for table `articles`
 --
 ALTER TABLE `articles`
   ADD PRIMARY KEY (`id`), ADD KEY `fk_articles` (`user_id`), ADD KEY `fk_topics` (`topic`);
 
 --
--- Indexes for table `comments`
+-- Indexes for table `comments_a`
 --
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`), ADD KEY `fk_question` (`question_id`), ADD KEY `fk_user` (`user_id`);
+ALTER TABLE `comments_a`
+  ADD PRIMARY KEY (`id`), ADD KEY `fk_user` (`user_id`), ADD KEY `fk_answers` (`answer_id`);
+
+--
+-- Indexes for table `comments_q`
+--
+ALTER TABLE `comments_q`
+  ADD PRIMARY KEY (`id`), ADD KEY `fk_user's` (`user_id`), ADD KEY `fk_question` (`question_id`);
 
 --
 -- Indexes for table `questions`
@@ -239,15 +295,25 @@ ALTER TABLE `user_lawyer`
 --
 
 --
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `comments`
+-- AUTO_INCREMENT for table `comments_a`
 --
-ALTER TABLE `comments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+ALTER TABLE `comments_a`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `comments_q`
+--
+ALTER TABLE `comments_q`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `questions`
 --
@@ -273,6 +339,13 @@ ALTER TABLE `user_lawyer`
 --
 
 --
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+ADD CONSTRAINT `fk_questions` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_use` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `articles`
 --
 ALTER TABLE `articles`
@@ -280,11 +353,18 @@ ADD CONSTRAINT `fk_articles` FOREIGN KEY (`user_id`) REFERENCES `user_lawyer` (`
 ADD CONSTRAINT `fk_topics` FOREIGN KEY (`topic`) REFERENCES `topics` (`tag`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `comments`
+-- Constraints for table `comments_a`
 --
-ALTER TABLE `comments`
-ADD CONSTRAINT `fk_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ALTER TABLE `comments_a`
+ADD CONSTRAINT `fk_answers` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `comments_q`
+--
+ALTER TABLE `comments_q`
+ADD CONSTRAINT `fk_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
+ADD CONSTRAINT `fk_user's` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `questions`
