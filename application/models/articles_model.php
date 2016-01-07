@@ -158,4 +158,5 @@ class Articles_model extends CI_Model
 
 
 
-/*End of model*/
+/*End of model.
+Hand coded by Deep Vyas.*/

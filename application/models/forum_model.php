@@ -1,6 +1,7 @@
 <?php
 class Forum_model extends CI_Model
 {
+	/*Implement Delete functions if needed.*/
 	public function __construct()
 	{
 		parent::__construct();
@@ -84,9 +85,7 @@ class Forum_model extends CI_Model
 			return -1;
 		}
 	}
-	/*Ques Delete Pending.*/
-
-
+	
 	public function answer($ques_id,$username_session)
 	{
 		$query_str = "SELECT `id` FROM `user_lawyer` WHERE `username`='$username_session'";
@@ -242,13 +241,6 @@ class Forum_model extends CI_Model
 		}
 	}
 
-
-
-
-	/*Delete comment pending.*/
-	/*Comment to a comment delete pending.*/
-
-
 	public function vote($id,$updown,$qc)
 	{
 		if($qc = 'a')
@@ -355,4 +347,5 @@ class Forum_model extends CI_Model
 }
 
 
-/*End of Model*/
+/*End of Model.
+Hand Coded by Deep Vyas.*/
