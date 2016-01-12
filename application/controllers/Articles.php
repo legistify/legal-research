@@ -47,7 +47,7 @@ class Articles extends CI_Controller
 					}
 				}
 				
-		     $userid=$this->articles_model->userid();
+		     $userid=1;//$this->articles_model->userid();
 		 	$data=array(
   					 "articles"=> $articles,
   					  "comment_list"=>$comment_list,
@@ -176,7 +176,7 @@ class Articles extends CI_Controller
 
 	{
 		
-		return $this->articles_model->comment_vote($comment_id,1);	
+		$this->articles_model->comment_vote($comment_id,1);	
 
 				/*Does an upvote in  db. 
 																	Returns 1 if successful.

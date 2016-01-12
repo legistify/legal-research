@@ -290,18 +290,18 @@ public function edit_comment($comm_id)
 		}
 
 	}
-public function userid(){                                                   //For testing  //To find out user id from session data. Should probably not need in code
+// public function userid(){                                                   //For testing  //To find out user id from session data. Should probably not need in code
 
-	$this->db->where('username',$this->session->userdata('username'));     
-		if($this->session->userdata('user_type')!='lawyer')
-		$temp=$this->db->get('users');
-		 else if($this->session->userdata('user_type')=='lawyer')				// To get user info , works for both kinds of users
-		 $temp=$this->db->get('user_lawyer');
+// 	$this->db->where('username',$this->session->userdata('username'));     
+// 		if($this->session->userdata('user_type')!='lawyer')
+// 		$temp=$this->db->get('users');
+// 		 else if($this->session->userdata('user_type')=='lawyer')				// To get user info , works for both kinds of users
+// 		 $temp=$this->db->get('user_lawyer');
 
-		$row=$temp->row();
-		$userid= $row->id;
-		return $userid;
-}
+// 		$row=$temp->row();
+// 		$userid= $row->id;
+// 		return $userid;
+// }
 
 
 
