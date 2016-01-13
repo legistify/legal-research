@@ -20,7 +20,7 @@ class Articles_model extends CI_Model
 		JOIN topics ON articles.topic=topics.tag WHERE articles.id= '$art_id'";
 		$query = $this->db->query($query_str);
 		$data = $query->row_array();
-		if($data['username']==$this->session->userdata('unnamed'))
+		if($data['username']==$this->session->userdata('username'))
 		{
 			$data['delete_button'] = 'true';
 		}
@@ -33,7 +33,7 @@ class Articles_model extends CI_Model
 
 	public function validate()
 	{
-		$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('unnamed')));
+		$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('username')));
 		if($auth_query->num_rows <0)
 		{
 			return 0;
@@ -66,7 +66,7 @@ class Articles_model extends CI_Model
 
 	public function post($art_sec)
 	{
-		$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('unnamed')));
+		$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('username')));
 		$user_id = $auth_query->row_array()['id'];
 		$data = array('topic'=>$art_sec,
 					  'content'=>$this->input->post('content'),
@@ -88,7 +88,7 @@ class Articles_model extends CI_Model
 	{
 		$query_str = "SELECT user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id WHERE articles.id='$art_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
-		if($username==$this->session->userdata('unnamed'))
+		if($username==$this->session->userdata('username'))
 		{
 			$data = array('content'=>$this->input->post('content'),
 						  'title'=>$this->input->post('title')
@@ -113,7 +113,7 @@ class Articles_model extends CI_Model
 	{
 		$query_str = "SELECT user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id WHERE articles.id='$art_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
-		if($username==$this->session->userdata('unnamed'))
+		if($username==$this->session->userdata('username'))
 		{
 			$this->db->delete('articles', array('id' => $art_id));
 			if($this->db->affected_rows() >0)
@@ -223,19 +223,15 @@ public function comment_vote($comment_id,$updown)
 
 public function edit_comment($comm_id)
 	{
-		$this->db->where('username',$this->session->userdata('username'));
-		if($this->session->userdata('user_type')!='lawyer')
-		$temp=$this->db->get('users');
-		 else if($this->session->userdata('user_type')=='lawyer')				// To get user info , works for both kinds of users
-		 $temp=$this->db->get('user_lawyer');
+		$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
+		$userid = $auth_query->row_array()['id'];
+		$comm=$this->db->get_where('comments_articles',array('id'=>$comm_id));
+		
+		$comm_user=$comm-row_aray()['user_id'];
 
-		$row=$temp->row();
-		$userid=$row->id;
-		$this->db->where('id',$comm_id);
-		$temp=$this->db->get('comments_articles');
-		$row=$temp->row();
 
-		if($userid==$row->user_id)
+		
+		if($userid==$comm_user)
 		{
 			$data = array('content'=>$this->input->post('contents')
 						  );
@@ -258,21 +254,15 @@ public function edit_comment($comm_id)
 	public function delete_comment($comm_id)
 	{
 		
-		$this->db->where('username',$this->session->userdata('username'));
-		if($this->session->userdata('user_type')!='lawyer')
-		$temp=$this->db->get('users');
-		 else if($this->session->userdata('user_type')=='lawyer')				// To get user info , works for both kinds of users
-		 $temp=$this->db->get('user_lawyer');
-
-		$row=$temp->row();
-		$userid=$row->id;
-		$this->db->where('id',$comm_id);
-		$temp=$this->db->get('comments_articles');
-		$row=$temp->row();
+		$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
+		$userid = $auth_query->row_array()['id'];
+		$comm=$this->db->get_where('comments_articles',array('id'=>$comm_id));
+		
+		$comm_user=$comm-row_aray()['user_id'];
 
 
 		
-		if($userid==$row->user_id)
+		if($userid==$comm_user)
 		{
 			$this->db->delete('comments_articles', array('id' => $comm_id));
 			if($this->db->affected_rows() >0)
@@ -290,18 +280,12 @@ public function edit_comment($comm_id)
 		}
 
 	}
-// public function userid(){                                                   //For testing  //To find out user id from session data. Should probably not need in code
+public function userid(){                                                   //For testing  //To find out user id from session data. Should probably not need in code
 
-// 	$this->db->where('username',$this->session->userdata('username'));     
-// 		if($this->session->userdata('user_type')!='lawyer')
-// 		$temp=$this->db->get('users');
-// 		 else if($this->session->userdata('user_type')=='lawyer')				// To get user info , works for both kinds of users
-// 		 $temp=$this->db->get('user_lawyer');
-
-// 		$row=$temp->row();
-// 		$userid= $row->id;
-// 		return $userid;
-// }
+	$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
+		$user_id = $auth_query->row_array()['id'];
+		return $user_id;
+}
 
 
 

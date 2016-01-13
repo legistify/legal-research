@@ -47,10 +47,11 @@ class Articles extends CI_Controller
 					}
 				}
 				
-		     $userid=1;//$this->articles_model->userid();
+		     $userid=$this->articles_model->userid();
 		 	$data=array(
   					 "articles"=> $articles,
   					  "comment_list"=>$comment_list,
+  					   "userid"=>$userid
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
@@ -134,7 +135,7 @@ class Articles extends CI_Controller
 
 
 
-		if( $this->session->userdata('username'))
+		if(!empty($this->session->userdata('username')))
 		  return $this->articles_model->addcomment($article_id);
 		 
 		else{
@@ -149,8 +150,11 @@ class Articles extends CI_Controller
 	public function upvote_article($article_id)
 
 	{
-		
+		if(!empty($this->session->userdata('username')))
 		return $this->articles_model->vote($article_id,1);	
+		else{
+			//load login view
+		}
 
 				/*Does an upvote in  db. 
 																	Returns 1 if successful.
@@ -162,8 +166,13 @@ class Articles extends CI_Controller
 	}
 
 	public function downvote_article($article_id)
+
 	{
-		return $this->articles_model->vote($article_id,-1);			/*Does an downvote in  db. 
+			if(!empty($this->session->userdata('username')))
+		return $this->articles_model->vote($article_id,-1);	
+		else{
+			//load login view
+		}		/*Does an downvote in  db. 
 																	Returns 1 if successful.
 																	0 if not.
 																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
@@ -175,11 +184,14 @@ class Articles extends CI_Controller
     public function upvote_comment($comment_id)
 
 	{
-		
+		if(!empty($this->session->userdata('username')))
 		$this->articles_model->comment_vote($comment_id,1);	
+		else{
+			//load login view
+		}
 
-				/*Does an upvote in  db. 
-																	Returns 1 if successful.
+											/*Does an upvote in  db. 
+																		Returns 1 if successful.
 																	Returns 1 if successful.
 																	Returns 1 if successful.
 																	0 if not.
@@ -188,8 +200,12 @@ class Articles extends CI_Controller
 	}
 
 	public function downvote_comment($comment_id)
-	{
-		return $this->articles_model->comment_vote($comment_id,-1);			/*Does an downvote in  db. 
+	{	
+		if(!empty($this->session->userdata('username')))
+		return $this->articles_model->comment_vote($comment_id,-1);	
+		else{
+			//load login view
+		}				/*Does an downvote in  db. 
 																	Returns 1 if successful.
 																	0 if not.
 																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
