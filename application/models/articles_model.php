@@ -7,9 +7,59 @@ class Articles_model extends CI_Model
 	}
 
 	public function view($art_sec)
+
 	{
-		$query_str = "SELECT articles.id,topics.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id 
-		JOIN topics ON articles.topic=topics.tag WHERE `topic`= '$art_sec'";
+		
+
+		if($this->input->post('tag1'))
+			$tag1=$this->input->post('tag1');
+		if($this->input->post('tag2'))
+			$tag2=$this->input->post('tag2');
+		if($this->input->post('tag3'))
+			$tag3=$this->input->post('tag3');
+		if($this->input->post('tag4'))
+			$tag4=$this->input->post('tag4');
+		if($this->input->post('tag5'))
+			$tag5=$this->input->post('tag5');
+
+		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+ 			
+ 			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
+  GROUP BY articles.id";
+
+
+		}
+
+		 else if($this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
+  GROUP BY articles.id";
+
+		}
+
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
+  GROUP BY articles.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
+  GROUP BY articles.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && !$this->input->post('tag5')) {
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
+  GROUP BY articles.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && $this->input->post('tag5')) {
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
+  GROUP BY articles.id";
+
+		}
+
+		
 		$query = $this->db->query($query_str);
 		return $query->result_array(); 
 	}
@@ -68,7 +118,42 @@ class Articles_model extends CI_Model
 	{
 		$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('username')));
 		$user_id = $auth_query->row_array()['id'];
-		$data = array('topic'=>$art_sec,
+		$tag=array();
+
+		if($this->input->post('tag1'))
+			$tag[1]=$this->input->post('tag1');
+		if($this->input->post('tag2'))
+			$tag[2]=$this->input->post('tag2');
+		if($this->input->post('tag3'))
+			$tag[3]=$this->input->post('tag3');
+		if($this->input->post('tag4'))
+			$tag[4]=$this->input->post('tag4');
+		if($this->input->post('tag5'))
+			$tag[5]=$this->input->post('tag5');
+		$query_str ="SELECT *  FROM `articles` ORDER BY id DESC LIMIT 1";
+		$id=$this->db->query($query_str)->row_array()['id'];
+		$id+=1;
+		foreach($tag as $key=>$para){
+			$data = array(
+					  'article_id'=>$id,
+					  'topic_id'=>$tag[$key]
+					  );
+
+			$this->db->insert('tag_rel',$data);
+		if($this->db->affected_rows() >0)
+		{
+			//do nothing
+		}
+		else
+		{
+			return 0;
+		}
+
+
+
+		}
+
+		$data = array(
 					  'content'=>$this->input->post('content'),
 					  'user_id'=>$user_id,
 					  'title'=>$this->input->post('title')
@@ -85,7 +170,46 @@ class Articles_model extends CI_Model
 	}
 
 	public function edit($art_id)
+
 	{
+		$tag=array();
+		$this->db->delete('tag_rel', array('article_id' => $art_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+
+		if($this->input->post('tag1'))
+			$tag[1]=$this->input->post('tag1');
+		if($this->input->post('tag2'))
+			$tag[2]=$this->input->post('tag2');
+		if($this->input->post('tag3'))
+			$tag[3]=$this->input->post('tag3');
+		if($this->input->post('tag4'))
+			$tag[4]=$this->input->post('tag4');
+		if($this->input->post('tag5'))
+			$tag[5]=$this->input->post('tag5');
+		
+		foreach($tag as $key=>$para){
+			$data = array(
+					  'article_id'=>$art_id,
+					  'topic_id'=>$tag[$key]
+					  );
+
+			$this->db->insert('tag_rel',$data);
+		if($this->db->affected_rows() >0)
+		{
+			//do nothing
+		}
+		else
+		{
+			return 0;
+		}
+	}
 		$query_str = "SELECT user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id WHERE articles.id='$art_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
 		if($username==$this->session->userdata('username'))

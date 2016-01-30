@@ -3,10 +3,9 @@
 
 <?php
     $id=0;
-   foreach($articles  as $name ){
-   	  			      echo "USERID:".$userid."<p>";
-   	  			    $ida=$name['id'];
-   	  			    echo 'Article ID:'.$name['id']."<br>";
+   foreach($articles  as $name ){ 
+   	  			        $ida=$name['id'];?>
+   	  			   <?php echo 'Article ID:'.$name['id']."<br>";
    	  			    echo 'Topic:'.$name['name']."<br>";
    	  			    echo 'Title:'.$name['title']."<br>";
    	  			    echo 'Content:'.$name['content']."<br>";

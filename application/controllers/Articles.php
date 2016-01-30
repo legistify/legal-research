@@ -98,7 +98,7 @@ class Articles extends CI_Controller
 	}
 
 
-	public function post($art_sec)
+	public function post($art_sec=1)
 	{
 		/*$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('unnamed')));
 		if($auth_query->num_rows <0)
