@@ -66,8 +66,53 @@ class Articles_model extends CI_Model
 
 	public function detail_view($art_id)
 	{
-		$query_str = "SELECT articles.id,topics.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id 
-		JOIN topics ON articles.topic=topics.tag WHERE articles.id= '$art_id'";
+		if($this->input->post('tag1'))
+			$tag1=$this->input->post('tag1');
+		if($this->input->post('tag2'))
+			$tag2=$this->input->post('tag2');
+		if($this->input->post('tag3'))
+			$tag3=$this->input->post('tag3');
+		if($this->input->post('tag4'))
+			$tag4=$this->input->post('tag4');
+		if($this->input->post('tag5'))
+			$tag5=$this->input->post('tag5');
+
+		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+ 			
+ 			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
+  GROUP BY articles.id";
+
+
+		}
+
+		 else if($this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
+  GROUP BY articles.id";
+
+		}
+
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
+  GROUP BY articles.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
+  GROUP BY articles.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && !$this->input->post('tag5')) {
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
+  GROUP BY articles.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && $this->input->post('tag5')) {
+			$query_str = "SELECT articles.id,tp.name, `title`,`content`, `Upvotes`,`Downvotes`,user_lawyer.username FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
+  GROUP BY articles.id";
+
+		}
 		$query = $this->db->query($query_str);
 		$data = $query->row_array();
 		if($data['username']==$this->session->userdata('username'))
