@@ -317,35 +317,121 @@ class Articles_model extends CI_Model
  	}
 	 
 
-	public function vote($art_id,$updown)
+	// public function vote1($art_id,$updown)
+	// {
+	// 	if($updown==1)
+
+	// 	{
+	// 		$query_str = "UPDATE `articles` SET `Upvotes`= Upvotes+1 WHERE `id`='$art_id'";
+	// 		$query = $this->db->query($query_str);
+	// 		if($this->db->affected_rows() >0)
+	// 		{
+	// 			return 1;
+	// 		}
+	// 		else
+	// 		{
+	// 			return 0;
+	// 		}
+	// 	}
+	// 	else if($updown== -1)
+	// 	{
+	// 		$query_str = "UPDATE `articles` SET `Downvotes`= Downvotes+1 WHERE `id`='$art_id'";
+	// 		$query = $this->db->query($query_str);
+	// 		if($this->db->affected_rows() >0)
+	// 		{
+	// 			return 1;
+	// 		}
+	// 		else
+	// 		{
+	// 			return 0;
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		return -1;
+	// 	}
+	// }
+
+	public function vote($article_id,$updown)
 	{
-		if($updown==1)
+
+		$cvchk=$this->article_vote_chk($article_id);
+		$uid=$this->userid();
+		if($updown==1 && $cvchk==0)
 
 		{
-			$query_str = "UPDATE `articles` SET `Upvotes`= Upvotes+1 WHERE `id`='$art_id'";
+			$query_str = "UPDATE `articles` SET `Upvotes`= Upvotes+1 WHERE `id`='$article_id'";
 			$query = $this->db->query($query_str);
 			if($this->db->affected_rows() >0)
 			{
-				return 1;
+				$data=array(
+						'user_id'=> $uid,
+						'article_id'=>$article_id,
+						'up_down'=>1                              
+						);
+			  return $this->db->insert('article_vote_rel', $data);
+
+				
 			}
 			else
 			{
 				return 0;
 			}
 		}
-		else if($updown== -1)
+		else if($updown== -1  && $cvchk==0)
 		{
-			$query_str = "UPDATE `articles` SET `Downvotes`= Downvotes+1 WHERE `id`='$art_id'";
+			$query_str = "UPDATE `articles` SET `Downvotes`= Downvotes+1 WHERE `id`='$article_id'";
 			$query = $this->db->query($query_str);
 			if($this->db->affected_rows() >0)
 			{
-				return 1;
+				$data=array(
+						'user_id'=> $uid,
+						'article_id'=>$article_id,
+						'up_down'=>-1                              
+						);
+			  return $this->db->insert('article_vote_rel', $data);
 			}
 			else
 			{
 				return 0;
 			}
 		}
+		else if($cvchk==1)
+
+		{
+			$query_str = "UPDATE `articles` SET `Upvotes`= Upvotes-1 WHERE `id`='$article_id'";
+			$query = $this->db->query($query_str);
+			if($this->db->affected_rows() >0)
+			{
+				return $this->db->delete('article_vote_rel',array('article_id'=>$article_id,'user_id'=>$uid));
+
+				
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else if($cvchk== -1)
+
+		{
+			$query_str = "UPDATE `articles` SET `Downvotes`= Downvotes-1 WHERE `id`='$article_id'";
+			$query = $this->db->query($query_str);
+			if($this->db->affected_rows() >0)
+			{
+				return $this->db->delete('article_vote_rel',array('article_id'=>$article_id,'user_id'=>$uid));
+
+				
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		
+
+
+
 		else
 		{
 			return -1;
@@ -355,33 +441,84 @@ class Articles_model extends CI_Model
 
 public function comment_vote($comment_id,$updown)
 	{
-		if($updown==1)
+
+		$cvchk=$this->comment_vote_chk($comment_id);
+		$uid=$this->userid();
+		if($updown==1 && $cvchk==0)
 
 		{
 			$query_str = "UPDATE `comments_articles` SET `Upvotes`= Upvotes+1 WHERE `id`='$comment_id'";
 			$query = $this->db->query($query_str);
 			if($this->db->affected_rows() >0)
 			{
-				return 1;
+				$data=array(
+						'user_id'=> $uid,
+						'comment_id'=>$comment_id,
+						'up_down'=>1                              
+						);
+			  return $this->db->insert('comment_vote_rel', $data);
+
+				
 			}
 			else
 			{
 				return 0;
 			}
 		}
-		else if($updown== -1)
+		else if($updown== -1  && $cvchk== 0)
 		{
 			$query_str = "UPDATE `comments_articles` SET `Downvotes`= Downvotes+1 WHERE `id`='$comment_id'";
 			$query = $this->db->query($query_str);
 			if($this->db->affected_rows() >0)
 			{
-				return 1;
+				$data=array(
+						'user_id'=> $uid,
+						'comment_id'=>$comment_id,
+						'up_down'=>-1                              
+						);
+			  return $this->db->insert('comment_vote_rel', $data);
 			}
 			else
 			{
 				return 0;
 			}
 		}
+		else if($cvchk== 1)
+
+		{
+			$query_str = "UPDATE `comments_articles` SET `Upvotes`= Upvotes-1 WHERE `id`='$comment_id'";
+			$query = $this->db->query($query_str);
+			if($this->db->affected_rows() >0)
+			{
+				return $this->db->delete('comment_vote_rel',array('comment_id'=>$comm_id,'user_id'=>$uid));
+
+				
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else if($cvchk== -1)
+
+		{
+			$query_str = "UPDATE `comments_articles` SET `Downvotes`= Downvotes-1 WHERE `id`='$comment_id'";
+			$query = $this->db->query($query_str);
+			if($this->db->affected_rows() >0)
+			{
+				return $this->db->delete('comment_vote_rel',array('comment_id'=>$comm_id,'user_id'=>$uid));
+
+				
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		
+
+
+
 		else
 		{
 			return -1;
@@ -458,8 +595,33 @@ public function userid(){                                                   //Fo
 
 
 
-}
 
+
+public function comment_vote_chk($comm_id){
+	$uid=$this->userid();
+
+	$chk_query = $this->db->get_where('comment_vote_rel',array('comment_id'=>$comm_id,'user_id'=>$uid));
+		if($chk_query->num_rows <0)
+		{
+			return 0;
+		}
+
+		return $chk_query->row_array()['up_down'];
+
+}
+public function article_vote_chk($art_id){
+	$uid=$this->userid();
+
+	$chk_query = $this->db->get_where('article_vote_rel',array('article_id'=>$art_id,'user_id'=>$uid));
+		if($chk_query->num_rows <0)
+		{
+			return 0;
+		}
+
+		return $chk_query->row_array()['up_down'];
+
+}
+}
 
 
 

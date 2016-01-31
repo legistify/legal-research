@@ -55,7 +55,7 @@ class Articles extends CI_Controller
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
-		//$this->load->view('articleview',$data);
+		$this->load->view('articleview',$data);
 
 		return json_encode($data);   /*Returns title and author of article and article_id.Use article_id as token for all future actions.
 															//Pass article_sec tag passed above*/
@@ -233,10 +233,27 @@ class Articles extends CI_Controller
 																	Second parameter of comment_vote() is for model donot change/change at both places.*/
 																	
 	}
+
+
+public function commentvotechk($comm_id){
+
+      
+      return $this->articles_model->comment_vote_chk($comm_id);   //Use to know what colour of upvote/downvote to display for the pirticular user for comments
+                                                                        // retursn 0 if not voted beofre, 1 if upvoted before,-1 if downvoted before
+
+}
+
+public function articlevotechk($art_id){
+
+      
+      return $this->articles_model->article_vote_chk($art_id);   //Use to know what colour of upvote/downvote to display for the pirticular user for articles
+                                                                        // retursn 0 if not voted beofre, 1 if upvoted before,-1 if downvoted before
+
 }
 
 
 
+}
 
 
 
