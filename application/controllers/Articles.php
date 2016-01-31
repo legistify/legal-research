@@ -55,15 +55,36 @@ class Articles extends CI_Controller
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
-		$this->load->view('articleview',$data);
+		//$this->load->view('articleview',$data);
 
-		return $this->articles_model->view($art_sec);    /*Returns title and author of article and article_id.Use article_id as token for all future actions.
+		return json_encode($data);   /*Returns title and author of article and article_id.Use article_id as token for all future actions.
 															//Pass article_sec tag passed above*/
 	}
 
 	public function view_detail($art_id)
+
 	{
-		return json_encode($this->articles_model->detail_view($art_id));     /*Returns a particular article with content and a json entry specifiyng whether
+
+		$articles=$this->articles_model->detail_view($art_id);
+		$comment_list=array();
+		foreach($articles  as $name ){
+					foreach($name as $key=>$para){
+						    if($key=='id')
+							{
+								$comments=$this->articles_model->get_comments($para);
+							    array_push($comment_list,$comments);
+						    }
+							
+					}
+				}
+				
+		     $userid=$this->articles_model->userid();
+		 	$data=array(
+  					 "articles"=> $articles,
+  					  "comment_list"=>$comment_list,
+  					   "userid"=>$userid
+					 );
+		return json_encode($data);     /*Returns a particular article with content and a json entry specifiyng whether
 																				to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
 																				title.Pass art_id as parameter.*/
 	}
