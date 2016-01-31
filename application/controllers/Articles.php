@@ -55,7 +55,7 @@ class Articles extends CI_Controller
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
-		$this->load->view('articleview',$data);
+	//	$this->load->view('articleview',$data);
 
 		return json_encode($data);   /*Returns title and author of article and article_id.Use article_id as token for all future actions.
 															//Pass article_sec tag passed above*/

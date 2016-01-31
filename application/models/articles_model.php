@@ -140,17 +140,14 @@ class Articles_model extends CI_Model
 
 		
 		$this->db->where('username',$this->session->userdata('username'));
-		if($this->session->userdata('user_type')!='lawyer')
+	
 		$temp=$this->db->get('users');
-		 else if($this->session->userdata('user_type')=='lawyer')				// To get user info , works for both kinds of users
-		 $temp=$this->db->get('user_lawyer');
-
+		 
 		$row=$temp->row();
 		$data=array(
 						'user_id'=> $row->id,
 						'comment'=>$this->input->post('content_$art_id'),
-						'article_id'=>$art_id                              //need to have  system id for unique all users 
-						                                                   //with current system 2 ppl exists with same id
+						'article_id'=>$art_id                              
 						);
 			return $this->db->insert('comments_articles', $data);
 
@@ -586,7 +583,7 @@ public function edit_comment($comm_id)
 		}
 
 	}
-public function userid(){                                                   //For testing  //To find out user id from session data. Should probably not need in code
+public function userid(){                                                   
 
 	$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
 		$user_id = $auth_query->row_array()['id'];
