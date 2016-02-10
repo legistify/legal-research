@@ -28,29 +28,18 @@ class Articles extends CI_Controller
 		
 	}
 
-	public function view($art_sec)
+	public function view()
 	{
 		/*$query_str = "SELECT topics.name, `content`, `votes`,user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id 
 		JOIN topics ON articles.topic=topics.tag WHERE `topic`= '$art_sec'";
 		$query = $this->db->query($query_str);
 		return json_encode($query->result_array());*/
-		$articles=$this->articles_model->view($art_sec);
-		$comment_list=array();
-		foreach($articles  as $name ){
-					foreach($name as $key=>$para){
-						    if($key=='id')
-							{
-								$comments=$this->articles_model->get_comments($para);
-							    array_push($comment_list,$comments);
-						    }
-							
-					}
-				}
-				
+		$articles=$this->articles_model->view();
+		
 		     $userid=$this->articles_model->userid();
 		 	$data=array(
   					 "articles"=> $articles,
-  					  "comment_list"=>$comment_list,
+  					 
   					   "userid"=>$userid
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
@@ -67,8 +56,8 @@ class Articles extends CI_Controller
 
 		$articles=$this->articles_model->detail_view($art_id);
 		$comment_list=array();
-		foreach($articles  as $name ){
-					foreach($name as $key=>$para){
+		//foreach($articles  as $name ){
+					foreach($articles as $key=>$para){
 						    if($key=='id')
 							{
 								$comments=$this->articles_model->get_comments($para);
@@ -76,7 +65,7 @@ class Articles extends CI_Controller
 						    }
 							
 					}
-				}
+		//		}
 				
 		     $userid=$this->articles_model->userid();
 		 	$data=array(
@@ -84,6 +73,7 @@ class Articles extends CI_Controller
   					  "comment_list"=>$comment_list,
   					   "userid"=>$userid
 					 );
+		 	$this->load->view('blogview',$data);
 		return json_encode($data);     /*Returns a particular article with content and a json entry specifiyng whether
 																				to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
 																				title.Pass art_id as parameter.*/

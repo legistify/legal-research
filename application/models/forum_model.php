@@ -10,9 +10,57 @@ class Forum_model extends CI_Model
 	}
 	public function fetch_ques()
 	{
-		$query_str = "SELECT questions.id,questions.title,questions.description,questions.votes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id";
-		$query =$this->db->query($query_str);
-		return $query->result_array();
+				if($this->input->post('tag1'))
+			$tag1=$this->input->post('tag1');
+		if($this->input->post('tag2'))
+			$tag2=$this->input->post('tag2');
+		if($this->input->post('tag3'))
+			$tag3=$this->input->post('tag3');
+		if($this->input->post('tag4'))
+			$tag4=$this->input->post('tag4');
+		if($this->input->post('tag5'))
+			$tag5=$this->input->post('tag5');
+
+		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+ 			
+ 			$query_str =  "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
+  GROUP BY questions.id";
+
+
+		}
+
+		 else if($this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+
+			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
+  GROUP BY questions.id";
+
+		}
+
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+
+			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
+ GROUP BY questions.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
+  GROUP BY questions.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && !$this->input->post('tag5')) {
+			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
+  GROUP BY questions.id";
+
+		}
+		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && $this->input->post('tag5')) {
+			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
+  GROUP BY questions.id";
+
+		}
+
+		
+		$query = $this->db->query($query_str);
+		return $query->result_array(); 
 	}
 	public function fetch_ans($ques_id)
 	{
