@@ -117,10 +117,30 @@ class Articles_model extends CI_Model
 		$row=$temp->row();
 		$data=array(
 						'user_id'=> $row->id,
-						'comment'=>$this->input->post('content_$art_id'),
+						'comment'=>$this->input->post('content'),
 						'article_id'=>$art_id                              
 						);
 			return $this->db->insert('comments_articles', $data);
+
+
+
+
+	}
+
+	public function addreply($comm_id){
+
+		
+		$this->db->where('username',$this->session->userdata('username'));
+	
+		$temp=$this->db->get('users');
+		 
+		$row=$temp->row();
+		$data=array(
+						'user_id'=> $row->id,
+						'comment'=>$this->input->post('content'),
+						'comment_id'=>$comm_id                              
+						);
+			return $this->db->insert('comments_reply', $data);
 
 
 
@@ -279,6 +299,30 @@ class Articles_model extends CI_Model
  	{
 
  		$query_str = "SELECT `comment`,`user_id`,`Upvotes`,`Downvotes`,`datetime`,`article_id`,`fname`,`lname`,comments_articles.id ,user_lawyer.username,user_lawyer.pic_link FROM `comments_articles` JOIN `user_lawyer` ON comments_articles.user_id=user_lawyer.id JOIN `users` ON comments_articles.user_id=users.id WHERE `article_id`= '$art_id' ORDER BY comments_articles.id ";
+		$query = $this->db->query($query_str);
+		$comment_list= $query->result_array();
+		  return $comment_list;
+		
+
+
+ 	}
+
+
+
+     public function get_tags($art_id)
+ 	{
+
+ 		$query_str = "SELECT topics.name FROM topics JOIN tag_rel ON topics.id=Topic_id WHERE article_id=$art_id";
+		$query = $this->db->query($query_str);
+		return $query->result_array(); 
+
+ 	}
+
+
+ 	public function get_reply($comm_id)
+ 	{
+
+ 		$query_str = "SELECT `comment`,`user_id`,`Upvotes`,`Downvotes`,`datetime`,`comment_id`,`fname`,`lname`,comments_reply.id ,user_lawyer.username,user_lawyer.pic_link FROM `comments_reply` JOIN `user_lawyer` ON comments_reply.user_id=user_lawyer.id JOIN `users` ON comments_reply.user_id=users.id WHERE `comment_id`= '$comm_id' ORDER BY comments_reply.id ";
 		$query = $this->db->query($query_str);
 		return $query->result_array(); 
 
@@ -521,6 +565,66 @@ public function edit_comment($comm_id)
 		}
 
 	}
+
+	public function edit_reply($reply_id)
+	{
+		$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
+		$userid = $auth_query->row_array()['id'];
+		$comm=$this->db->get_where('comments_reply',array('id'=>$comm_id));
+		
+		$comm_user=$comm-row_aray()['user_id'];
+
+
+		
+		if($userid==$comm_user)
+		{
+			$data = array('content'=>$this->input->post('contents')
+						  );
+			$this->db->update('comments_reply',$data,array('id'=>$reply_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	public function delete_reply($reply_id)
+	{
+		
+		$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
+		$userid = $auth_query->row_array()['id'];
+		$comm=$this->db->get_where('comments_reply',array('id'=>$reply_id));
+		
+		$comm_user=$comm-row_aray()['user_id'];
+
+
+		
+		if($userid==$comm_user)
+		{
+			$this->db->delete('comments_reply', array('id' => $reply_id));
+			if($this->db->affected_rows() >0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+
+	}
 public function userid(){                                                   
 
 	$auth_query = $this->db->get_where('users',array('username'=>$this->session->userdata('username')));
@@ -564,3 +668,4 @@ public function article_vote_chk($art_id){
 
 
 /*End of model*/
+/*Hand Coded By Rishabh Mittar*/

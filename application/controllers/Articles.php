@@ -35,16 +35,28 @@ class Articles extends CI_Controller
 		$query = $this->db->query($query_str);
 		return json_encode($query->result_array());*/
 		$articles=$this->articles_model->view();
+
+		// $comment_list=array();
+		// foreach($articles  as $name ){
+		// 			foreach($name as $key=>$para){
+		// 				    if($key=='id')
+		// 					{
+		// 						$comments=$this->articles_model->get_comments($para);
+		// 					    array_push($comment_list,$comments);
+		// 				    }
+							
+		// 			}
+		// 		}
 		
 		     $userid=$this->articles_model->userid();
 		 	$data=array(
   					 "articles"=> $articles,
-  					 
+  					// "comment_list"=>$comment_list,
   					   "userid"=>$userid
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
-	//	$this->load->view('articleview',$data);
+		//$this->load->view('articleview',$data);
 
 		return json_encode($data);   /*Returns title and author of article and article_id.Use article_id as token for all future actions.
 															//Pass article_sec tag passed above*/
@@ -55,6 +67,7 @@ class Articles extends CI_Controller
 	{
 
 		$articles=$this->articles_model->detail_view($art_id);
+		$tags=$comments=$this->articles_model->get_tags($art_id);
 		$comment_list=array();
 		//foreach($articles  as $name ){
 					foreach($articles as $key=>$para){
@@ -66,17 +79,31 @@ class Articles extends CI_Controller
 							
 					}
 		//		}
+					$reply_list=array();
+					foreach($comment_list  as $mediator ){
+						foreach($mediator  as $name ){
+				            foreach($name as $key=>$para){
+						    if($key=='id')
+							{
+		                           $reply=$this->articles_model->get_reply($para);
+		                          array_push($reply_list,$reply);
+		                   }
+		               }
+		           }
+		       }
 				
 		     $userid=$this->articles_model->userid();
 		 	$data=array(
   					 "articles"=> $articles,
   					  "comment_list"=>$comment_list,
-  					   "userid"=>$userid
+  					   "userid"=>$userid,
+  					   "reply_list"=>$reply_list,
+  					   "tags"=>$tags
 					 );
 		 	$this->load->view('blogview',$data);
-		return json_encode($data);     /*Returns a particular article with content and a json entry specifiyng whether
-																				to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
-																				title.Pass art_id as parameter.*/
+		//return json_encode($data);     /*Returns a particular article with content and a json entry specifiyng whether
+																				// to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
+																				// title.Pass art_id as parameter.*/
 	}
 
 	public function art_delete($art_id)
@@ -97,6 +124,21 @@ class Articles extends CI_Controller
     public function comm_delete($comm_id)
 	{
 		return $this->articles_model->delete_comment($comm_id);		/*Return 1 if comment deleted.
+																	0 if not deleted.
+																	-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+	public function reply_edit($reply_id)
+	{
+		return $this->articles_model->edit_reply($reply_id);		/*Return 1 if reply edited.
+																		0 if not deleted.
+																		-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+
+    public function reply_delete($reply_id)
+	{
+		return $this->articles_model->delete_reply($reply_id);		/*Return 1 if reply deleted.
 																	0 if not deleted.
 																	-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
 	}
@@ -148,6 +190,18 @@ class Articles extends CI_Controller
 
 		if(!empty($this->session->userdata('username')))
 		  return $this->articles_model->addcomment($article_id);
+		 
+		else{
+			//load login view
+		}
+	}
+
+		public function post_reply($comment_id){
+
+
+
+		if(!empty($this->session->userdata('username')))
+		  return $this->articles_model->addreply($comment_id);
 		 
 		else{
 			//load login view
