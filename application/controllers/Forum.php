@@ -7,28 +7,43 @@ class Forum extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library('email');
+		$this->load->library('session');
 		$this->load->model('forum_model');
+		$userdata = array('unnamed'=>'pankaj.arora');
+		$this->session->set_userdata($userdata);
 
 	}
-	public function view_generate()
+	public function questions()
 	{
-		$data = $this->forum_model->fetch_ques();
-		foreach ($data as &$question) 
+		$data['questions'] = $this->forum_model->fetch_ques();
+		foreach ($data['questions'] as &$question) 
 		{
-			$question['answers'] = $this->forum_model->fetch_ans($question['id']);
-			foreach ($question['answers'] as &$answer) 
-			{
-				$answer['comments'] = $this->forum_model->fetch_ans($answer['id']);	
-			}
+			$question->answer = $this->forum_model->fetch_best_ans($question->id);
 		}
-		return $data;
+		// print_r($data);
+		$this->load->view('qna',$data);
 	}
 
 	public function index()
 	{
-		echo "Hello! Welcome to Forum.";
-		echo "<br>";
-		print_r($this->forum_model->fetchmail_a(1));
+		// echo "Hello! Welcome to Forum.";
+		// echo "<br>";
+		// print_r($this->forum_model->fetchmail_a(1));
+		
+	}
+
+	public function answer($question_id)
+	{
+		$data['question'] = $this->forum_model->fetch_ques_id($question_id);
+		$data['user_type'] = $this->forum_model->fetch_user_type($this->session->userdata('unnamed'));
+		$data['answers'] = $this->forum_model->fetch_ans($question_id);
+		foreach ($data['answers'] as &$answer) 
+		{
+			$answer->comments = $this->forum_model->fetch_comm($answer->id);
+		}
+		// print_r($data);
+		$this->load->view('answers_page',$data);
+		// print_r($data);
 	}
 
 	public function post()
@@ -42,7 +57,7 @@ class Forum extends CI_Controller
 																								0 if not.
 																								-1 if User not allowed to do so. Call via AJAX. Pass question_id given in JSON.*/
 	}
-	public function answer($question_id)
+	public function answer_post($question_id)
 	{
 		if($this->forum_model->answer($ques_id,$this->session->userdata('unnamed')))
 		{
@@ -68,7 +83,7 @@ class Forum extends CI_Controller
 
 	public function comment_a($ans_id)
 	{
-		if($this->forum_model->comment_ans($ans_id,$this->session->userdata('unnamed')))
+		/*if($this->forum_model->comment_ans($ans_id,$this->session->userdata('unnamed')))
 		{
 			$maillist = $this->forum_model->fetchmail_ca($ans_id);
 			foreach ($maillist as $mailee)
@@ -78,8 +93,14 @@ class Forum extends CI_Controller
 				$this->email->message("Someone Answered.");
 				$this->email->send();
 			}
-
-		}   																					/*Returns 1 if post successful.
+		}*/
+		$question_id = $this->forum_model->comment_ans($ans_id,$this->session->userdata('unnamed'));
+		if($question_id!=0)
+		{
+			$url = './forum/answer/'.$question_id;
+			redirect($url);
+		}
+		   																					/*Returns 1 if post successful.
 																								0 if not.*/  
 	}
 	public function comment_q($ques_id)
@@ -96,6 +117,26 @@ class Forum extends CI_Controller
 			}
 		}  																					/*Returns 1 if post successful.
 																								0 if not.*/ 
+	}
+
+	public function vote_ans($ans_id,$int)
+	{
+		$question_id = $this->forum_model->vote_a($ans_id,$int);
+		$url = './forum/answer/'.$question_id;
+		redirect($url);
+	}
+	public function vote_que($question_id)
+	{
+		$this->forum_model->vote_q($question_id,1);
+		$url = './forum/answer/'.$question_id;
+		redirect($url);
+	}
+
+	public function vote_comm($comment_id)
+	{
+		$question_id = $this->forum_model->vote_c($comment_id);
+		$url = './forum/answer/'.$question_id;
+		redirect($url);
 	}
 
 }
