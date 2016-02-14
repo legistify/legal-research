@@ -7,7 +7,9 @@ class Forum_model extends CI_Model
 		parent::__construct();
 		$this->load->database();
 		$this->load->helper('date');
+
 	}
+
 	public function fetch_ques()
 	{
 				if($this->input->post('tag1'))
@@ -20,69 +22,68 @@ class Forum_model extends CI_Model
 			$tag4=$this->input->post('tag4');
 		if($this->input->post('tag5'))
 			$tag5=$this->input->post('tag5');
-
 		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
  			
- 			$query_str =  "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
-  GROUP BY questions.id";
-
-
+ 			$query_str =  "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
+  GROUP BY questions.id ORDER BY questions.datetime DESC";
 		}
-
 		 else if($this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
-
-			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
-  GROUP BY questions.id";
-
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
+  GROUP BY questions.id ORDER BY questions.datetime DESC";
 		}
-
 		else if ($this->input->post('tag1') && $this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
-
-			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
- GROUP BY questions.id";
-
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
+ GROUP BY questions.id ORDER BY questions.datetime DESC";
 		}
 		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
-  GROUP BY questions.id";
-
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
+  GROUP BY questions.id ORDER BY questions.datetime DESC";
 		}
 		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
-  GROUP BY questions.id";
-
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
+  GROUP BY questions.id ORDER BY questions.datetime DESC";
 		}
 		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && $this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, `title`,questions.description, questions.votes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
-  GROUP BY questions.id";
-
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,user_lawyer.username,user_lawyer.pic_link FROM `questions` JOIN `user_lawyer` ON questions.user_id=user_lawyer.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
+  GROUP BY questions.id ORDER BY questions.datetime DESC";
 		}
+		// echo $query_str;
 
-		
 		$query = $this->db->query($query_str);
-		return $query->result_array(); 
+		return $query->result(); 
+	}
+		
+		public function fetch_ques_id($ques_id)
+	{
+		$query_str = "SELECT questions.id,questions.title,questions.description,questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id
+		WHERE questions.id = '$ques_id'";
+		$query =$this->db->query($query_str);
+		return $query->result();
+	}
+
+	public function fetch_best_ans($ques_id)
+	{
+		$query_str = "SELECT answers.id,answers.answer,answers.datetime,answers.upvotes,answers.downvotes,user_lawyer.username,user_lawyer.pic_link FROM `answers` JOIN `user_lawyer` ON answers.user_id=user_lawyer.id WHERE
+		answers.question_id='$ques_id' ORDER BY answers.upvotes DESC LIMIT 1";
+		$query =$this->db->query($query_str);
+		return $query->result();
+
 	}
 	public function fetch_ans($ques_id)
 	{
-		$query_str = "SELECT answers.id,answers.answer,answers.datetime,user_lawyer.username FROM `answers` JOIN `user_lawyer` ON answers.user_id=user_lawyer.id WHERE
-		answers.question_id='$ques_id'";
+		$query_str = "SELECT answers.id,answers.answer,answers.datetime,answers.upvotes,answers.downvotes,user_lawyer.username,user_lawyer.pic_link FROM `answers` JOIN `user_lawyer` ON answers.user_id=user_lawyer.id WHERE
+		answers.question_id='$ques_id' ORDER BY answers.upvotes DESC";
 		$query =$this->db->query($query_str);
-		return $query->result_array();
+		return $query->result();
 	}
 	public function fetch_comm($ans_id)
 	{
-		$query_str = "SELECT comments_a.id,comments_a.comment,comments_a.datetime,users.username FROM `comments_a` JOIN `users` ON comments_a.user_id=users.id WHERE
-		comments_a.ans_id='$ans_id'";
+		$query_str = "SELECT comments_a.id,comments_a.comment,comments_a.datetime,comments_a.votes,users.username FROM `comments_a` JOIN `users` ON comments_a.user_id=users.id WHERE
+		comments_a.answer_id='$ans_id'";
 		$query =$this->db->query($query_str);
-		return $query->result_array();
+		return $query->result();
 	}
-	public function fetch_reply($comm_id)
-	{
-		$query_str = "SELECT comments_c.id,comments_c.comment,comments_c.datetime,users.username FROM `comments_c` JOIN `users` ON comments_c.user_id=users.id WHERE
-		comments_c.comment_id='$comm_id'";
-		$query =$this->db->query($query_str);
-		return $query->result_array();	
-	}
+
 	public function post_ques($username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
@@ -92,7 +93,6 @@ class Forum_model extends CI_Model
 					  'user_id'=>$user_id,
 					  'votes'=>0,
 					  'datetime'=>$datetime,
-					  'tag'=>$this->input->post('tag')
 					  );
 		$this->db->insert('questions',$data);
 		if($this->db->affected_rows() >0)
@@ -104,7 +104,37 @@ class Forum_model extends CI_Model
 			return 0;
 		}
 	}
-	public function update($ques_id,$username_session)
+
+	public function post_reply($comment_id)
+	{
+		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
+		$datetime = date('Y-m-d H:i:s');
+		$data = array('reply'=>$this->input->post('reply'),
+					  'answer_id' =>$comment_id,
+					  'user_id' =>$user_id,
+					  'datetime' =>$datetime
+					  );
+		$this->db->insert('reply',$data);
+		if($this->db->affected_rows() >0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+
+	}
+
+	public function fetch_reply($comment_id)
+	{
+		$querystr = "SELECT reply.id,reply.reply,reply.datetime,users.username FROM `reply` JOIN `users` ON reply.user_id=users.id WHERE reply.answer_id='$comment_id'";
+		$query = $this->db->query($querystr);
+		return $query->result();
+	}
+
+/*	public function update($ques_id,$username_session)
 	{	$query_str= "SELECT users.username FROM `questions` JOIN users ON questions.user_id=users.id WHERE questions.id='$ques_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
 		if($username == $username_session)
@@ -128,7 +158,7 @@ class Forum_model extends CI_Model
 		{
 			return -1;
 		}
-	}
+	}*/
 	
 	public function answer($ques_id,$username_session)
 	{
@@ -161,7 +191,8 @@ class Forum_model extends CI_Model
 		}
 		
 	}
-	public function edit_answer($ans_id,$username_session)
+
+/*	public function edit_answer($ans_id,$username_session)
 	{
 		$query_str = "SELECT users.username FROM `answers` JOIN `users` ON answers.user_id=users.id WHERE answers.id='$ans_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
@@ -184,12 +215,15 @@ class Forum_model extends CI_Model
 		{
 			return -1;
 		}
-	}
+	}*/
+
 	public function comment_ans($ans_id,$username)
 	{
-		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
+		$user_idq = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'");
+		$user_id = $user_idq->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
-		$question_id = $this->db->query("SELECT `question_id` FROM `answers` WHERE `id`='$ans_id'")->row_array()['id'];
+		$question_idq = $this->db->query("SELECT `question_id` FROM `answers` WHERE `id`='$ans_id'");
+		$question_id = $question_idq->row_array()['question_id'];
 		$data = array('comment'=>$this->input->post('comment'),
 					  'user_id'=>$user_id,
 					  'answer_id'=>$ans_id,
@@ -200,14 +234,15 @@ class Forum_model extends CI_Model
 		$this->db->insert('comments_a',$data);
 		if($this->db->affected_rows() >0)
 		{
-			return 1;
+			return $question_id;
 		}
 		else
 		{
 			return 0;
 		}
 	}
-	public function comment_q($ques_id,$username)
+
+	/*public function comment_q($ques_id,$username)
 	{
 		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
 		$datetime = date('Y-m-d H:i:s');
@@ -226,9 +261,11 @@ class Forum_model extends CI_Model
 		{
 			return 0;
 		}
-	}
+	}*/
+
 	
-	public function edit_commenta($comment_id,$username_session)
+
+/*	public function edit_commenta($comment_id,$username_session)
 	{
 		$query_str= "SELECT users.username FROM `comments_a` JOIN users ON comments_q.user_id=users.id WHERE comments_q.id='$comment_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
@@ -252,8 +289,9 @@ class Forum_model extends CI_Model
 		{
 			return -1;
 		}
-	}
-	public function edit_commentc($comment_id,$username_session)
+	}*/
+
+/*	public function edit_commentc($comment_id,$username_session)
 	{
 		$query_str= "SELECT users.username FROM `comments_c` JOIN users ON comments_c.user_id=users.id WHERE comments_c.id='$comment_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
@@ -277,76 +315,81 @@ class Forum_model extends CI_Model
 		{
 			return -1;
 		}
-	}
-	public function vote($id,$updown,$qc)
+	}*/
+
+	public function vote_a($ans_id,$ud)
 	{
-		if($qc = 'a')
+		if($this->checkvote($this->session->userdata('unnamed'),$ans_id)!=1)
 		{
-			if($updown == 1)
+			$username = $this->session->userdata('unnamed');
+			if($ud ==1)
 			{
-				$query_str = "UPDATE `answers` SET `votes`= votes+1 WHERE `id`='$id'";
-				$query = $this->db->query($query_str);
-				if($this->db->affected_rows() >0)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-			else if($updown == -1)
-			{
-				$query_str = "UPDATE `answers` SET `votes`= votes-1 WHERE `id`='$id'";
-				$query = $this->db->query($query_str);
-				if($this->db->affected_rows() >0)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
+				$query = "UPDATE `answers` SET `upvotes` = upvotes+1 WHERE `id`='$ans_id'";
 			}
 			else
 			{
-				return -1;
+				$query = "UPDATE `answers` SET `downvotes` = downvotes+1 WHERE `id`='$ans_id'";
 			}
+			$query1 = $this->db->query($query);
+			$query_str1 = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+			$user_id = $this->db->query($query_str1)->row_array()['id'];
+			$data = array(
+							"user_id"=>$user_id,
+							"answer_id" => $ans_id);
+			$this->db->insert('votes_a_rel',$data);
 		}
-		else if($qc = 'c')
-		{
-			if($updown == 1)
-			{
-				$query_str = "UPDATE `comments_a` SET `votes`= votes+1 WHERE `id`='$id'";
-				$query = $this->db->query($query_str);
-				if($this->db->affected_rows() >0)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-			else if($updown == -1)
-			{
-				$query_str = "UPDATE `comments_a` SET `votes`= votes-1 WHERE `id`='$id'";
-				$query = $this->db->query($query_str);
-				if($this->db->affected_rows() >0)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-			else
-			{
-				return -1;
-			}
-		}
+		$querys2 = "SELECT `question_id` FROM `answers` WHERE `id`='$ans_id'";
+		$query2 = $this->db->query($querys2);
+		return $query2->row_array()['question_id'];
 	}
+	public function vote_q($question_id,$u)
+	{
+		$username = $this->session->userdata('unnamed');
+		if($this->checkvote_q($this->session->userdata('unnamed'),$question_id)!=1)
+		{
+			if($u==1)
+			{
+				$query = "UPDATE `questions` SET `upvotes` = upvotes+1 WHERE `id`='$question_id'";
+			}
+			else
+			{
+				$query = "UPDATE `questions` SET `downvotes` = downvotes+1 WHERE `id`='$question_id'";
+			}
+			$query1 = $this->db->query($query);
+			$query_str1 = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+			$user_id = $this->db->query($query_str1)->row_array()['id'];
+			$data = array(
+							"user_id"=>$user_id,
+							"question_id" => $question_id);
+			$this->db->insert('votes_q_rel',$data);
+
+		}
+
+
+	}
+	public function vote_c($comment_id)
+	{
+		$username = $this->session->userdata('unnamed');
+		if($this->checkvote_c($this->session->userdata('unnamed'),$comment_id)!=1)
+		{
+			$query = "UPDATE `comments_a` SET `votes` = votes+1 WHERE `id`='$comment_id'";
+			$query1 = $this->db->query($query);
+			$query_str1 = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+			$user_id = $this->db->query($query_str1)->row_array()['id'];
+			$data = array(
+							"comment_id" => $comment_id,
+							"usser_id"=>$user_id);
+			$this->db->insert('votes_c_rel',$data);
+			
+		}
+		$querys2 = "SELECT `question_id` FROM `comments_a` WHERE `id` = '$comment_id'";
+		$query2 = $this->db->query($querys2);
+		return $query2->row_array()['question_id'];
+
+
+
+	}
+
 	public function fetchmail_a($ques_id)
 	{
 		$query_str = "SELECT users.email FROM `answers` JOIN `users` ON answers.user_id=users.id WHERE answers.question_id='$ques_id' UNION ALL
@@ -355,6 +398,7 @@ class Forum_model extends CI_Model
 		$data1 = $this->db->query($query_str)->result_array();
 		return $data1;
 	}
+
 	public function fetchmail_ca($ans_id)
 	{
 		$query_str = "SELECT users.email FROM `comments_a` JOIN `users` ON comments_a.user_id=users.id WHERE comments_a.ans_id='$ans_id' UNION  ALL
@@ -362,6 +406,7 @@ class Forum_model extends CI_Model
 		$data = $this->db->query($query_str)->result_array();
 		return $data;
 	}
+
 	public function fetchmail_cq($ques_id)
 	{
 		$query_str = "SELECT users.email FROM `comments_q` JOIN `users` ON comments_q.user_id=users.id WHERE comments_q.question_id='$ques_id' UNION  ALL
@@ -377,6 +422,68 @@ class Forum_model extends CI_Model
 		$data = $this->db->query($query_str)->result_array();
 		return $data;
 	}
+
+	public function fetch_user_type($username)
+	{
+		$query_str = "SELECT `user_type` FROM `users` WHERE `username`='$username'";
+		$query = $this->db->query($query_str);
+		$query->row_array()['user_type'];
+	}
+
+	public function checkvote($username,$ans_id)
+	{
+		$query_str1 = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+		$user_id = $this->db->query($query_str1)->row_array()['id'];
+
+		$query = "SELECT `user_id` FROM `votes_a_rel` WHERE `user_id` = '$user_id' AND `answer_id`='$ans_id'";
+		$query1 =$this->db->query($query);
+		if($query1->num_rows() >0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	public function checkvote_q($username,$question_id)
+	{
+
+		$query_str1 = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+		$user_id = $this->db->query($query_str1)->row_array()['id'];
+
+		$query = "SELECT `user_id` FROM `votes_q_rel` WHERE `user_id` = '$user_id' AND `question_id`='$question_id'";
+		$query1 =$this->db->query($query);
+		if($query1->num_rows() >0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+	}
+
+	public function checkvote_c($username,$comment_id)
+	{
+		$query_str1 = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+		$user_id = $this->db->query($query_str1)->row_array()['id'];
+
+		$query = "SELECT `usser_id` FROM `votes_c_rel` WHERE `usser_id` = '$user_id' AND `comment_id`='$comment_id'";
+		$query1 =$this->db->query($query);
+		if($query1->num_rows() >0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+	}
 }
+
+
 /*End of Model.
 Hand Coded by Deep Vyas.*/
