@@ -1,0 +1,28 @@
+This is the legal research work which is to be made page by page:
+
+Q&A-
+Page 1: Main Q&A page
+Refer to the design Simran had made and sent. That is what we can follow. Use that code if you want after checking it and making required changes ki wo acha dikhe, colour combination sahi ho and responsive ho.
+
+Page 2: Page of a Particular Question
+This is the page when a user opens up a particular ques after clicking on the same from the main page. The basic design i am attaching in the mail. "Answer" karne ka option and box sirf lawyer ke liye hai otherwise it is normal. Baaki ispr we had already discussed so you know. Just take care of responsiveness and proper placement of all the elements coz design mein itna sahi se nahi diya hua sab.
+
+Page 3: Ask a Question
+This could either be a page or a pop up. User will have to put the following details- main question, ques description, tags(pre fed, no limit on num), anonymous post or not. Khud se bana lena no design is required as such bas site ka UI follow karna ho jayega.
+
+Remember "Ask A Question" ka button rehna chahiye main page pr ache se jo ki nahi dia hua kahi bhi dhang se.
+
+______________________________________________________________
+
+BLOGS-
+Page1: Main Blogs Page
+Main page with tag filters etc, use the similar kind of design as the main Q&A page so that work is reduced. Just that when a user clicks on read more a new page is opened up for reading the same.
+
+Page 2: Particular Blogs Page
+This is the page. Design is attached for reference. Try and improvise on design as it is not very very good. Make sure to include the comment section below the article.
+
+Remember to include "Post A Blog" button visible only to lawyers on the main page.
+
+__________________________________________________________________
+
+New Lawyer Profile Page- Will send the design for this later.

@@ -1,0 +1,108 @@
+.small_light{
+    color: #555;
+    font-size: 0.9em;
+}
+i{
+    margin-right: 5px;
+    font-size: 1.3em;
+    color: #999;
+}
+.ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.frleft{
+    float:right;margin:10px 0;
+}
+@media screen and (max-width:992px){
+    .frleft{
+        clear:both;
+        float: left;
+    }
+}
+.rsh_results_cont{
+    clear:both;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+.rsh_result{
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    padding: 15px;
+}
+.rsh_result_head{
+    margin-bottom: 10px;
+}
+
+.result_ques{
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 10px 0;
+}
+.next_prev_box>.pagination>li>a{
+    color: #2b333b;
+    color:#2b333b;
+}
+.next_prev_box>.pagination>.active>a{
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #2b333b;
+    border-color: #2b333b;
+}
+.credibility_facts{
+    position: relative;
+    margin-bottom:10px;
+}
+.credibility_facts>.cf_img{
+    float: left;
+    min-width: 25px;
+    width: 5%;
+    max-width: 35px;
+    height: 40px;
+    overflow: hidden;
+    margin-right:1%;
+    text-align: center;
+}
+.cf_img>img{
+    width:100%;
+}
+.credibility_facts>.cf_facts{
+    overflow: hidden;
+}
+.credibility_facts>.cf_facts>.cf_facts_name{
+    font-weight:bold;
+}
+.rsh_open_descr>.result_ans{
+    margin-top:25px;
+}
+.rsh_result_ans{
+    position: relative;
+    background-color: #2b333b;
+    color:#fff;
+    padding: 15px;
+}
+.rsh_ans_body{
+    margin: 15px 0;
+    padding: 15px 0;
+    border-top: 1px solid #999;
+}
+.rsh_ans_votes{
+    margin-top: 15px;
+    font-size: 1.3em;
+}
+.write_ans{
+    display:inline;
+    padding: 5px;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+.write_ans:hover{
+    background-color: #fff;
+    color: #000;
+}
