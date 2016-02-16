@@ -14,36 +14,131 @@ class Articles extends CI_Controller
 	public function index()
 	{
 		$topic_list=$this->articles_model->topic_list();
-		$show_button = $this->articles_model->validate();
-		array_push($topic_list,$show_button); 
-		$topic_json = json_encode($topic_list);            /*Returns list of sections of articles ALong with tag which is to be passed back for view function.
-															Also Passed is a boolean at end of json which indicates whether to show post button or not*/
-		/*$this->load->view('',$topic_list);*/
+		//$show_button = $this->articles_model->validate();
+		//array_push($topic_list,$show_button); 
+		$topic_json = json_encode($topic_list); 
+				
+				$data=array(
+  					 "topic_list"=> $topic_list
+					 );
+		           /*Returns list of sections of articles ALong with tag which is to be passed back for view function.
+															(can be implemented by removing comments of corresponding code)=>Also Passed is a boolean at end of json which indicates whether to show post button or not*/
+		$this->load->view('list',$data);
 		return ($topic_json);
 		
 	}
 
-	public function view($art_sec='anp')
+	public function view()
 	{
 		/*$query_str = "SELECT topics.name, `content`, `votes`,user_lawyer.username FROM `articles` JOIN user_lawyer ON articles.user_id=user_lawyer.id 
 		JOIN topics ON articles.topic=topics.tag WHERE `topic`= '$art_sec'";
 		$query = $this->db->query($query_str);
 		return json_encode($query->result_array());*/
+		$articles=$this->articles_model->view();
 
-		return $this->articles_model->view($art_sec);    /*Returns title and author of article and article_id.Use article_id as token for all future actions.
-															Pass article_sec tag passed above*/
+		// $comment_list=array();
+		// foreach($articles  as $name ){
+		// 			foreach($name as $key=>$para){
+		// 				    if($key=='id')
+		// 					{
+		// 						$comments=$this->articles_model->get_comments($para);
+		// 					    array_push($comment_list,$comments);
+		// 				    }
+							
+		// 			}
+		// 		}
+		
+		     $userid=$this->articles_model->userid();
+		 	$data=array(
+  					 "articles"=> $articles,
+  					// "comment_list"=>$comment_list,
+  					   "userid"=>$userid
+					 );
+		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
+				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
+		//$this->load->view('articleview',$data);
+
+		return json_encode($data);   /*Returns title and author of article and article_id.Use article_id as token for all future actions.
+															//Pass article_sec tag passed above*/
 	}
 
 	public function view_detail($art_id)
+
 	{
-		return json_encode($this->articles_model->detail_view($art_id));     /*Returns a particular article with content and a json entry specifiyng whether
-																				to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
-																				title.Pass art_id as parameter.*/
+
+		$articles=$this->articles_model->detail_view($art_id);
+		$tags=$comments=$this->articles_model->get_tags($art_id);
+		$comment_list=array();
+		//foreach($articles  as $name ){
+					foreach($articles as $key=>$para){
+						    if($key=='id')
+							{
+								$comments=$this->articles_model->get_comments($para);
+							    array_push($comment_list,$comments);
+						    }
+							
+					}
+		//		}
+					$reply_list=array();
+					foreach($comment_list  as $mediator ){
+						foreach($mediator  as $name ){
+				            foreach($name as $key=>$para){
+						    if($key=='id')
+							{
+		                           $reply=$this->articles_model->get_reply($para);
+		                          array_push($reply_list,$reply);
+		                   }
+		               }
+		           }
+		       }
+				
+		     $userid=$this->articles_model->userid();
+		 	$data=array(
+  					 "articles"=> $articles,
+  					  "comment_list"=>$comment_list,
+  					   "userid"=>$userid,
+  					   "reply_list"=>$reply_list,
+  					   "tags"=>$tags
+					 );
+		 	$this->load->view('blogview',$data);
+		//return json_encode($data);     /*Returns a particular article with content and a json entry specifiyng whether
+																				// to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
+																				// title.Pass art_id as parameter.*/
 	}
 
 	public function art_delete($art_id)
 	{
 		return $this->articles_model->delete($art_id);		/*Return 1 if article deleted.
+																	0 if not deleted.
+																	-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+	public function comm_edit($comm_id)
+	{
+		return $this->articles_model->edit_comment($comm_id);		/*Return 1 if comment edited.
+																		0 if not deleted.
+																		-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+
+    public function comm_delete($comm_id)
+	{
+		return $this->articles_model->delete_comment($comm_id);		/*Return 1 if comment deleted.
+																	0 if not deleted.
+																	-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+	public function reply_edit($reply_id)
+	{
+		return $this->articles_model->edit_reply($reply_id);		/*Return 1 if reply edited.
+																		0 if not deleted.
+																		-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
+	}
+
+
+    public function reply_delete($reply_id)
+	{
+		return $this->articles_model->delete_reply($reply_id);		/*Return 1 if reply deleted.
 																	0 if not deleted.
 																	-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
 	}
@@ -55,7 +150,8 @@ class Articles extends CI_Controller
 																		-1 if User not allowed to delete. In case he sneaks in. Use AJAX to call this method.*/
 	}
 
-	public function post($art_sec)
+
+	public function post($art_sec=1)
 	{
 		/*$auth_query = $this->db->get_where('user_lawyer',array('username'=>$this->session->userdata('unnamed')));
 		if($auth_query->num_rows <0)
@@ -88,29 +184,120 @@ class Articles extends CI_Controller
 		}
 	}
 
-	public function upvote($article_id)
+	public function post_comment($article_id){
+
+
+
+		if(!empty($this->session->userdata('username')))
+		  return $this->articles_model->addcomment($article_id);
+		 
+		else{
+			//load login view
+		}
+	}
+
+		public function post_reply($comment_id){
+
+
+
+		if(!empty($this->session->userdata('username')))
+		  return $this->articles_model->addreply($comment_id);
+		 
+		else{
+			//load login view
+		}
+
+ 			
+
+
+	}
+
+	public function upvote_article($article_id)
+
 	{
-		return $this->articles_model->vote($article_id,1);			/*Does an upvote in  db. 
+		if(!empty($this->session->userdata('username')))
+		return $this->articles_model->vote($article_id,1);	
+		else{
+			//load login view
+		}
+
+				/*Does an upvote in  db. 
+																	Returns 1 if successful.
+																	Returns 1 if successful.
 																	Returns 1 if successful.
 																	0 if not.
 																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
 																	Second parameter of vote() is for model donot change/change at both places.*/
 	}
 
-	public function downvote($article_id)
+	public function downvote_article($article_id)
+
 	{
-		return $this->articles_model->vote($article_id,-1);			/*Does an downvote in  db. 
+			if(!empty($this->session->userdata('username')))
+		return $this->articles_model->vote($article_id,-1);	
+		else{
+			//load login view
+		}		/*Does an downvote in  db. 
 																	Returns 1 if successful.
 																	0 if not.
 																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
 																	Second parameter of vote() is for model donot change/change at both places.*/
 																	
 	}
+ 
+
+    public function upvote_comment($comment_id)
+
+	{
+		if(!empty($this->session->userdata('username')))
+		$this->articles_model->comment_vote($comment_id,1);	
+		else{
+			//load login view
+		}
+
+											/*Does an upvote in  db. 
+																		Returns 1 if successful.
+																	Returns 1 if successful.
+																	Returns 1 if successful.
+																	0 if not.
+																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
+																	Second parameter of comment_vote() is for model donot change/change at both places.*/
+	}
+
+	public function downvote_comment($comment_id)
+	{	
+		if(!empty($this->session->userdata('username')))
+		return $this->articles_model->comment_vote($comment_id,-1);	
+		else{
+			//load login view
+		}				/*Does an downvote in  db. 
+																	Returns 1 if successful.
+																	0 if not.
+																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
+																	Second parameter of comment_vote() is for model donot change/change at both places.*/
+																	
+	}
+
+
+public function commentvotechk($comm_id){
+
+      
+      return $this->articles_model->comment_vote_chk($comm_id);   //Use to know what colour of upvote/downvote to display for the pirticular user for comments
+                                                                        // retursn 0 if not voted beofre, 1 if upvoted before,-1 if downvoted before
+
+}
+
+public function articlevotechk($art_id){
+
+      
+      return $this->articles_model->article_vote_chk($art_id);   //Use to know what colour of upvote/downvote to display for the pirticular user for articles
+                                                                        // retursn 0 if not voted beofre, 1 if upvoted before,-1 if downvoted before
 
 }
 
 
 
+}
 
 
 

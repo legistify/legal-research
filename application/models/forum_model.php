@@ -12,7 +12,7 @@ class Forum_model extends CI_Model
 
 	public function fetch_ques()
 	{
-		/*		if($this->input->post('tag1'))
+				if($this->input->post('tag1'))
 			$tag1=$this->input->post('tag1');
 		if($this->input->post('tag2'))
 			$tag2=$this->input->post('tag2');
@@ -21,8 +21,8 @@ class Forum_model extends CI_Model
 		if($this->input->post('tag4'))
 			$tag4=$this->input->post('tag4');
 		if($this->input->post('tag5'))
-			$tag5=$this->input->post('tag5');*/
-		echo $this->input->post('data');
+			$tag5=$this->input->post('tag5');
+		// echo $this->input->post('data');
 		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
  			
  			$query_str =  "SELECT questions.id,questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
@@ -72,15 +72,12 @@ class Forum_model extends CI_Model
 		return $query->result(); 
 
  	}
-
 	public function fetch_best_ans($ques_id)
 	{
 		$query_str = "SELECT answers.id,answers.answer,answers.datetime,answers.upvotes,answers.downvotes,user_lawyer.username,user_lawyer.pic_link FROM `answers` JOIN `user_lawyer` ON answers.user_id=user_lawyer.id WHERE
 		answers.question_id='$ques_id' ORDER BY answers.upvotes DESC LIMIT 1";
 		$query =$this->db->query($query_str);
 		return $query->result();
-		
-
 	}
 	public function fetch_ans($ques_id)
 	{
@@ -182,6 +179,34 @@ class Forum_model extends CI_Model
 		return $query->result();
 	}
 
+	public function post_reply($comment_id)
+	{
+		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
+		$datetime = date('Y-m-d H:i:s');
+		$data = array('reply'=>$this->input->post('reply'),
+					  'answer_id' =>$comment_id,
+					  'user_id' =>$user_id,
+					  'datetime' =>$datetime
+					  );
+		$this->db->insert('reply',$data);
+		if($this->db->affected_rows() >0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+
+	}
+
+	public function fetch_reply($comment_id)
+	{
+		$querystr = "SELECT reply.id,reply.reply,reply.datetime,users.username FROM `reply` JOIN `users` ON reply.user_id=users.id WHERE reply.answer_id='$comment_id'";
+		$query = $this->db->query($querystr);
+		return $query->result();
+	}
 /*	public function update($ques_id,$username_session)
 	{	$query_str= "SELECT users.username FROM `questions` JOIN users ON questions.user_id=users.id WHERE questions.id='$ques_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];
@@ -477,7 +502,8 @@ class Forum_model extends CI_Model
 		$query_str = "SELECT `user_type` FROM `users` WHERE `username`='$username'";
 		$query = $this->db->query($query_str);
 		return $query->row_array()['user_type'];
-	}
+		$query->row_array()['user_type'];
+		}
 
 	public function checkvote($username,$ans_id)
 	{

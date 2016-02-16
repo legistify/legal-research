@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<base href="<?php echo base_url(); ?>"></base>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>New pages</title>
-<script src="<?php echo base_url(); ?>/assets/js/jquery.min(1.11.1).js"></script>
-<<<<<<< HEAD
+<script src="./js/jquery.min(1.11.1).js"></script>
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-<link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/font-awesome.min.css"></link>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/style.css"></link>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/newStyle.css"></link>
-<script src="https://www.legistify.com/assets/js/bootstrap.min.js"></script>
-=======
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/style.css"></link>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/newStyle.css"></link>
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-<link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/font-awesome.min.css">
-<script src="<?php echo base_url(); ?>/assets/js/main.js"></script>
->>>>>>> 2bb41a7587741f9df8297b1ae38b688a79a745cd
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
+<link rel="stylesheet" type="text/css" href="./css/newStyle.css"></link>
+<script src="./js/main.js"></script>
 <style>
-.small_light2{
-    color: #999;
-    font-size:0.9em;
-}
 </style>
 </head>
 <body>
@@ -67,86 +55,102 @@
 
 <div class="content container">
     <div class="row">
-        <div class="col-md-12">
-            <div class="rsh_result_ans">
+        <div class="col-md-12" style="margin-top:40px">
+            <div class="rsh_result_open">
                 <div class="rsh_result_head">
                     <div class="result_tags small_light">
-                        <i class="fa fa-tag"></i><?php if(!empty($question[0]->tags)) :echo $question[0]->tags[0]->name;endif;?><?php for($i=1;$i<sizeof($question[0]->tags);$i++): echo ','.$question[0]->tags[$i]->name;endfor;?>
-                    </div>
+                        <i class="fa fa-tag"></i> <?php foreach($tags  as $tag ){echo $tag['name'].',';}?>
                     <div class="result_ques">
-                        <?php echo $question[0]->title ?>
-                    </div>
-                    <div style="margin:15px 0">
-                    <?php echo $question[0]->description?>
+                        <?php echo $articles['title'];?>
                     </div>
                     <div class="result_info_strip small_light">
-                        By: <?php echo $question[0]->username?>  &nbsp;|&nbsp; <i class="fa fa-calendar"></i><?php echo $question[0]->datetime?> &nbsp;|&nbsp; <a href='./../vote_que/<?php echo $question[0]->id?>'><i class="fa fa-arquestion[0]-up"></i></a>Upvotes: <?php echo $question[0]->upvotes?>
+                        <i class="fa fa-calendar"></i><?php echo date("d M Y",strtotime($articles['datetime'])); ?> &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: <?php echo $articles['views'];?> &nbsp;|&nbsp;  <a href= "<?php echo base_url(); ?>Articles/upvote_article/<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvotes:</a> <?php echo $articles['Upvotes'];?> 
                     </div>
                 </div>
-                <?php if($user_type== 'l'):?>
-                <button class="write_ans btn btn-dark" data-toggle="modal" data-target="#write_ans">Write</button>
-            <?php endif;?>
             </div>
-            <div>
-                <h2><?php echo sizeof($answers)?> Answers</h2>
-            </div>
-             <?php if(!empty($answers)):?>
-            <div class="rsh_open_ans">
-
-                <?php foreach($answers as $row):?>
-                <div class="rsh_ans_body">
+            <div class="rsh_open_descr">
+                <div class="rsh_result_body">
                     <div class="credibility_facts">
                         <div class="cf_img">
-                            <img src="<?php echo $row->pic_link?>">
+                            <img src=<?php echo $articles['pic_link'];?>>
                         </div>
                         <div class="cf_facts">
-                            <div class="cf_facts_name"><?php echo $row->username ?></div>
+                            <div class="cf_facts_name"><?php echo $articles['username'];?></div>
                             <div class="cf_facts_descr small_light ellipsis">
-                            Lorem ipsum dolor sit amet.
+                            <?php echo $articles['acc_type'];?>
                             </div>
                         </div>
                     </div>
                     <div class="result_ans">
-                        <?php echo $row->answer?>
-                    </div>
-                    <div class="small_light rsh_ans_votes">
-                        <a href = './../vote_ans/<?php echo $row->id?>/1'><i class="fa fa-arrow-up"></i></a>Upvotes: <?php echo $row->upvotes?> &nbsp;|&nbsp;
-                        <a href = './../vote_ans/<?php echo $row->id?>/0' ><i class="fa fa-arrow-down"></i></a>Downvotes: <?php echo $row->downvotes;?>
+                        <?php echo $articles['content'];?>
                     </div>
                 </div>
-                <div class="comments_body">
+                <div class="result_info_strip" style="margin: 25px 0;">
+                     <a href= "<?php echo base_url(); ?>Articles/upvote_article/<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote</a> <?php echo $articles['Upvotes'];?></a> &nbsp;|&nbsp;<a href= "<?php echo base_url(); ?>Articles/downvote_article/<?php echo $articles['id'];?>"> <i class="fa fa-arrow-down"></i>Downvote</a>  <?php echo $articles['Downvotes'];?><i class="fa fa-arrow-up"></i>Share
+                </div>
+            </div>
+
+            <div style="margin:15px 0">
+                <a href="Articles/view_detail/<?php echo $articles['id'] - 1;?>"><button class="btn btn-dark">Prev</button></a>
+                <a href="Articles/view_detail/<?php echo $articles['id'] + 1;?>"><button class="btn btn-dark" style="float:right">Next</button>  </a>
+            </div>
+            <div style="margin-top:50px;">
+                <h2>Comments:</h2><hr style="border-color:#aaa">
+            </div>
+            <div class="comments_body">
                 <div class="credibility_facts">
                     <div class="cf_img">
-                        <img src="../../assets/img/people.png">
+                        <img src="./img/people.png">
                     </div>
                     <div class="cf_facts">
-                        <form action='<?php echo base_url()?>forum/comment_a/<?php echo $row->id?>' method="post">
-                        <input type="text" placeholder="Your comments" style="width:80%; padding: 10px;" name="comment"></input>
-                        <input type="submit" class="btn btn-dark" style="height:44px;line-height:30px;vertical-align:top" value="Post"></input>
-                        </form>
+                        <?php 
+                               echo form_open('Articles/post_comment/'.$articles['id'])?>
+                        <input type="text" placeholder="Your comments" name="content" style="width:80%; padding: 10px;"></input>
+                        <button class="btn btn-dark" type="submit" style="height:44px;line-height:30px">Post</button>
                     </div>
                     <div style="clear:both"></div>
                 </div>
-                <?php foreach ($row->comments as $comment):?>
+               <?php foreach($comment_list  as $comments ){
+                   foreach($comments  as $name ){
+
+                                      
+                                     $id=$name['id']; ?>
                 <div class="credibility_facts">
                     <div class="cf_img">
-                        <img src="../../assets/img/people.png">
+                        <img src=<?php echo $name['pic_link'];?>>
                     </div>
                     <div class="cf_facts">
-                        <div class="cf_facts_name"><?php echo $comment->username?></div>
+                        <div class="cf_facts_name"><?php echo $name['fname'].$name['lname'];?>
+</div>
                         <div class="cf_facts_descr">
-                        <?php echo $comment->comment?>
+                        <?php echo $name['comment'];?>
                         </div>
                         <div class="result_info_strip small_light">
-                            <?php echo $comment->datetime?> &nbsp;|&nbsp; <a href="./../vote_comm/<?php echo $comment->id?>">Likes: <?php echo $comment->votes?></a>&nbsp;
+                            <?php echo date("g:iA  d M Y",strtotime($name['datetime'])); ?> &nbsp;|&nbsp; <a href= 'Articles/upvote_comment/<?php echo $name['id'];?>'>Likes: <?php echo $name['Upvotes'];?></a> &nbsp;|&nbsp; Reply
                         </div>
                     </div>
                 </div>
-                <?php endforeach;?>
+                <?php foreach($reply_list  as $reply ){
+                   foreach($reply  as $name ){
+
+                                      
+                                    if( $id==$name['comment_id'] ){?>
+                <div class="credibility_facts">
+                    <div class="cf_img">
+                      <img src=<?php echo $name['pic_link'];?>>
+                    </div>
+                    <div class="cf_facts">
+                        <div class="cf_facts_name"><?php echo $name['fname'].$name['lname'];?></div>
+                        <div class="cf_facts_descr">
+                       <?php echo $name['comment'];?>
+                        </div>
+                        <div class="result_info_strip small_light">
+                            <?php echo date("g:iA  d M Y",strtotime($name['datetime'])); ?>
+                        </div>
+                    </div>
+                </div>
+               <?php } }}} }?>
             </div>
-            <?php endforeach;?>
-            </div>
-            <?php endif;?>
         </div>
     </div>
 </div>
@@ -241,40 +245,5 @@
     </div>
     </div>
 </footer>
-<div class="modal fade bs-example-modal-sm" id="write_ans" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content ">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                      <h3 class="modal-title" id="myModalLabel" align="center">Write a Answer</h3>
-                  </div>
-                  <div class="modal-body">
-                      <div class="row">
-                          <div class="col-xs-12">
-                              <div class="gray_back">
-                                  <form method="POST" action="<?php echo base_url() ;?>forum/answer_post/<?php echo $question[0]->id; ?>">
-                                      <div class="form-group">
-                                          <div class="col-md-2">
-                                            <label for="comments" class="control-label">Comments</label>
-                                          </div>
-                                          <div class="col-md-10">
-                                            <textarea name="answer" class="form-control" rows="5"></textarea>
-                                            <span class="help-block"></span>
-                                          </div>
-                                      </div>
-                                       
-                                      <div class="col-md-5 col-md-offset-5"> 
-                                       <button type="submit" class="btn btn-dark">Write Answer</button>
-                                      </div> 
-
-                                  </form>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        </div>
-
 </body>
 </html>

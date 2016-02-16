@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2016 at 07:54 PM
+-- Generation Time: Feb 13, 2016 at 08:23 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `user_id` bigint(20) NOT NULL,
   `votes` int(11) NOT NULL DEFAULT '0',
   `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `answers`
@@ -52,64 +52,127 @@ INSERT INTO `answers` (`id`, `answer`, `question_id`, `user_id`, `votes`, `datet
 --
 
 CREATE TABLE IF NOT EXISTS `articles` (
-  `id` bigint(20) NOT NULL,
+  `id` int(11) NOT NULL,
   `topic` varchar(32) NOT NULL,
   `content` mediumtext NOT NULL,
-  `votes` mediumint(9) NOT NULL DEFAULT '0',
+  `Upvotes` mediumint(9) NOT NULL DEFAULT '0',
+  `Downvotes` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `title` varchar(50) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `title` varchar(50) NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `views` bigint(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `articles`
 --
 
-INSERT INTO `articles` (`id`, `topic`, `content`, `votes`, `user_id`, `title`) VALUES
-(1, 'agr', 'HI', 2, 1, 'hello'),
-(2, 'anp', 'HI', 0, 1, 'helli'),
-(3, 'agr', 'BYE', 0, 2, 'helle');
+INSERT INTO `articles` (`id`, `topic`, `content`, `Upvotes`, `Downvotes`, `user_id`, `title`, `datetime`, `views`) VALUES
+(1, 'agr', 'HI', 0, 0, 1, 'hello', '2016-02-10 17:44:23', 5),
+(2, 'anp', 'HI', 10, 5, 1, 'helli', '2016-02-10 17:44:23', 132),
+(3, 'agr', 'BYE', 0, 0, 2, 'helle', '2016-02-10 17:44:23', 4),
+(4, 'anp', 'blah', 5, 3, 1, 'blahish', '2016-02-10 17:44:23', 26),
+(5, 'agr', 'nnnn', 98, 78, 1, 't4tyf', '2016-02-10 17:44:23', 3);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments_a`
+-- Table structure for table `article_vote_rel`
 --
 
-CREATE TABLE IF NOT EXISTS `comments_a` (
-  `id` bigint(20) NOT NULL,
-  `comment` text NOT NULL,
+CREATE TABLE IF NOT EXISTS `article_vote_rel` (
+  `article_id` int(11) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `answer_id` bigint(20) NOT NULL,
-  `votes` int(11) NOT NULL DEFAULT '0',
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `question_id` bigint(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `comments_a`
---
-
-INSERT INTO `comments_a` (`id`, `comment`, `user_id`, `answer_id`, `votes`, `datetime`, `question_id`) VALUES
-(1, 'TEST_COMMENT', 2, 1, 0, '2016-01-04 13:23:21', 0),
-(2, 'TEST_COMMENT', 1, 2, 0, '2016-01-04 13:23:21', 0),
-(3, 'TEST_COMMENT', 3, 3, 0, '2016-01-04 13:23:21', 0),
-(4, 'TEST_COMMENT', 2, 1, 0, '2016-01-04 13:23:21', 0),
-(5, 'TEST_COMMENT', 2, 1, 0, '2016-01-04 13:23:21', 0);
+  `up_down` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments_q`
+-- Table structure for table `comments_articles`
 --
 
-CREATE TABLE IF NOT EXISTS `comments_q` (
+CREATE TABLE IF NOT EXISTS `comments_articles` (
   `id` bigint(20) NOT NULL,
   `comment` text NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `votes` int(11) NOT NULL DEFAULT '0',
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `question_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `article_id` bigint(20) NOT NULL,
+  `Upvotes` int(11) NOT NULL DEFAULT '0',
+  `Downvotes` bigint(20) NOT NULL DEFAULT '0',
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comments_articles`
+--
+
+INSERT INTO `comments_articles` (`id`, `comment`, `user_id`, `article_id`, `Upvotes`, `Downvotes`, `datetime`) VALUES
+(1, '!stcomment', 1, 2, 5, 5, '2016-01-05 01:21:56'),
+(2, '1st comment', 1, 4, 29, 20, '2016-01-05 01:21:56'),
+(7, 'qwerty', 2, 4, 1, 1, '2016-01-10 02:50:13'),
+(8, 'qwerty', 2, 2, 0, 0, '2016-01-10 02:50:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments_questions`
+--
+
+CREATE TABLE IF NOT EXISTS `comments_questions` (
+  `id` bigint(20) NOT NULL,
+  `comment` text NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `question_id` bigint(20) NOT NULL,
+  `Upvotes` int(11) NOT NULL DEFAULT '0',
+  `Downvotes` bigint(20) NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comments_questions`
+--
+
+INSERT INTO `comments_questions` (`id`, `comment`, `user_id`, `question_id`, `Upvotes`, `Downvotes`, `datetime`) VALUES
+(1, 'HEY!!HAppy New Year', 2, 1, 0, 0, '2016-01-01 23:53:40'),
+(2, 'YO!Panky Happy new Year!!', 3, 1, 0, 0, '2016-01-01 23:53:40');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments_reply`
+--
+
+CREATE TABLE IF NOT EXISTS `comments_reply` (
+  `id` bigint(20) NOT NULL,
+  `comment` text NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `comment_id` bigint(20) NOT NULL,
+  `Upvotes` int(11) NOT NULL DEFAULT '0',
+  `Downvotes` bigint(20) NOT NULL DEFAULT '0',
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comments_reply`
+--
+
+INSERT INTO `comments_reply` (`id`, `comment`, `user_id`, `comment_id`, `Upvotes`, `Downvotes`, `datetime`) VALUES
+(1, '!streply', 1, 8, 5, 5, '2016-01-05 01:21:56'),
+(2, '1st reply', 1, 2, 29, 20, '2016-01-05 01:21:56'),
+(7, 'qwertyreply', 2, 2, 1, 1, '2016-01-10 02:50:13'),
+(8, 'qwertyreply', 2, 2, 0, 0, '2016-01-10 02:50:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment_vote_rel`
+--
+
+CREATE TABLE IF NOT EXISTS `comment_vote_rel` (
+  `comment_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `up_down` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -134,6 +197,41 @@ CREATE TABLE IF NOT EXISTS `questions` (
 INSERT INTO `questions` (`id`, `title`, `description`, `user_id`, `votes`, `datetime`, `tag`) VALUES
 (1, 'T1', 'hhkdhak', 1, 0, '2016-01-01 23:52:07', 'anp'),
 (2, 'T2', 'kjkhkm', 2, 0, '2016-01-01 23:52:07', 'anp');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag_rel`
+--
+
+CREATE TABLE IF NOT EXISTS `tag_rel` (
+  `article_id` int(11) NOT NULL,
+  `Topic_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tag_rel`
+--
+
+INSERT INTO `tag_rel` (`article_id`, `Topic_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(3, 1),
+(3, 2),
+(4, 2),
+(5, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag_rel_questions`
+--
+
+CREATE TABLE IF NOT EXISTS `tag_rel_questions` (
+  `question_id` bigint(20) NOT NULL,
+  `Topic_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -243,34 +341,58 @@ INSERT INTO `user_lawyer` (`id`, `username`, `acc_type`, `phone`, `age`, `sex`, 
 --
 
 --
--- Indexes for table `answers`
---
-ALTER TABLE `answers`
-  ADD PRIMARY KEY (`id`), ADD KEY `fk_questions` (`question_id`), ADD KEY `fk_use` (`user_id`);
-
---
 -- Indexes for table `articles`
 --
 ALTER TABLE `articles`
   ADD PRIMARY KEY (`id`), ADD KEY `fk_articles` (`user_id`), ADD KEY `fk_topics` (`topic`);
 
 --
--- Indexes for table `comments_a`
+-- Indexes for table `article_vote_rel`
 --
-ALTER TABLE `comments_a`
-  ADD PRIMARY KEY (`id`), ADD KEY `fk_user` (`user_id`), ADD KEY `fk_answers` (`answer_id`);
+ALTER TABLE `article_vote_rel`
+  ADD KEY `user_id` (`user_id`), ADD KEY `article_id` (`article_id`);
 
 --
--- Indexes for table `comments_q`
+-- Indexes for table `comments_articles`
 --
-ALTER TABLE `comments_q`
-  ADD PRIMARY KEY (`id`), ADD KEY `fk_user's` (`user_id`), ADD KEY `fk_question` (`question_id`);
+ALTER TABLE `comments_articles`
+  ADD PRIMARY KEY (`id`), ADD KEY `fk_question` (`article_id`), ADD KEY `fk_user` (`user_id`);
+
+--
+-- Indexes for table `comments_questions`
+--
+ALTER TABLE `comments_questions`
+  ADD PRIMARY KEY (`id`), ADD KEY `fk_question` (`question_id`), ADD KEY `fk_user` (`user_id`);
+
+--
+-- Indexes for table `comments_reply`
+--
+ALTER TABLE `comments_reply`
+  ADD PRIMARY KEY (`id`), ADD KEY `fk_question` (`comment_id`), ADD KEY `fk_user` (`user_id`);
+
+--
+-- Indexes for table `comment_vote_rel`
+--
+ALTER TABLE `comment_vote_rel`
+  ADD KEY `comment_id` (`comment_id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`), ADD KEY `fk_users` (`user_id`);
+
+--
+-- Indexes for table `tag_rel`
+--
+ALTER TABLE `tag_rel`
+  ADD KEY `topic` (`Topic_id`), ADD KEY `article` (`article_id`);
+
+--
+-- Indexes for table `tag_rel_questions`
+--
+ALTER TABLE `tag_rel_questions`
+  ADD KEY `question_id` (`question_id`), ADD KEY `Topic_id` (`Topic_id`);
 
 --
 -- Indexes for table `topics`
@@ -295,25 +417,25 @@ ALTER TABLE `user_lawyer`
 --
 
 --
--- AUTO_INCREMENT for table `answers`
---
-ALTER TABLE `answers`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT for table `comments_a`
+-- AUTO_INCREMENT for table `comments_articles`
 --
-ALTER TABLE `comments_a`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+ALTER TABLE `comments_articles`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `comments_q`
+-- AUTO_INCREMENT for table `comments_questions`
 --
-ALTER TABLE `comments_q`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `comments_questions`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `comments_reply`
+--
+ALTER TABLE `comments_reply`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `questions`
 --
@@ -339,13 +461,6 @@ ALTER TABLE `user_lawyer`
 --
 
 --
--- Constraints for table `answers`
---
-ALTER TABLE `answers`
-ADD CONSTRAINT `fk_questions` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_use` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `articles`
 --
 ALTER TABLE `articles`
@@ -353,24 +468,38 @@ ADD CONSTRAINT `fk_articles` FOREIGN KEY (`user_id`) REFERENCES `user_lawyer` (`
 ADD CONSTRAINT `fk_topics` FOREIGN KEY (`topic`) REFERENCES `topics` (`tag`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `comments_a`
+-- Constraints for table `article_vote_rel`
 --
-ALTER TABLE `comments_a`
-ADD CONSTRAINT `fk_answers` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ALTER TABLE `article_vote_rel`
+ADD CONSTRAINT `fkey_articles` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `fkey_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `comments_questions`
+--
+ALTER TABLE `comments_questions`
+ADD CONSTRAINT `fk_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `comments_q`
+-- Constraints for table `comment_vote_rel`
 --
-ALTER TABLE `comments_q`
-ADD CONSTRAINT `fk_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
-ADD CONSTRAINT `fk_user's` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `comment_vote_rel`
+ADD CONSTRAINT `fk_comments` FOREIGN KEY (`comment_id`) REFERENCES `comments_articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `fkey_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `questions`
 --
 ALTER TABLE `questions`
 ADD CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tag_rel`
+--
+ALTER TABLE `tag_rel`
+ADD CONSTRAINT `fk_article` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_topic` FOREIGN KEY (`Topic_id`) REFERENCES `topics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

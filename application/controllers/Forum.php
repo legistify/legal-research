@@ -9,7 +9,7 @@ class Forum extends CI_Controller
 		$this->load->library('email');
 		$this->load->library('session');
 		$this->load->model('forum_model');
-		$userdata = array('unnamed'=>'pankaj.arora1994');
+		$userdata = array('unnamed'=>'pankaj.arora');
 		$this->session->set_userdata($userdata);
 
 	}
@@ -35,7 +35,9 @@ class Forum extends CI_Controller
 	{
 		$answer = $this->forum_model->fetch_best_ans($question->id);
 
-
+		}
+		// print_r($data);
+		$this->load->view('qna',$data);
 	}
 
 	public function index()
@@ -175,7 +177,6 @@ class Forum extends CI_Controller
 		redirect($url);
 	}
 
-
 public function truncate($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true) {
 if ($considerHtml) {
     if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
@@ -244,7 +245,6 @@ if($considerHtml) {
 }
 return $truncate;
 }
-
 
 }
 
