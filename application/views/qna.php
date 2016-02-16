@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -156,8 +157,9 @@
 						<?php echo substr($row->answer[0]->answer,0,150); ?><span class="view_more">View More</span>
 					</div>
 				</div>
-]                 <?php endif;?>
+                <?php endif;?>
 			</div>
+        <?php endforeach; ?>
 		</div>
 	</div>
 </div>
@@ -352,9 +354,8 @@ function filter_ques(){
             $('.rsh_results_cont').html(ele);
            
         }
-    })
+    });
 }
 </script>
 </body>
 </html>
-

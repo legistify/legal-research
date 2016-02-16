@@ -179,34 +179,6 @@ class Forum_model extends CI_Model
 		return $query->result();
 	}
 
-	public function post_reply($comment_id)
-	{
-		$user_id = $this->db->query("SELECT `id` FROM `users` WHERE `username`='$username'")->row_array()['id'];
-		$datetime = date('Y-m-d H:i:s');
-		$data = array('reply'=>$this->input->post('reply'),
-					  'answer_id' =>$comment_id,
-					  'user_id' =>$user_id,
-					  'datetime' =>$datetime
-					  );
-		$this->db->insert('reply',$data);
-		if($this->db->affected_rows() >0)
-		{
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
-
-
-	}
-
-	public function fetch_reply($comment_id)
-	{
-		$querystr = "SELECT reply.id,reply.reply,reply.datetime,users.username FROM `reply` JOIN `users` ON reply.user_id=users.id WHERE reply.answer_id='$comment_id'";
-		$query = $this->db->query($querystr);
-		return $query->result();
-	}
 /*	public function update($ques_id,$username_session)
 	{	$query_str= "SELECT users.username FROM `questions` JOIN users ON questions.user_id=users.id WHERE questions.id='$ques_id'";
 		$username = $this->db->query($query_str)->row_array()['username'];

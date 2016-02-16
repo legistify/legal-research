@@ -5,21 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>New pages</title>
 <script src="<?php echo base_url(); ?>/assets/js/jquery.min(1.11.1).js"></script>
-<<<<<<< HEAD
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 <link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/font-awesome.min.css"></link>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/style.css"></link>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/newStyle.css"></link>
 <script src="https://www.legistify.com/assets/js/bootstrap.min.js"></script>
-=======
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/style.css"></link>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/newStyle.css"></link>
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-<link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/font-awesome.min.css">
 <script src="<?php echo base_url(); ?>/assets/js/main.js"></script>
->>>>>>> 2bb41a7587741f9df8297b1ae38b688a79a745cd
 <style>
 .small_light2{
     color: #999;

@@ -34,8 +34,6 @@ class Forum extends CI_Controller
 	public function view_more($ans_id)
 	{
 		$answer = $this->forum_model->fetch_best_ans($question->id);
-
-		}
 		// print_r($data);
 		$this->load->view('qna',$data);
 	}
