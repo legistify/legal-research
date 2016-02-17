@@ -118,7 +118,7 @@
                           <option value="latest">Latest</option>
                           <option value="latest">Upvotes</option>
                         </select>
-                        <button class="btn btn-dark ask_que" data-toggle="modal" data-target="#ask_ques">Ask a question</button>
+                        <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#ask_ques">Ask a question</div>
     				</div>
                 </form>
 			</div>
