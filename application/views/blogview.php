@@ -13,6 +13,12 @@
 <link rel="stylesheet" type="text/css" href="./css/newStyle.css"></link>
 <script src="./js/main.js"></script>
 <style>
+.pointer{
+    cursor: pointer;
+}
+.color-blue{
+    color: blue;
+}
 </style>
 </head>
 <body>
@@ -64,7 +70,7 @@
                         <?php echo $articles['title'];?>
                     </div>
                     <div class="result_info_strip small_light">
-                        <i class="fa fa-calendar"></i><?php echo date("d M Y",strtotime($articles['datetime'])); ?> &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: <?php echo $articles['views'];?> &nbsp;|&nbsp;  <a href= "<?php echo base_url(); ?>Articles/upvote_article/<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvotes:</a> <?php echo $articles['Upvotes'];?> 
+                        <i class="fa fa-calendar"></i><?php echo date("d M Y",strtotime($articles['datetime'])); ?> &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: <?php echo $articles['views'];?> &nbsp;|&nbsp;  <span class="upvote_it pointer <?php   if ('articles/articlevotechk/'.$articles['id']==1) :echo 'color-blue'; endif;?>" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote: <?php echo $articles['Upvotes'];?></span>
                     </div>
                 </div>
             </div>
@@ -86,7 +92,7 @@
                     </div>
                 </div>
                 <div class="result_info_strip" style="margin: 25px 0;">
-                     <a href= "<?php echo base_url(); ?>Articles/upvote_article/<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote</a> <?php echo $articles['Upvotes'];?></a> &nbsp;|&nbsp;<a href= "<?php echo base_url(); ?>Articles/downvote_article/<?php echo $articles['id'];?>"> <i class="fa fa-arrow-down"></i>Downvote</a>  <?php echo $articles['Downvotes'];?><i class="fa fa-arrow-up"></i>Share
+                     <span class="upvote_it pointer <?php   if ('articles/articlevotechk/'.$articles['id']==1) :echo 'color-blue'; endif;?>" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote: <?php echo $articles['Upvotes'];?></span> &nbsp;|&nbsp;<span class="downvote_it pointer" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-down"></i>Downvote</a>  <?php echo $articles['Downvotes'];?>&nbsp;|&nbsp;<i class="fa fa-share-alt"></i>Share
                 </div>
             </div>
 
@@ -245,5 +251,17 @@
     </div>
     </div>
 </footer>
+<script>
+$('.upvote_it').click(function(){
+    $.ajax({
+        url: './articles/upvote_article/'+$(this).data('id'),
+        method: 'POST',
+        dataType: 'JSON',
+        success: function(data){
+            console.log(data);
+        }
+    });
+});
+</script>
 </body>
 </html>
