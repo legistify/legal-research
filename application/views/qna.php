@@ -326,11 +326,12 @@
 <script>
 filter_ques();
 function filter_ques(){
-    var x = $('.filter_form').serialize();
+    var tags = $('.filter_form select[name="tag"]').val().join();
+    var sort = $('.filter_form select[name="sort"]').val();
     $.ajax({
         url: './forum/questions/',
         method: 'POST',
-        data:x,
+        data:{"tag": tags,"sort":sort},
         success: function(data){
             console.log(data);
             var ques = data.questions;

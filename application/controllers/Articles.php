@@ -58,7 +58,8 @@ class Articles extends CI_Controller
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
 		//$this->load->view('articleview',$data);
 
-		return json_encode($data);   /*Returns title and author of article and article_id.Use article_id as token for all future actions.
+		$data =  json_encode($data); 
+		$this->output->set_content_type('application/json')->set_output($data);  /*Returns title and author of article and article_id.Use article_id as token for all future actions.
 															//Pass article_sec tag passed above*/
 	}
 
@@ -217,9 +218,12 @@ class Articles extends CI_Controller
 	{
 		if(!empty($this->session->userdata('username')))
 		return $this->articles_model->vote($article_id,1);	
-		else{
-			//load login view
-		}
+		// else{
+		// 	return 5;
+		// }
+			$data = array('response'=>5);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);
 
 				/*Does an upvote in  db. 
 																	Returns 1 if successful.
@@ -250,10 +254,12 @@ class Articles extends CI_Controller
 
 	{
 		if(!empty($this->session->userdata('username')))
-		$this->articles_model->comment_vote($comment_id,1);	
+		$data=json_encode($this->articles_model->comment_vote($comment_id,1));	
 		else{
-			//load login view
-		}
+			}
+			
+			
+		
 
 											/*Does an upvote in  db. 
 																		Returns 1 if successful.
@@ -290,7 +296,7 @@ public function commentvotechk($comm_id){
 public function articlevotechk($art_id){
 
       
-      return $this->articles_model->article_vote_chk($art_id);   //Use to know what colour of upvote/downvote to display for the pirticular user for articles
+      return  $this->articles_model->article_vote_chk($art_id);   //Use to know what colour of upvote/downvote to display for the pirticular user for articles
                                                                         // retursn 0 if not voted beofre, 1 if upvoted before,-1 if downvoted before
 
 }
