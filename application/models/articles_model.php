@@ -11,7 +11,7 @@ class Articles_model extends CI_Model
 	{
 		
 
-		if($this->input->post('tag1'))
+		/*if($this->input->post('tag1'))
 			$tag1=$this->input->post('tag1');
 		if($this->input->post('tag2'))
 			$tag2=$this->input->post('tag2');
@@ -20,7 +20,8 @@ class Articles_model extends CI_Model
 		if($this->input->post('tag4'))
 			$tag4=$this->input->post('tag4');
 		if($this->input->post('tag5'))
-			$tag5=$this->input->post('tag5');
+			$tag5=$this->input->post('tag5');*/
+		$data = explode(',',$this->input->post(tag));
 
 		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
  			
