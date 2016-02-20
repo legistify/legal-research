@@ -24,11 +24,10 @@ class Forum extends CI_Controller
 				$question->answer[0]->answer= $this->truncate($question->answer[0]->answer,15,'',true,true);
 			}
 			$question->tags = $this->forum_model->get_tags($question->id);
-
 		}
+
 		$json_data = json_encode($data);
 		$this->output->set_content_type('application/json')->set_output($json_data);
-
 	}
 
 	public function view_more($ans_id)

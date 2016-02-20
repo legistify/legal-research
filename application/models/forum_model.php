@@ -12,44 +12,42 @@ class Forum_model extends CI_Model
 
 	public function fetch_ques()
 	{
-				if($this->input->post('tag1'))
-			$tag1=$this->input->post('tag1');
-		if($this->input->post('tag2'))
-			$tag2=$this->input->post('tag2');
-		if($this->input->post('tag3'))
-			$tag3=$this->input->post('tag3');
-		if($this->input->post('tag4'))
-			$tag4=$this->input->post('tag4');
-		if($this->input->post('tag5'))
-			$tag5=$this->input->post('tag5');
-		// echo $this->input->post('data');
-		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
- 			
- 			$query_str =  "SELECT questions.id,questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
+		$data = explode( ',' ,$this->input->post('tag'));
+		// print_r($data);
+		if(sizeof($data)==1 && $data[0]=='')
+		{
+			$query_str = "SELECT questions.id, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id ORDER BY questions.upvotes DESC";
+		}
+		else if(sizeof($data)==1){
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]'
   GROUP BY questions.id ";
 		}
-		 else if($this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
-  GROUP BY questions.id ";
-		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
+		else if (sizeof($data)==2) {
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
  GROUP BY questions.id ";
 		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
+		else if (sizeof($data)==3) {
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]'
   GROUP BY questions.id ";
 		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
+		else if (sizeof($data)==4) {
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
   GROUP BY questions.id ";
 		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && $this->input->post('tag5')) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
+		else if (sizeof($data)==5) {
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
   GROUP BY questions.id ";
 		}
+		else
+		{
+			$query_str = "SELECT questions.id,questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id ORDER BY questions.upvotes DESC";
+		}
+
+
 		if($this->input->post('sort')=='Upvotes')
+		{
 			$query_str.=" ORDER BY questions.upvotes DESC";
+		}
 
 		$query = $this->db->query($query_str);
 		return $query->result(); 
@@ -106,20 +104,21 @@ class Forum_model extends CI_Model
 					  'downvotes' =>0
 					  );
 		$this->db->insert('questions',$data);
+		$data  = explode(',',$this->input->post('tag'));
 		if($this->db->affected_rows() >0)
 		{
 			$tag=array();
 
-		    if($this->input->post('tag1'))
-			$tag[1]=$this->input->post('tag1');
-		     if($this->input->post('tag2'))
-			$tag[2]=$this->input->post('tag2');
-		    if($this->input->post('tag3'))
-			$tag[3]=$this->input->post('tag3');
-		    if($this->input->post('tag4'))
-			$tag[4]=$this->input->post('tag4');
-		    if($this->input->post('tag5'))
-			$tag[5]=$this->input->post('tag5');
+		    if(sizeof($data)==1 && $data[0]!='')
+			$tag[0]=$data[0];
+		     if(sizeof($data)==2)
+			$tag[1]=$data[1];
+		    if(sizeof($data)==3)
+			$tag[2]=$data[2];
+		    if(sizeof($data)==4)
+			$tag[3]=$data[3];
+		    if(sizeof($data)==5)
+			$tag[4]=$data[4];
 		     $query_str ="SELECT *  FROM `questions` ORDER BY id DESC LIMIT 1";
 		     $id=$this->db->query($query_str)->row_array()['id'];
 		     //$id+=1;
