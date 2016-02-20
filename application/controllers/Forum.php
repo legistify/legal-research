@@ -9,7 +9,7 @@ class Forum extends CI_Controller
 		$this->load->library('email');
 		$this->load->library('session');
 		$this->load->model('forum_model');
-		$userdata = array('unnamed'=>'pankaj.arora');
+		$userdata = array('unnamed'=>'psoqlmd');
 		$this->session->set_userdata($userdata);
 
 	}
@@ -78,6 +78,10 @@ class Forum extends CI_Controller
 
 	public function post()
 	{
+		print_r($this->input->post('tag'));
+		print_r($this->input->post('sort'));
+		print_r($this->input->post('description'));
+		print_r($this->input->post('title'));
 		$return = $this->forum_model->post_ques($this->session->userdata('unnamed'));
 		$url = './forum/';
 		redirect($url);

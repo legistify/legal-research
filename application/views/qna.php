@@ -116,7 +116,7 @@
                         </select>
                         <select name="sort" class="js-example-basic-hide-search">
                           <option value="latest">Latest</option>
-                          <option value="latest">Upvotes</option>
+                          <option value="Upvotes">Upvotes</option>
                         </select>
                         <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#ask_ques">Ask a question</div>
     				</div>
@@ -265,7 +265,7 @@
                       <div class="row">
                           <div class="col-xs-12">
                               <div class="gray_back">
-                                  <form method="POST" action="<?php echo base_url() ;?>forum/post">
+                                  <form id="form_questions">
                                             <div class="col-md-12">
                                                 <div class="filter_cont">
                                                     <div class="fil_head">
@@ -273,8 +273,8 @@
                                                     </div>
                                                     <div class="fil_select">
                                                         <select name ="tag" class="js-example-basic-multiple" multiple="multiple">
-                                                          <option value="AL">Alabama</option>
-                                                          <option value="WY">Wyoming</option>
+                                                          <option value="anp">Alabama</option>
+                                                          <option value="agr">Wyoming</option>
                                                           <option value="WY">Wyoming</option>
                                                           <option value="WY">Wyoming</option>
                                                           <option value="WY">Wyoming</option>
@@ -332,6 +332,41 @@ function filter_ques(){
         url: './forum/questions/',
         method: 'POST',
         data:{"tag": tags,"sort":sort},
+        success: function(data){
+            console.log(data);
+            var ques = data.questions;
+            var ele = "";
+            for(var i=0;i<ques.length;i++){
+                 ele += '<div class="rsh_result"> <div class="rsh_result_head"> <div class="result_tags small_light"> <i class="fa fa-tag"></i>';
+                 if(ques[i].tags.length != 0){
+                    ele+=ques[i].tags[0].name;
+                 }
+                for(var x=1;x<ques[i].tags.length;x++){
+                    ele+=','+ques[i].tags[x].name;
+                }
+                ele +='</div> <a href="./forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
+                 if(ques[i].answer.length != 0){
+                    ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="./assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
+                 }
+                 ele += '</div>';
+            }
+
+            ele += '</div>';
+            $('.rsh_results_cont').html(ele);
+        }
+    });
+}
+
+
+function post_ques(){
+    var tags = $('#form_questions select[name="tag"]').val()==null?"":$('#form_questions select[name="tag"]').val().join();
+    var sort = $('#form_questions select[name="sort"]').val();
+    var title = $('#form_questions input[type="text"]').val();
+    var desc = $('#form_questions textarea[name="description"]').val();
+    $.ajax({
+        url: './forum/post/',
+        method: 'POST',
+        data:{"tag": tags,"sort":sort,"title":title,"description":desc},
         success: function(data){
             console.log(data);
             var ques = data.questions;

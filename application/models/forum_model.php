@@ -16,26 +16,26 @@ class Forum_model extends CI_Model
 		// print_r($data);
 		if(sizeof($data)==1 && $data[0]=='')
 		{
-			$query_str = "SELECT questions.id, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id ORDER BY questions.upvotes DESC";
+			$query_str = "SELECT questions.id, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id";
 		}
 		else if(sizeof($data)==1){
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]'
   GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==2) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
  GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==3) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]'
   GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==4) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
   GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==5) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
   GROUP BY questions.id ";
 		}
 		else
@@ -47,6 +47,10 @@ class Forum_model extends CI_Model
 		if($this->input->post('sort')=='Upvotes')
 		{
 			$query_str.=" ORDER BY questions.upvotes DESC";
+		}
+		else if($this->input->post('sort')=='latest')
+		{
+			$query_str.=" ORDER BY datetime DESC";
 		}
 
 		$query = $this->db->query($query_str);
@@ -65,7 +69,7 @@ class Forum_model extends CI_Model
      public function get_tags($ques_id)
  	{
 
- 		$query_str = "SELECT topics.name FROM `topics` JOIN `tag_rel_questions` ON topics.id=tag_rel_questions.topic_id WHERE question_id='$ques_id'";
+ 		$query_str = "SELECT topics.name FROM `topics` JOIN `tag_rel_questions` ON topics.tag=tag_rel_questions.topic_tag WHERE question_id='$ques_id'";
 		$query = $this->db->query($query_str);
 		return $query->result(); 
 
@@ -111,7 +115,7 @@ class Forum_model extends CI_Model
 
 		    if(sizeof($data)==1 && $data[0]!='')
 			$tag[0]=$data[0];
-		     if(sizeof($data)==2)
+		    if(sizeof($data)==2)
 			$tag[1]=$data[1];
 		    if(sizeof($data)==3)
 			$tag[2]=$data[2];
@@ -125,7 +129,7 @@ class Forum_model extends CI_Model
 		   foreach($tag as $key=>$para){
 			   $data = array(
 					  'question_id'=>$id,
-					  'topic_id'=>$tag[$key]
+					  'topic_tag'=>$tag[$key]
 					  );
 
 			$this->db->insert('tag_rel_questions',$data);
