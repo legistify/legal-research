@@ -104,8 +104,8 @@
                 <form class="filter_form">
     				<div class="fil_select">
     					<select name="tag" class="js-example-basic-multiple" multiple="multiple">
-                          <option value="AL">Alabama</option>
-                          <option value="WY">Wyoming</option>
+                          <option value="anp">Alabama</option>
+                          <option value="agr">Wyoming</option>
                           <option value="WY">Wyoming</option>
                           <option value="WY">Wyoming</option>
                           <option value="WY">Wyoming</option>
@@ -272,7 +272,7 @@
                                                         <h1 style="float:left;margin-top:20px;">Browse Questions</h1>
                                                     </div>
                                                     <div class="fil_select">
-                                                        <select class="js-example-basic-multiple" multiple="multiple">
+                                                        <select name ="tag" class="js-example-basic-multiple" multiple="multiple">
                                                           <option value="AL">Alabama</option>
                                                           <option value="WY">Wyoming</option>
                                                           <option value="WY">Wyoming</option>
@@ -283,7 +283,7 @@
                                                           <option value="WY">Wyoming</option>
                                                           <option value="WY">Wyoming</option>
                                                         </select>
-                                                        <select class="js-example-basic-hide-search">
+                                                        <select name="sort" class="js-example-basic-hide-search">
                                                           <option value="views">Views</option>
                                                           <option value="latest">Latest</option>
                                                           <option value="latest">Upvotes</option>
@@ -324,9 +324,9 @@
           </div>
         </div>
 <script>
-filter_ques();
+// filter_ques();
 function filter_ques(){
-    var tags = $('.filter_form select[name="tag"]').val().join();
+    var tags = $('.filter_form select[name="tag"]').val()==null?"":$('.filter_form select[name="tag"]').val().join();
     var sort = $('.filter_form select[name="sort"]').val();
     $.ajax({
         url: './forum/questions/',
@@ -339,19 +339,19 @@ function filter_ques(){
             for(var i=0;i<ques.length;i++){
                  ele += '<div class="rsh_result"> <div class="rsh_result_head"> <div class="result_tags small_light"> <i class="fa fa-tag"></i>';
                  if(ques[i].tags.length != 0){
-                    ele+=ques[i].tags[0];
+                    ele+=ques[i].tags[0].name;
                  }
-                for(var x=1;x<ques[i].tags.length){
-                    ele+=','+ques[i].tags[x];
+                for(var x=1;x<ques[i].tags.length;x++){
+                    ele+=','+ques[i].tags[x].name;
                 }
-                 '</div> <a href="./forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
+                ele +='</div> <a href="./forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
                  if(ques[i].answer.length != 0){
                     ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="./assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
                  }
                  ele += '</div>';
-
-                 
             }
+
+            ele += '</div>';
             $('.rsh_results_cont').html(ele);
            
         }

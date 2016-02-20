@@ -23,41 +23,43 @@ class Articles_model extends CI_Model
 			$tag5=$this->input->post('tag5');*/
 		$data = explode(',',$this->input->post(tag));
 
-		if(!$this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+		if(sizeof($data) ==1 && $data[0]==''){
  			
  			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
   GROUP BY articles.id";
-
-
 		}
 
-		 else if($this->input->post('tag1') && !$this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')){
+		 else if(sizeof($data)==1){
 
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]'
   GROUP BY articles.id";
 
 		}
 
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && !$this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
+		else if (sizeof($data)==2) {
 
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
   GROUP BY articles.id";
 
 		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && !$this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3'
+		else if (sizeof($data)==3) {
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[3]'
   GROUP BY articles.id";
 
 		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && !$this->input->post('tag5')) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4'
+		else if (sizeof($data)==4) {
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
   GROUP BY articles.id";
 
 		}
-		else if ($this->input->post('tag1') && $this->input->post('tag2') && $this->input->post('tag3') && $this->input->post('tag4') && $this->input->post('tag5')) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$tag1' AND tp.tag LIKE '$tag2' AND tp.tag LIKE '$tag3' AND tp.tag LIKE '$tag4' AND tp.tag LIKE '$tag5'
+		else if (sizeof($data)==5) {
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
   GROUP BY articles.id";
 
+		}
+		if($this->input->post('sort')=='Upvotes')
+		{
+			$query_str.=" ORDER BY articles.upvotes DESC";
 		}
 
 		
@@ -154,16 +156,16 @@ class Articles_model extends CI_Model
 		$user_id = $auth_query->row_array()['id'];
 		$tag=array();
 
-		if($this->input->post('tag1'))
-			$tag[1]=$this->input->post('tag1');
-		if($this->input->post('tag2'))
-			$tag[2]=$this->input->post('tag2');
-		if($this->input->post('tag3'))
-			$tag[3]=$this->input->post('tag3');
-		if($this->input->post('tag4'))
-			$tag[4]=$this->input->post('tag4');
-		if($this->input->post('tag5'))
-			$tag[5]=$this->input->post('tag5');
+		   if(sizeof($data)==1 && $data[0]!='')
+			$tag[0]=$data[0];
+		     if(sizeof($data)==2)
+			$tag[1]=$data[1];
+		    if(sizeof($data)==3)
+			$tag[2]=$data[2];
+		    if(sizeof($data)==4)
+			$tag[3]=$data[3];
+		    if(sizeof($data)==5)
+			$tag[4]=$data[4];
 		$query_str ="SELECT *  FROM `articles` ORDER BY id DESC LIMIT 1";
 		$id=$this->db->query($query_str)->row_array()['id'];
 		$id+=1;
