@@ -337,11 +337,11 @@ function filter_ques(){
             var ques = data.questions;
             var ele = "";
             for(var i=0;i<ques.length;i++){
-                 ele += '<div class="rsh_result"> <div class="rsh_result_head"> <div class="result_tags small_light"> <i class="fa fa-tag"></i>';
-                 if(ques[i].tags.length != 0){
-                    ele+=ques[i].tags[0];
-                 }
-                for(var x=1;x<ques[i].tags.length){
+                ele += '<div class="rsh_result"> <div class="rsh_result_head"> <div class="result_tags small_light"> <i class="fa fa-tag"></i>';
+                if(ques[i].tags.length != 0){
+                  ele+=ques[i].tags[0];
+                }
+                for(var x=1;x<ques[i].tags.length;x++){
                     ele+=','+ques[i].tags[x];
                 }
                  '</div> <a href="./forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
@@ -349,11 +349,8 @@ function filter_ques(){
                     ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="./assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
                  }
                  ele += '</div>';
-
-                 
             }
             $('.rsh_results_cont').html(ele);
-           
         }
     });
 }
