@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New pages</title>
+<title>Artciles</title>
 <base href="<?php echo base_url(); ?>"></base>
 <script src="<?php echo base_url(); ?>assets/js/jquery.min(1.11.1).js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/style.css"></link>
@@ -99,7 +99,7 @@
 		<div class="col-md-12">
 			<div class="filter_cont">
 				<div class="fil_head">
-					<h1 style="float:left;margin-top:20px;">Browse Questions</h1>
+					<h1 style="float:left;margin-top:20px;">Browse Articles</h1>
                     
 				</div>
 				<form class="filter_form">
@@ -120,93 +120,51 @@
 		                      <option value="latest">Latest</option>
 		                      <option value="latest">Upvotes</option>
 		                    </select>
-		                    <div class="btn btn-dark ask_que">Ask a question</div>
+		                    <div class="btn btn-dark ask_que">Post A blog</div>
 					</div>
 				</form>
 			</div>
 		</div>
+
+
 		<div class="col-md-12 rsh_results_cont">
+            <?php
+    $id=0;
+   foreach($article_list  as $articles ){ 
+                        $ida=$articles['id'];?>
 			<div class="rsh_result">
 				<div class="rsh_result_head">
 					<div class="result_tags small_light">
-						<i class="fa fa-tag"></i>Divorce, Second Marriage, Divorce, Second Marriage
+						<i class="fa fa-tag"></i><?php    foreach($tag_list as $tags){
+                            
+                                foreach($tags as $name ){
+                                        if($name['article_id']==$ida){                                            
+                                         echo $name['name'].",";
+                                        }      
+                               }
+            }      ?>                      
 					</div>
 					<div class="result_ques">
-						If you have $2M to invest, what kind of business you invest? You do business or anything else?
+						<a href="Articles/view_detail/<?php echo $ida;?>"><?php echo $articles['title'];?></a>
 					</div>
 					<div class="result_info_strip small_light" >
-						By:<span style="color:#333;"> Anonymous  </span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>28 Dec 2015 &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: 88 &nbsp;|&nbsp; Ans: 10+
+						 <i class="fa fa-calendar"></i><?php echo date("d M Y",strtotime($articles['datetime'])); ?> &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: <?php echo $articles['views'];?>
 					</div>
 				</div>
 				<div class="rsh_result_body">
 					<div class="credibility_facts">
 						<div class="cf_img">
-							<img src="./img/people.png">
+							<img src=<?php echo $articles['pic_link'];?>>
 						</div>
 						<div class="cf_facts">
-							<div class="cf_facts_name">Sharat N Darji</div>
-							<div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div>
+							<div class="cf_facts_name"><?php echo $articles['fname'].' '.$articles['lname'];?></div>
+							<div class="cf_facts_descr small_light ellipsis"><?php echo $articles['content'];?></div>
 						</div>
 					</div>
-					<div class="result_ans">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus cumque consequuntur, distinctio sapiente quae. Voluptates libero nobis est reprehenderit voluptatibus, velit, placeat quisquam maxime. Possimus.<span class="view_more">View More</span>
-					</div>
+					
 				</div>
 			</div>
-			<div class="rsh_result">
-				<div class="rsh_result_head">
-					<div class="result_tags small_light">
-						<i class="fa fa-tag"></i>Divorce, Second Marriage, Divorce, Second Marriage
-					</div>
-					<div class="result_ques">
-						If you have $2M to invest, what kind of business you invest? You do business or anything else?
-					</div>
-					<div class="result_info_strip small_light">
-						By: Anonymous   &nbsp;|&nbsp; <i class="fa fa-calendar"></i>28 Dec 2015 &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: 88 &nbsp;|&nbsp; Ans: 10+
-					</div>
-				</div>
-				<div class="rsh_result_body">
-					<div class="credibility_facts">
-						<div class="cf_img">
-							<img src="./img/people.png">
-						</div>
-						<div class="cf_facts">
-							<div class="cf_facts_name">Sharat N Darji</div>
-							<div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div>
-						</div>
-					</div>
-					<div class="result_ans">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus cumque consequuntur, distinctio sapiente quae. Voluptates libero nobis est reprehenderit voluptatibus, velit, placeat quisquam maxime. Possimus.
-					</div>
-				</div>
-			</div>
-			<div class="rsh_result">
-				<div class="rsh_result_head">
-					<div class="result_tags small_light">
-						<i class="fa fa-tag"></i>Divorce, Second Marriage, Divorce, Second Marriage
-					</div>
-					<div class="result_ques">
-						If you have $2M to invest, what kind of business you invest? You do business or anything else?
-					</div>
-					<div class="result_info_strip small_light">
-						By: Anonymous   &nbsp;|&nbsp; <i class="fa fa-calendar"></i>28 Dec 2015 &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: 88 &nbsp;|&nbsp; Ans: 10+
-					</div>
-				</div>
-				<div class="rsh_result_body">
-					<div class="credibility_facts">
-						<div class="cf_img">
-							<img src="./img/people.png">
-						</div>
-						<div class="cf_facts">
-							<div class="cf_facts_name">Sharat N Darji</div>
-							<div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div>
-						</div>
-					</div>
-					<div class="result_ans">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus cumque consequuntur, distinctio sapiente quae. Voluptates libero nobis est reprehenderit voluptatibus, velit, placeat quisquam maxime. Possimus.
-					</div>
-				</div>
-			</div>
+			<?php }?>
 		</div>
 	</div>
 </div>

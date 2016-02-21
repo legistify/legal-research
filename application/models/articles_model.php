@@ -21,39 +21,39 @@ class Articles_model extends CI_Model
 			$tag4=$this->input->post('tag4');
 		if($this->input->post('tag5'))
 			$tag5=$this->input->post('tag5');*/
-		$data = explode(',',$this->input->post(tag));
+		$data = explode(',',$this->input->post('tag'));
 
 		if(sizeof($data) ==1 && $data[0]==''){
  			
- 			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
+ 			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150),`views`, `datetime`,`content`,users.fname,users.lname, `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id 
   GROUP BY articles.id";
 		}
 
 		 else if(sizeof($data)==1){
 
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150),`views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]'
   GROUP BY articles.id";
 
 		}
 
 		else if (sizeof($data)==2) {
 
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150),`views`, `datetime`,`content`,users.fname,users.lname, `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.idLEFT JOIN `users` on users.username=user_lawyer.username  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
   GROUP BY articles.id";
 
 		}
 		else if (sizeof($data)==3) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[3]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[3]'
   GROUP BY articles.id";
 
 		}
 		else if (sizeof($data)==4) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
   GROUP BY articles.id";
 
 		}
 		else if (sizeof($data)==5) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
   GROUP BY articles.id";
 
 		}
@@ -315,7 +315,7 @@ class Articles_model extends CI_Model
      public function get_tags($art_id)
  	{
 
- 		$query_str = "SELECT topics.name FROM topics JOIN tag_rel ON topics.id=Topic_id WHERE article_id=$art_id";
+ 		$query_str = "SELECT topics.name,`article_id` FROM topics JOIN tag_rel ON topics.id=Topic_id WHERE article_id=$art_id";
 		$query = $this->db->query($query_str);
 		return $query->result_array(); 
 

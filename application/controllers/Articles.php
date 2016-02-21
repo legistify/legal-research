@@ -13,19 +13,65 @@ class Articles extends CI_Controller
 
 	public function index()
 	{
-		$topic_list=$this->articles_model->topic_list();
-		//$show_button = $this->articles_model->validate();
-		//array_push($topic_list,$show_button); 
-		$topic_json = json_encode($topic_list); 
-				
-				$data=array(
-  					 "topic_list"=> $topic_list
-					 );
-		           /*Returns list of sections of articles ALong with tag which is to be passed back for view function.
-															(can be implemented by removing comments of corresponding code)=>Also Passed is a boolean at end of json which indicates whether to show post button or not*/
-		$this->load->view('list',$data);
-		return ($topic_json);
+		$articles=$this->articles_model->view();
+
+		$tag_list=array();
+		foreach($articles  as $name ){
+					foreach($name as $key=>$para){
+						    if($key=='id')
+							{
+								$tags=$this->articles_model->get_tags($para);
+							    array_push($tag_list,$tags);
+						    }
+							
+					}
+				}
+
+
 		
+		     $userid=$this->articles_model->userid();
+		 	$data=array(
+  					 "article_list"=> $articles,
+  					 "tag_list"=>$tag_list,
+  					   "userid"=>$userid
+					 );
+		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
+				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
+		$this->load->view('list',$data);
+		
+	}
+
+	public function view_ajax()
+	{
+		$articles=$this->articles_model->view();
+
+		$tag_list=array();
+		foreach($articles  as $name ){
+					foreach($name as $key=>$para){
+						    if($key=='id')
+							{
+								$tags=$this->articles_model->get_tags($para);
+							    array_push($tag_list,$tags);
+						    }
+							
+					}
+				}
+
+
+		
+		     $userid=$this->articles_model->userid();
+		 	$data=array(
+  					 "article_list"=> $articles,
+  					 "tag_list"=>$tag_list,
+  					   "userid"=>$userid
+					 );
+		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
+				//				
+		    
+
+		$data =  json_encode($data); 
+		$this->output->set_content_type('application/json')->set_output($data);  /*Returns title and author of article and article_id.Use article_id as token for all future actions.
+															//Pass article_sec tag passed above*/
 	}
 
 	public function view()
@@ -36,31 +82,31 @@ class Articles extends CI_Controller
 		return json_encode($query->result_array());*/
 		$articles=$this->articles_model->view();
 
-		// $comment_list=array();
-		// foreach($articles  as $name ){
-		// 			foreach($name as $key=>$para){
-		// 				    if($key=='id')
-		// 					{
-		// 						$comments=$this->articles_model->get_comments($para);
-		// 					    array_push($comment_list,$comments);
-		// 				    }
+		$tag_list=array();
+		foreach($articles  as $name ){
+					foreach($name as $key=>$para){
+						    if($key=='id')
+							{
+								$tags=$this->articles_model->get_tags($art_id);
+							    array_push($tag_list,$tags);
+						    }
 							
-		// 			}
-		// 		}
+					}
+				}
+
+
 		
 		     $userid=$this->articles_model->userid();
 		 	$data=array(
   					 "articles"=> $articles,
-  					// "comment_list"=>$comment_list,
+  					 "tag_list"=>$tag_list,
   					   "userid"=>$userid
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
-		//$this->load->view('articleview',$data);
+		$this->load->view('list',$data);
 
-		$data =  json_encode($data); 
-		$this->output->set_content_type('application/json')->set_output($data);  /*Returns title and author of article and article_id.Use article_id as token for all future actions.
-															//Pass article_sec tag passed above*/
+		  
 	}
 
 	public function view_detail($art_id)
@@ -68,7 +114,7 @@ class Articles extends CI_Controller
 	{
 
 		$articles=$this->articles_model->detail_view($art_id);
-		$tags=$comments=$this->articles_model->get_tags($art_id);
+		$tags=$this->articles_model->get_tags($art_id);
 		$comment_list=array();
 		//foreach($articles  as $name ){
 					foreach($articles as $key=>$para){
@@ -216,19 +262,22 @@ class Articles extends CI_Controller
 	public function upvote_article($article_id)
 
 	{
-		if(!empty($this->session->userdata('username')))
-		return $this->articles_model->vote($article_id,1);	
-		// else{
+		if(!empty($this->session->userdata('username'))){
+		$i= $this->articles_model->vote($article_id,1);
+		$data = array('response'=>$i);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);	}
+		else{
 		// 	return 5;
 		// }
-			$data = array('response'=>5);
+			$data = array('response'=>$i);
 			$data=json_encode($data);
 			 $this->output->set_content_type('application/json')->set_output($data);
-
+}
 				/*Does an upvote in  db. 
+			}														Returns 1 if successful.
 																	Returns 1 if successful.
-																	Returns 1 if successful.
-																	Returns 1 if successful.
+																	Returns 1 if successful.  5 if not logged in
 																	0 if not.
 																	-1 if wrong parameter. Call via AJAX.Pass art_id provided in JSON.
 																	Second parameter of vote() is for model donot change/change at both places.*/
@@ -237,9 +286,16 @@ class Articles extends CI_Controller
 	public function downvote_article($article_id)
 
 	{
-			if(!empty($this->session->userdata('username')))
-		return $this->articles_model->vote($article_id,-1);	
+			if(!empty($this->session->userdata('username'))){
+		$i= $this->articles_model->vote($article_id,-1);	
+	        $data = array('response'=>$i);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);}
 		else{
+
+			$data = array('response'=>5);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);
 			//load login view
 		}		/*Does an downvote in  db. 
 																	Returns 1 if successful.
@@ -253,9 +309,17 @@ class Articles extends CI_Controller
     public function upvote_comment($comment_id)
 
 	{
-		if(!empty($this->session->userdata('username')))
-		$data=json_encode($this->articles_model->comment_vote($comment_id,1));	
+		if(!empty($this->session->userdata('username'))){
+		$i=$this->articles_model->comment_vote($comment_id,1);	
+		$data = array('response'=>$i);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);
+	}
 		else{
+
+			$data = array('response'=>5);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);
 			}
 			
 			
@@ -272,9 +336,17 @@ class Articles extends CI_Controller
 
 	public function downvote_comment($comment_id)
 	{	
-		if(!empty($this->session->userdata('username')))
-		return $this->articles_model->comment_vote($comment_id,-1);	
+		if(!empty($this->session->userdata('username'))){
+		$i= $this->articles_model->comment_vote($comment_id,-1);	
+		$data = array('response'=>$i);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);
+	}
 		else{
+
+			$data = array('response'=>5);
+			$data=json_encode($data);
+			 $this->output->set_content_type('application/json')->set_output($data);
 			//load login view
 		}				/*Does an downvote in  db. 
 																	Returns 1 if successful.
