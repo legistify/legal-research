@@ -329,7 +329,7 @@ function filter_ques(){
     var tags = $('.filter_form select[name="tag"]').val()==null?"":$('.filter_form select[name="tag"]').val().join();
     var sort = $('.filter_form select[name="sort"]').val();
     $.ajax({
-        url: './questions/',
+        url: './forum/questions/',
         method: 'POST',
         data:{"tag": tags,"sort":sort},
         success: function(data){
@@ -364,7 +364,7 @@ function post_ques(){
     var title = $('#form_questions input[type="text"]').val();
     var desc = $('#form_questions textarea[name="description"]').val();
     $.ajax({
-        url: './post/',
+        url: './forum/post/',
         method: 'POST',
         data:{"tag": tags,"sort":sort,"title":title,"description":desc},
         success: function(data){
