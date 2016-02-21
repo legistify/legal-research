@@ -87,7 +87,7 @@ class Articles extends CI_Controller
 					foreach($name as $key=>$para){
 						    if($key=='id')
 							{
-								$tags=$this->articles_model->get_tags($art_id);
+								$tags=$this->articles_model->get_tags($para);
 							    array_push($tag_list,$tags);
 						    }
 							

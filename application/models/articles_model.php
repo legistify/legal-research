@@ -38,22 +38,22 @@ class Articles_model extends CI_Model
 
 		else if (sizeof($data)==2) {
 
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150),`views`, `datetime`,`content`,users.fname,users.lname, `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.idLEFT JOIN `users` on users.username=user_lawyer.username  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150),`views`, `datetime`,`content`,users.fname,users.lname, `Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.idLEFT JOIN `users` on users.username=user_lawyer.username  LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]'
   GROUP BY articles.id";
 
 		}
 		else if (sizeof($data)==3) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[3]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]' OR tp.tag LIKE '$data[3]'
   GROUP BY articles.id";
 
 		}
 		else if (sizeof($data)==4) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]' OR tp.tag LIKE '$data[2]' OR tp.tag LIKE '$data[3]'
   GROUP BY articles.id";
 
 		}
 		else if (sizeof($data)==5) {
-			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
+			$query_str = "SELECT articles.id,tp.name, `title`,LEFT(content,150), `views`, `datetime`,`content`,users.fname,users.lname,`Upvotes`,`Downvotes`,user_lawyer.username,user_lawyer.pic_link FROM `articles` JOIN `user_lawyer` ON articles.user_id=user_lawyer.id LEFT JOIN `users` on users.username=user_lawyer.username LEFT JOIN `tag_rel` AS tr ON articles.id = tr.article_id LEFT JOIN `topics` AS tp ON tr.topic_id = tp.id WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]' OR tp.tag LIKE '$data[2]' OR tp.tag LIKE '$data[3]' OR tp.tag LIKE '$data[4]'
   GROUP BY articles.id";
 
 		}

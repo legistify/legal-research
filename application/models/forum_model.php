@@ -23,19 +23,19 @@ class Forum_model extends CI_Model
   GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==2) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]'
  GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==3) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]' OR tp.tag LIKE '$data[2]'
   GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==4) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]' OR tp.tag LIKE '$data[2]' OR tp.tag LIKE '$data[3]'
   GROUP BY questions.id ";
 		}
 		else if (sizeof($data)==5) {
-			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' AND tp.tag LIKE '$data[1]' AND tp.tag LIKE '$data[2]' AND tp.tag LIKE '$data[3]' AND tp.tag LIKE '$data[4]'
+			$query_str = "SELECT questions.id,tp.name, questions.title,questions.description, questions.upvotes,questions.downvotes,questions.datetime,users.username FROM `questions` JOIN `users` ON questions.user_id=users.id  LEFT JOIN `tag_rel_questions` AS tr ON questions.id = tr.question_id LEFT JOIN `topics` AS tp ON tr.topic_tag = tp.tag WHERE tp.tag LIKE '$data[0]' OR tp.tag LIKE '$data[1]' OR tp.tag LIKE '$data[2]' OR tp.tag LIKE '$data[3]' OR tp.tag LIKE '$data[4]'
   GROUP BY questions.id ";
 		}
 		else
