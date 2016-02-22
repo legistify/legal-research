@@ -72,11 +72,11 @@
                     <?php echo $question[0]->description?>
                     </div>
                     <div class="result_info_strip small_light">
-                        By: <?php echo $question[0]->username?>  &nbsp;|&nbsp; <i class="fa fa-calendar"></i><?php echo $question[0]->datetime?> &nbsp;|&nbsp; <a href='./../vote_que/<?php echo $question[0]->id?>'><i class="fa fa-arquestion[0]-up"></i></a>Upvotes: <?php echo $question[0]->upvotes?>
+                        By: <?php echo $question[0]->username?>  &nbsp;|&nbsp; <i class="fa fa-calendar"></i><?php echo $question[0]->datetime?> &nbsp;|&nbsp; <a href='<?php echo base_url()?>forum/vote_que/<?php echo $question[0]->id?>'><i class="fa fa-arquestion[0]-up"></i></a>Upvotes: <?php echo $question[0]->upvotes?>
                     </div>
                 </div>
                 <?php if($user_type== 'l'):?>
-                <button class="write_ans btn btn-dark" data-toggle="modal" data-target="#write_ans">Write</button>
+                <button class="write_ans btn btn-dark" data-toggle="modal" data-target="#write_ans">Write Answer</button>
             <?php endif;?>
             </div>
             <div>
@@ -102,14 +102,14 @@
                         <?php echo $row->answer?>
                     </div>
                     <div class="small_light rsh_ans_votes">
-                        <a href = './../vote_ans/<?php echo $row->id?>/1'><i class="fa fa-arrow-up"></i></a>Upvotes: <?php echo $row->upvotes?> &nbsp;|&nbsp;
-                        <a href = './../vote_ans/<?php echo $row->id?>/0' ><i class="fa fa-arrow-down"></i></a>Downvotes: <?php echo $row->downvotes;?>
+                        <a href = '<?php echo base_url()?>forum/vote_ans/<?php echo $row->id?>/1'><i class="fa fa-arrow-up"></i></a>Upvotes: <?php echo $row->upvotes?> &nbsp;|&nbsp;
+                        <a href = '<?php echo base_url()?>forum/vote_ans/<?php echo $row->id?>/0' ><i class="fa fa-arrow-down"></i></a>Downvotes: <?php echo $row->downvotes;?>
                     </div>
                 </div>
                 <div class="comments_body">
                 <div class="credibility_facts">
                     <div class="cf_img">
-                        <img src="../../assets/img/people.png">
+                        <img src="<?php echo base_url()?>assets/img/people.png">
                     </div>
                     <div class="cf_facts">
                         <form action='<?php echo base_url()?>forum/comment_a/<?php echo $row->id?>' method="post">
@@ -130,7 +130,7 @@
                         <?php echo $comment->comment?>
                         </div>
                         <div class="result_info_strip small_light">
-                            <?php echo $comment->datetime?> &nbsp;|&nbsp; <a href="./../vote_comm/<?php echo $comment->id?>">Likes: <?php echo $comment->votes?></a>&nbsp;
+                            <?php echo $comment->datetime?> &nbsp;|&nbsp; <a href="<?php echo base_url()?>forum/vote_comm/<?php echo $comment->id?>">Likes: <?php echo $comment->votes?></a>&nbsp;
                         </div>
                     </div>
                 </div>

@@ -131,7 +131,7 @@
 					<div class="result_tags small_light">
 						<i class="fa fa-tag"></i><?php if(!empty($row->tags)) :echo $row->tags[0]->name;endif;?><?php for($i=1;$i<sizeof($row->tags);$i++): echo ','.$row->tags[$i]->name;endfor;?>
 					</div>
-					<a href='./forum/answer/<?php echo $row->id?>' style="text-decorations:none; color:inherit;"><div class="result_ques">
+					<a href="<?php echo base_url()?>forum/answer/<?php echo $row->id?>" style="text-decorations:none; color:inherit;"><div class="result_ques">
                         <?php echo $row->title;?>
 					</div></a>
 					<div class="result_info_strip small_light" >
@@ -142,10 +142,10 @@
 				<div class="rsh_result_body">
 					<div class="credibility_facts">
 						<div class="cf_img">
-                            <?php if($row->answer[0]->pic_link==''):?>
+                            <?php if($row->answer[0]->pic_link!=''):?>
 							<img src=<?php echo $row->answer[0]->pic_link?>>
                             <?php else:?>
-                            <img src="<?php echo base_url();?>img/people.png">
+                            <img src="<?php echo base_url()?>assets/img/people.png">
                             <?php endif;?>
 						</div>
 						<div class="cf_facts">
@@ -284,9 +284,8 @@
                                                           <option value="WY">Wyoming</option>
                                                         </select>
                                                         <select name="sort" class="js-example-basic-hide-search">
-                                                          <option value="views">Views</option>
                                                           <option value="latest">Latest</option>
-                                                          <option value="latest">Upvotes</option>
+                                                          <option value="Upvotes">Upvotes</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -312,7 +311,7 @@
                                       </div>
                                        
                                       <div class="col-md-5 col-md-offset-5"> 
-                                       <button type="submit" class="btn btn-dark">Post Question</button>
+                                       <button type="submit" class="btn btn-dark" onclick="post_ques()">Post Question</button>
                                       </div> 
 
                                   </form>
@@ -329,7 +328,7 @@ function filter_ques(){
     var tags = $('.filter_form select[name="tag"]').val()==null?"":$('.filter_form select[name="tag"]').val().join();
     var sort = $('.filter_form select[name="sort"]').val();
     $.ajax({
-        url: './forum/questions/',
+        url: '<?php echo base_url()?>forum/questions/',
         method: 'POST',
         data:{"tag": tags,"sort":sort},
         success: function(data){
@@ -344,9 +343,9 @@ function filter_ques(){
                 for(var x=1;x<ques[i].tags.length;x++){
                     ele+=','+ques[i].tags[x].name;
                 }
-                ele +='</div> <a href="./forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
+                ele +='</div> <a href="<?php echo base_url()?>forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
                  if(ques[i].answer.length != 0){
-                    ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="./assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
+                    ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="<?php echo base_url()?>assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
                  }
                  ele += '</div>';
             }
@@ -364,31 +363,9 @@ function post_ques(){
     var title = $('#form_questions input[type="text"]').val();
     var desc = $('#form_questions textarea[name="description"]').val();
     $.ajax({
-        url: './forum/post/',
+        url: '<?php echo base_url()?>forum/post/',
         method: 'POST',
         data:{"tag": tags,"sort":sort,"title":title,"description":desc},
-        success: function(data){
-            console.log(data);
-            var ques = data.questions;
-            var ele = "";
-            for(var i=0;i<ques.length;i++){
-                 ele += '<div class="rsh_result"> <div class="rsh_result_head"> <div class="result_tags small_light"> <i class="fa fa-tag"></i>';
-                 if(ques[i].tags.length != 0){
-                    ele+=ques[i].tags[0].name;
-                 }
-                for(var x=1;x<ques[i].tags.length;x++){
-                    ele+=','+ques[i].tags[x].name;
-                }
-                ele +='</div> <a href="./forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
-                 if(ques[i].answer.length != 0){
-                    ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="./assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
-                 }
-                 ele += '</div>';
-            }
-
-            ele += '</div>';
-            $('.rsh_results_cont').html(ele);
-        }
     });
 }
 </script>
