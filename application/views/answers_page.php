@@ -106,9 +106,14 @@
                         <?php echo $row->answer?>
                     </div>
                     <div class="small_light rsh_ans_votes">
-                        <a href = '<?php echo base_url()?>forum/vote_ans/<?php echo $row->id?>/1'><i class="fa fa-arrow-up"></i></a>Upvotes: <?php echo $row->upvotes?> &nbsp;|&nbsp;
+                        <span class="inline_block_disp"><a href = '<?php echo base_url()?>forum/vote_ans/<?php echo $row->id?>/1'><i class="fa fa-arrow-up"></i></a>Upvotes: <?php echo $row->upvotes?> 
+                        </span>
+                        &nbsp;|&nbsp;
+                        <span class="inline_block_disp">
                         <a href = '<?php echo base_url()?>forum/vote_ans/<?php echo $row->id?>/0' ><i class="fa fa-arrow-down"></i></a>Downvotes: <?php echo $row->downvotes;?>
-                        |&nbsp;<span class="share pointer"><i class="fa fa-share-alt"></i>Share</span>
+                        </span>
+                        &nbsp;|&nbsp;
+                        <span class="share pointer inline_block_disp"><i class="fa fa-share-alt"></i>Share</span>
                     </div>
                 </div>
                 <div class="comments_open">View Comments</div>

@@ -70,7 +70,19 @@
                         <?php echo $articles['title'];?>
                     </div>
                     <div class="result_info_strip small_light">
-                        <i class="fa fa-calendar"></i><?php echo date("d M Y",strtotime($articles['datetime'])); ?> &nbsp;|&nbsp; <i class="fa fa-eye"></i>Views: <?php echo $articles['views'];?> &nbsp;|&nbsp;  <span class="upvote_it pointer <?php   if ('articles/articlevotechk/'.$articles['id']==1) :echo 'color-blue'; endif;?>" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote: <?php echo $articles['Upvotes'];?></span>
+                        <span class="inline_block_disp">
+                            <i class="fa fa-calendar"></i><?php echo date("d M Y",strtotime($articles['datetime'])); ?> 
+                        </span>
+                        &nbsp;|&nbsp; 
+                        <span class="inline_block_disp">
+                            <i class="fa fa-eye"></i>Views: <?php echo $articles['views'];?> 
+                        </span>
+                        &nbsp;|&nbsp;
+                        <span class="inline_block_disp upvote_it pointer <?php   if ('articles/articlevotechk/'.$articles['id']==1) :echo 'color-blue'; endif;?>" data-id="<?php echo $articles['id'];?>"> 
+                            <i class="fa fa-arrow-up"></i>Upvote: <?php echo $articles['Upvotes'];?>
+                        </span>
+                        &nbsp;|&nbsp;
+                        <span class="share pointer inline_block_disp"><i class="fa fa-share-alt"></i>Share</span>
                     </div>
                 </div>
             </div>
@@ -92,7 +104,7 @@
                     </div>
                 </div>
                 <div class="result_info_strip" style="margin: 25px 0;">
-                     <span class="upvote_it pointer <?php   if ('articles/articlevotechk/'.$articles['id']==1) :echo 'color-blue'; endif;?>" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote: <?php echo $articles['Upvotes'];?></span> &nbsp;|&nbsp;<span class="downvote_it pointer" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-down"></i>Downvote</span>  <?php echo $articles['Downvotes'];?>&nbsp;|&nbsp;<span class="share pointer"><i class="fa fa-share-alt"></i>Share</span>
+                     <span class="upvote_it pointer <?php   if ('articles/articlevotechk/'.$articles['id']==1) :echo 'color-blue'; endif;?>" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-up"></i>Upvote: <?php echo $articles['Upvotes'];?></span> &nbsp;|&nbsp;<span class="downvote_it pointer" data-id="<?php echo $articles['id'];?>"> <i class="fa fa-arrow-down"></i>Downvote</span>  <?php echo $articles['Downvotes'];?>&nbsp;|&nbsp;<span class="share pointer inline_block_disp"><i class="fa fa-share-alt"></i>Share</span>
                 </div>
             </div>
 
