@@ -12,6 +12,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/style.css"></link>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/newStyle.css"></link>
+<script src="https://www.legistify.com/assets/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
 <style>
 .view_more{
@@ -120,7 +121,7 @@
 		                      <option value="latest">Latest</option>
 		                      <option value="latest">Upvotes</option>
 		                    </select>
-		                    <div class="btn btn-dark ask_que">Post A blog</div>
+		                    <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#post_blog">Post A blog</div>
 					</div>
 				</form>
 			</div>
@@ -259,6 +260,49 @@
     </div>
     </div>
 </footer>
+<div class="modal fade bs-example-modal-sm" id="post_blog" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                      <h3 class="modal-title" id="myModalLabel" align="center">Write a Blog</h3>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <div class="col-xs-12">
+                              <div class="gray_back">
+                                  <form id="form_questions">
+                                      <div class="form-group">
+                                          <div class="col-md-2">
+                                            <label for="name" class="control-label">Title</label>
+                                          </div>
+                                          <div class="col-md-10">
+                                            <input type="text" name="title" class="form-control" required="">
+                                            <span class="help-block"></span>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <div class="col-md-2">
+                                            <label for="comments" class="control-label">Description</label>
+                                          </div>
+                                          <div class="col-md-10">
+                                            <textarea name="description" class="form-control" rows="5"></textarea>
+                                            <span class="help-block"></span>
+                                          </div>
+                                      </div>
+                                       
+                                      <div class="col-md-5 col-md-offset-5"> 
+                                       <button type="submit" class="btn btn-dark" onclick="post_ques()">Post Blog</button>
+                                      </div> 
+
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
 <script>
 function filter_ques(){
     var tags = $('.filter_form select[name="tag"]').val()==null?"":$('.filter_form select[name="tag"]').val().join();
