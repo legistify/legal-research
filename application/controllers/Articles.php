@@ -235,7 +235,7 @@ class Articles extends CI_Controller
 
 
 
-		if(!empty($this->session->userdata('username')))
+		if($this->session->userdata('username'))
 		  return $this->articles_model->addcomment($article_id);
 		 
 		else{
@@ -247,7 +247,7 @@ class Articles extends CI_Controller
 
 
 
-		if(!empty($this->session->userdata('username')))
+		if($this->session->userdata('username'))
 		  return $this->articles_model->addreply($comment_id);
 		 
 		else{
@@ -262,7 +262,7 @@ class Articles extends CI_Controller
 	public function upvote_article($article_id)
 
 	{
-		if(!empty($this->session->userdata('username'))){
+		if($this->session->userdata('username')){
 		$i= $this->articles_model->vote($article_id,1);
 		$data = array('response'=>$i);
 			$data=json_encode($data);
@@ -286,7 +286,7 @@ class Articles extends CI_Controller
 	public function downvote_article($article_id)
 
 	{
-			if(!empty($this->session->userdata('username'))){
+			if($this->session->userdata('username')){
 		$i= $this->articles_model->vote($article_id,-1);	
 	        $data = array('response'=>$i);
 			$data=json_encode($data);
@@ -309,7 +309,7 @@ class Articles extends CI_Controller
     public function upvote_comment($comment_id)
 
 	{
-		if(!empty($this->session->userdata('username'))){
+		if($this->session->userdata('username')){
 		$i=$this->articles_model->comment_vote($comment_id,1);	
 		$data = array('response'=>$i);
 			$data=json_encode($data);
@@ -336,7 +336,7 @@ class Articles extends CI_Controller
 
 	public function downvote_comment($comment_id)
 	{	
-		if(!empty($this->session->userdata('username'))){
+		if($this->session->userdata('username')){
 		$i= $this->articles_model->comment_vote($comment_id,-1);	
 		$data = array('response'=>$i);
 			$data=json_encode($data);
