@@ -35,6 +35,13 @@
     clear: both;
     margin: 15px 0;
 }
+.select_full_width .select2{
+	min-width: 100% !important;
+	max-width: 100% !important;
+}
+.fil_select .select2-selection{
+	border-color: #ccc;
+}
 .fil_select>.js-example-basic-multiple,.fil_select>.js-example-basic-multiple + .select2{
     display:inline-block;
     width: 400px !important;
@@ -266,30 +273,6 @@
                           <div class="col-xs-12">
                               <div class="gray_back">
                                   <form id="form_questions">
-                                            <div class="col-md-12">
-                                                <div class="filter_cont">
-                                                    <div class="fil_head">
-                                                        <h1 style="float:left;margin-top:20px;">Browse Questions</h1>
-                                                    </div>
-                                                    <div class="fil_select">
-                                                        <select name ="tag" class="js-example-basic-multiple" multiple="multiple">
-                                                          <option value="anp">Alabama</option>
-                                                          <option value="agr">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                          <option value="WY">Wyoming</option>
-                                                        </select>
-                                                        <select name="sort" class="js-example-basic-hide-search">
-                                                          <option value="latest">Latest</option>
-                                                          <option value="Upvotes">Upvotes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
                                       <div class="form-group">
                                           <div class="col-md-2">
                                             <label for="name" class="control-label">Title</label>
@@ -299,7 +282,26 @@
                                             <span class="help-block"></span>
                                           </div>
                                       </div>
-
+									  <div class="form-group">
+                                          <div class="col-md-2">
+                                            <label for="name" class="control-label">Select Tags</label>
+                                          </div>
+                                          <div class="col-md-10">
+                                          	<div class="fil_select select_full_width" style="margin:0;margin-top:-10px">
+                                            <select name ="tag" class="js-example-basic-multiple" multiple="multiple">
+                                              <option value="anp">Alabama</option>
+                                              <option value="agr">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                              <option value="WY">Wyoming</option>
+                                            </select>
+                                            </div>
+                                          </div>
+                                      </div>
                                       <div class="form-group">
                                           <div class="col-md-2">
                                             <label for="comments" class="control-label">Description</label>

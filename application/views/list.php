@@ -5,13 +5,13 @@
 <title>Artciles</title>
 <base href="<?php echo base_url(); ?>"></base>
 <script src="<?php echo base_url(); ?>assets/js/jquery.min(1.11.1).js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/style.css"></link>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/newStyle.css"></link>
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css">
 <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/style.css"></link>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/newStyle.css"></link>
 <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
 <style>
 .view_more{

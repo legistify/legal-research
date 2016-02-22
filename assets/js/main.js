@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	$('.comments_open').click(function(){
+		$(this).next().css('height','auto');
+	});
 	$(".js-example-basic-multiple").select2({
 		placeholder: "Select tags to filter",
 		maximumSelectionLength: 5,

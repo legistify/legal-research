@@ -1,11 +1,10 @@
 /*Direct for tags properties*/
 *{
-    font-family:'Open sans',sans-serif;
+    font-family:'Open sans';
 }
 body,html {
     width: 100%;
     height: 100%;
-    overflow-x: hidden;
 }
 body {
     webkit-tap-highlight-color: rgba(255,255,255,.2);
@@ -19,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 p {
     margin: 0 0 25px;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 1.5;
     font-color:#818080;
 }
@@ -88,7 +87,20 @@ img::-moz-selection {
 .scrollerBar div::-webkit-scrollbar-track {
     background-color: #e9e9eb; 
 }
- 
+.mar_bot_10{
+    margin-bottom:10px;
+}
+.close_but{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    opacity: 0.5;
+    cursor: pointer;
+}
+.close_but:hover{
+    opacity: 1;
+}
 .scrollerBar div::-webkit-scrollbar-thumb {
     background-color: #232c3c; 
 }
@@ -100,6 +112,23 @@ img::-moz-selection {
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
     border-top:none;
 }  
+.center_tabs>li{
+    float: none;
+    display: inline-block;
+}
+.ui_default_tabs>li>a{
+    border:0;
+    background-color: transparent !important;
+    border-bottom: 3px solid transparent;
+}
+.ui_default_tabs>li>a:hover{
+    border:0;
+    color: #000;
+}
+.ui_default_tabs>li.active>a, .ui_default_tabs>li.active>a:focus, .ui_default_tabs>li.active>a:hover{
+    border-bottom: 3px solid black;
+    color: #000;
+}
 .carousel-caption{
     margin-top: 10px; 
     padding-bottom: 100px;
@@ -110,10 +139,21 @@ img::-moz-selection {
     font-weight: 1000;
     font-size: 30px;
 }
+.small_light{
+    color: #555;
+    font-size: 0.9em;
+}
 .superdark{
     font-variant: bold;
     font-weight: 900;
     color:#000;
+}
+.gray_back{
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    float: left;
+    width: 100%;
+    padding: 10px;
 }
 .btn-circle {
     width: 70px;
@@ -263,6 +303,9 @@ img::-moz-selection {
     padding-top: 100px;
     color:#818080;
 }
+.select2 {
+    width: 100% !important;
+}
 .form-group {
     text-align: left;
 }
@@ -275,6 +318,9 @@ img::-moz-selection {
     font-size: 19px;
     color: white;
     font-weight: 700;
+}
+.pull_row_in,.pull_row_in .row{
+    margin: 0px;
 }
 .reset-this {
     animation : none;
@@ -503,6 +549,13 @@ img::-moz-selection {
 .open > .my_list > ul{
     display:block !important;
 }
+.menu_name{
+    color: #000;
+    padding: 3px 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .my_list{
     clear: both;
 }
@@ -654,9 +707,7 @@ footer a:hover {
     -o-background-size: cover;
 }
 .intro .intro-body {
-    display: table-cell;
     position: relative;
-
     vertical-align: middle;
 }
 .intro .intro-body .brand-heading {
@@ -751,6 +802,20 @@ footer a:hover {
     }
 }
 /*about page END*/
+.introForLawyers {
+    display: table;
+    width: 100%;
+    height: 100%;
+    max-height: 500px;
+    text-align: center;
+    color: #fff;
+    background: url(../img/ForLawyers_Main.png) no-repeat bottom center scroll;
+    background-color: #fff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
 /*career*/
 .introCareer {
     display: table;
@@ -793,11 +858,16 @@ footer a:hover {
 }
 /*tutorial END*/
 /*for pending documents*/
+.pending_tab{
+    display: table;
+    position: relative;
+    width:100%;
+    padding: 15px 0;
+    border-bottom: 1px solid #999;
+}
 .pending_thumb{
-    margin-top:20px;
-    width:80%;
     border:1px solid #232c3c;
-    max-width: 100px;
+    max-width: 102px;
 }
 /*for pending documents END*/
 /*for categories.php page*/
@@ -1059,6 +1129,9 @@ footer a:hover {
     color: black;
 }
 
+.h3career{
+    color:black;
+}
 
 @media (max-width: 767px){
     #right_panel{

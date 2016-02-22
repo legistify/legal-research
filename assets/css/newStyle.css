@@ -1,3 +1,9 @@
+.pointer{
+    cursor:pointer;
+}
+.inline_block_disp{
+    display:inline-block;
+}
 .small_light{
     color: #555;
     font-size: 0.9em;
@@ -92,17 +98,15 @@ i{
     margin-top: 15px;
     font-size: 1.3em;
 }
-.write_ans{
-    display:inline;
-    padding: 5px;
-    color: #fff;
-    border: 1px solid #fff;
-    cursor: pointer;
-    -webkit-transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out;
+.comments_body{
+    overflow: hidden;
+    height:0px;
 }
-.write_ans:hover{
-    background-color: #fff;
-    color: #000;
+.comments_open{
+    display: inline-block;
+    margin-bottom: 10px;
+    cursor:pointer;
+}
+.comments_open:hover{
+    text-decoration: underline;
 }
