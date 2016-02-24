@@ -110,7 +110,7 @@
 				</div>
         <form class="filter_form">
           <div class="fil_select">
-            <div style="display:inline-block;max-width:100%">
+            <div class="filter" style="display:inline-block;max-width:100%">
               <select name="tag" class="js-example-basic-multiple" multiple="multiple">
                 <option value="anp">Alabama</option>
                 <option value="agr">Wyoming</option>
@@ -359,7 +359,7 @@ function filter_ques(){
 }
 
 var sel_to;
-$('select[name="tag"]').change(function(){
+$('.filter select[name="tag"]').change(function(){
   if(sel_to != null){
     clearTimeout(sel_to);
   }
@@ -367,17 +367,21 @@ $('select[name="tag"]').change(function(){
     filter_ques();
   }, 2000);
 });
-$('select[name="sort"]').change(function(){
+$('.filter select[name="sort"]').change(function(){
   filter_ques();
 });
 function post_ques(){
     var tags = $('#form_questions select[name="tag"]').val()==null?"":$('#form_questions select[name="tag"]').val().join();
     var title = $('#form_questions input[type="text"]').val();
     var desc = $('#form_questions textarea[name="description"]').val();
+    $('#ask_ques').modal('hide');
     $.ajax({
         url: '<?php echo base_url()?>forum/post/',
         method: 'POST',
         data:{"tag": tags,"title":title,"description":desc},
+        success: function(data){
+        	filter_ques();
+        }
     });
 }
 </script>
