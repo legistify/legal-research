@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	$('.comments_open').click(function(){
-		$(this).next().css('height','auto');
-		$(this).fadeOut();
+		$(this).parents('.rsh_ans_body').next().toggleClass('height_auto');
 	});
 	$(".js-example-basic-multiple").select2({
 		placeholder: "Select tags to filter",
