@@ -121,7 +121,7 @@
 		                      <option value="latest">Latest</option>
 		                      <option value="latest">Upvotes</option>
 		                    </select>
-		                    <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#post_blog">Post A blog</div>
+		                    <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#post_blog">Post Article</div>
 					</div>
 				</form>
 			</div>
@@ -265,7 +265,7 @@
             <div class="modal-content ">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                      <h3 class="modal-title" id="myModalLabel" align="center">Write a Blog</h3>
+                      <h3 class="modal-title" id="myModalLabel" align="center">Write Article</h3>
                   </div>
                   <div class="modal-body">
                       <div class="row">
@@ -292,7 +292,7 @@
                                       </div>
                                        
                                       <div class="col-md-5 col-md-offset-5"> 
-                                       <button type="submit" class="btn btn-dark" onclick="post_ques()">Post Blog</button>
+                                       <button type="submit" class="btn btn-dark" onclick="post_ques()">Post Article</button>
                                       </div> 
 
                                   </form>

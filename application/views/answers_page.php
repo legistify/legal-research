@@ -98,7 +98,7 @@
                         <div class="cf_facts">
                             <div class="cf_facts_name"><?php echo $row->username ?></div>
                             <div class="cf_facts_descr small_light ellipsis">
-                            Lorem ipsum dolor sit amet.
+                            Advocate
                             </div>
                         </div>
                     </div>
@@ -250,7 +250,7 @@
             <div class="modal-content ">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                      <h3 class="modal-title" id="myModalLabel" align="center">Write a Answer</h3>
+                      <h3 class="modal-title" id="myModalLabel" align="center">Write an Answer</h3>
                   </div>
                   <div class="modal-body">
                       <div class="row">
@@ -259,7 +259,7 @@
                                   <form method="POST" action="<?php echo base_url() ;?>forum/answer_post/<?php echo $question[0]->id; ?>">
                                       <div class="form-group">
                                           <div class="col-md-2">
-                                            <label for="comments" class="control-label">Comments</label>
+                                            <label for="comments" class="control-label">Answer</label>
                                           </div>
                                           <div class="col-md-10">
                                             <textarea name="answer" class="form-control" rows="5"></textarea>
@@ -268,7 +268,7 @@
                                       </div>
                                        
                                       <div class="col-md-5 col-md-offset-5"> 
-                                       <button type="submit" class="btn btn-dark">Write Answer</button>
+                                       <button type="submit" class="btn btn-dark">Post</button>
                                       </div> 
 
                                   </form>
