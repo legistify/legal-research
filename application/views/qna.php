@@ -358,7 +358,18 @@ function filter_ques(){
     });
 }
 
-
+var sel_to;
+$('select[name="tag"]').change(function(){
+  if(sel_to != null){
+    clearTimeout(sel_to);
+  }
+  sel_to = setTimeout(function() {
+    filter_ques();
+  }, 2000);
+});
+$('select[name="sort"]').change(function(){
+  filter_ques();
+});
 function post_ques(){
     var tags = $('#form_questions select[name="tag"]').val()==null?"":$('#form_questions select[name="tag"]').val().join();
     var title = $('#form_questions input[type="text"]').val();
