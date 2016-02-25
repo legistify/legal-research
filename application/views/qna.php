@@ -163,7 +163,7 @@
 						</div>
 					</div>
 					<div class="result_ans">
-						<?php echo substr($row->answer[0]->answer,0,150); ?><span class="view_more">View More</span>
+						<?php echo substr($row->answer[0]->answer,0,150); ?><span class="view_more" data-id="1">View More</span>
 					</div>
 				</div>
                 <?php endif;?>
@@ -369,6 +369,17 @@ $('.filter select[name="tag"]').change(function(){
 });
 $('.filter select[name="sort"]').change(function(){
   filter_ques();
+});
+$('.view_more').click(function(){
+	var update_ans = $(this).parent();
+	var id = $(this).data('id');
+	$.ajax({
+        url: '<?php echo base_url()?>PUT THE LINK'+id,
+        method: 'POST',
+        success: function(data){
+        	update_ans.html(data);
+        }
+    });
 });
 function post_ques(){
     var tags = $('#form_questions select[name="tag"]').val()==null?"":$('#form_questions select[name="tag"]').val().join();
