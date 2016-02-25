@@ -26,17 +26,17 @@
 .fil_select .select2-selection{
 	border-color: #ccc;
 }
-.fil_select>.js-example-basic-multiple,.fil_select>.js-example-basic-multiple + .select2{
+.fil_select .js-example-basic-multiple,.fil_select .js-example-basic-multiple + .select2{
     display:inline-block;
     width: 400px !important;
     margin: 10px 20px 10px 0;
     min-width: 40%;
     max-width: 90%;
 }
-.fil_select>.js-example-basic-hide-search{
+.fil_select .js-example-basic-hide-search{
     padding: 10px;
 }
-.fil_select>.js-example-basic-hide-search + .select2{
+.fil_select .js-example-basic-hide-search + .select2{
     display: inline-block;
     width: 180px !important;
     margin-right: 10px 20px 10px 0;
@@ -53,26 +53,28 @@
 				<div class="fil_head">
 					<h1 style="float:left;margin-top:20px;">Browse Questions</h1>
 				</div>
-                <form class="filter_form">
-    				<div class="fil_select">
-    					<select name="tag" class="js-example-basic-multiple" multiple="multiple">
-                          <option value="anp">Alabama</option>
-                          <option value="agr">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                          <option value="WY">Wyoming</option>
-                        </select>
-                        <select name="sort" class="js-example-basic-hide-search">
-                          <option value="latest">Latest</option>
-                          <option value="Upvotes">Upvotes</option>
-                        </select>
-                        <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#ask_ques">Ask a question</div>
-    				</div>
-                </form>
+        <form class="filter_form">
+          <div class="fil_select">
+            <div class="filter" style="display:inline-block;max-width:100%">
+              <select name="tag" class="js-example-basic-multiple" multiple="multiple">
+                <option value="anp">Alabama</option>
+                <option value="agr">Wyoming</option>
+                <option value="WY">Wyoming</option>
+                <option value="WY">Wyoming</option>
+                <option value="WY">Wyoming</option>
+                <option value="WY">Wyoming</option>
+                <option value="WY">Wyoming</option>
+                <option value="WY">Wyoming</option>
+                <option value="WY">Wyoming</option>
+              </select>
+              <select name="sort" class="js-example-basic-hide-search">
+                <option value="latest">Latest</option>
+                <option value="Upvotes">Upvotes</option>
+              </select>
+            </div>
+            <div class="btn btn-dark ask_que" data-toggle="modal" data-target="#ask_ques">Ask a question</div>
+          </div>
+        </form>
 			</div>
 		</div>
 		<div class="col-md-12 rsh_results_cont">
@@ -106,7 +108,7 @@
 						</div>
 					</div>
 					<div class="result_ans">
-						<?php echo substr($row->answer[0]->answer,0,150); ?><span class="view_more">View More</span>
+						<?php echo substr($row->answer[0]->answer,0,150); ?><span class="view_more" data-id="1">View More</span>
 					</div>
 				</div>
                 <?php endif;?>
@@ -121,7 +123,7 @@
             <div class="modal-content ">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                      <h3 class="modal-title" id="myModalLabel" align="center">Write a Answer</h3>
+                      <h3 class="modal-title" id="myModalLabel" align="center">Ask Question</h3>
                   </div>
                   <div class="modal-body">
                       <div class="row">
@@ -130,14 +132,14 @@
                                   <form id="form_questions">
                                       <div class="form-group">
                                           <div class="col-md-2">
-                                            <label for="name" class="control-label">Title</label>
+                                            <label for="name" class="control-label">Question</label>
                                           </div>
                                           <div class="col-md-10">
                                             <input type="text" name="title" class="form-control" required="">
                                             <span class="help-block"></span>
                                           </div>
                                       </div>
-									  <div class="form-group">
+                                      <div class="form-group">
                                           <div class="col-md-2">
                                             <label for="name" class="control-label">Select Tags</label>
                                           </div>
@@ -166,11 +168,9 @@
                                             <span class="help-block"></span>
                                           </div>
                                       </div>
-                                       
                                       <div class="col-md-5 col-md-offset-5"> 
-                                       <button type="submit" class="btn btn-dark" onclick="post_ques()">Post Question</button>
+                                        <div class="btn btn-dark" onclick="post_ques()">Post Question</button>
                                       </div> 
-
                                   </form>
                               </div>
                           </div>
@@ -200,7 +200,7 @@ function filter_ques(){
                 for(var x=1;x<ques[i].tags.length;x++){
                     ele+=','+ques[i].tags[x].name;
                 }
-                ele +='</div> <a href="<?php echo base_url()?>forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By:<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
+                ele +='</div> <a href="<?php echo base_url()?>forum/answer/'+ques[i].id+'" style="text-decorations:none; color:inherit;"><div class="result_ques">'+ques[i].title+'</div></a> <div class="result_info_strip small_light"> By &nbsp;<span style="color:#333;">'+ques[i].username+'</span> &nbsp;|&nbsp; <i class="fa fa-calendar"></i>'+ques[i].datetime+'</div> </div>';
                  if(ques[i].answer.length != 0){
                     ele +='<div class="rsh_result_body"> <div class="credibility_facts"> <div class="cf_img"> <img src="<?php echo base_url()?>assets/img/people.png"> </div> <div class="cf_facts"> <div class="cf_facts_name">'+ques[i].answer[0].username+'</div> <div class="cf_facts_descr small_light ellipsis">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, deserunt!</div> </div> </div> <div class="result_ans"> '+ques[i].answer[0].answer+'<span class="view_more">View More</span> </div> </div>';
                  }
@@ -213,16 +213,41 @@ function filter_ques(){
     });
 }
 
-
+var sel_to;
+$('.filter select[name="tag"]').change(function(){
+  if(sel_to != null){
+    clearTimeout(sel_to);
+  }
+  sel_to = setTimeout(function() {
+    filter_ques();
+  }, 2000);
+});
+$('.filter select[name="sort"]').change(function(){
+  filter_ques();
+});
+$('.view_more').click(function(){
+	var update_ans = $(this).parent();
+	var id = $(this).data('id');
+	$.ajax({
+        url: '<?php echo base_url()?>PUT THE LINK'+id,
+        method: 'POST',
+        success: function(data){
+        	update_ans.html(data);
+        }
+    });
+});
 function post_ques(){
     var tags = $('#form_questions select[name="tag"]').val()==null?"":$('#form_questions select[name="tag"]').val().join();
-    var sort = $('#form_questions select[name="sort"]').val();
     var title = $('#form_questions input[type="text"]').val();
     var desc = $('#form_questions textarea[name="description"]').val();
+    $('#ask_ques').modal('hide');
     $.ajax({
         url: '<?php echo base_url()?>forum/post/',
         method: 'POST',
-        data:{"tag": tags,"sort":sort,"title":title,"description":desc},
+        data:{"tag": tags,"title":title,"description":desc},
+        success: function(data){
+        	filter_ques();
+        }
     });
 }
 </script>

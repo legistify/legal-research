@@ -1,6 +1,9 @@
 .pointer{
     cursor:pointer;
 }
+.height_auto{
+    height: auto !important;
+}
 .inline_block_disp{
     display:inline-block;
 }
@@ -106,7 +109,4 @@ i{
     display: inline-block;
     margin-bottom: 10px;
     cursor:pointer;
-}
-.comments_open:hover{
-    text-decoration: underline;
 }

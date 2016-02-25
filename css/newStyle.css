@@ -15,12 +15,6 @@ i{
 .frleft{
     float:right;margin:10px 0;
 }
-@media screen and (max-width:992px){
-    .frleft{
-        clear:both;
-        float: left;
-    }
-}
 .rsh_results_cont{
     clear:both;
     border-top: 1px solid #999;
@@ -91,4 +85,10 @@ i{
 .rsh_ans_votes{
     margin-top: 15px;
     font-size: 1.3em;
+}
+@media screen and (max-width:992px){
+    .frleft{
+        clear:both;
+        float: left;
+    }
 }
