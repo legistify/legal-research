@@ -37,8 +37,9 @@ class Articles extends CI_Controller
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
+		$this->load->view('default/header_legal_research',array('title'=> "Articles")); 	
 		$this->load->view('list',$data);
-		
+		$this->load->view('default/footer_legal_research');		
 	}
 
 	public function view_ajax()
@@ -104,7 +105,10 @@ class Articles extends CI_Controller
 					 );
 		         //  Returns list of sections of articles ALong with tag which is to be passed back for view function.
 				//											Also Passed is a boolean at end of json which indicates whether to show post button or not
+
+		$this->load->view('default/header_legal_research',array('title'=> "Articles")); 	
 		$this->load->view('list',$data);
+		$this->load->view('default/footer_legal_research');
 
 		  
 	}
@@ -147,7 +151,11 @@ class Articles extends CI_Controller
   					   "reply_list"=>$reply_list,
   					   "tags"=>$tags
 					 );
-		 	$this->load->view('blogview',$data);
+
+		    $this->load->view('default/header_legal_research',array('title'=> "Articles")); 	
+		    $this->load->view('blogview',$data);
+		    $this->load->view('default/footer_legal_research'); 	
+		 	
 		//return json_encode($data);     /*Returns a particular article with content and a json entry specifiyng whether
 																				// to show delete button and edit button to User. Call this via AJAX if the user clicks a particular article
 																				// title.Pass art_id as parameter.*/

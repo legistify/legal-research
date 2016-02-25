@@ -34,7 +34,10 @@ class Forum extends CI_Controller
 	{
 		$answer = $this->forum_model->fetch_best_ans($question->id);
 		// print_r($data);
+		
+		$this->load->view('default/header_legal_research',array('title'=> "Articles")); 	
 		$this->load->view('qna',$data);
+		$this->load->view('default/footer_legal_research');
 	}
 
 	public function index()
@@ -53,7 +56,9 @@ class Forum extends CI_Controller
 			$question->tags = $this->forum_model->get_tags($question->id);
 		}
 		// print_r($data);
+		$this->load->view('default/header_legal_research',array('title'=> "Articles")); 	
 		$this->load->view('qna',$data);
+		$this->load->view('default/footer_legal_research');	
 		
 	}
 
@@ -72,7 +77,10 @@ class Forum extends CI_Controller
 				$answer->comments = $this->forum_model->fetch_comm($answer->id);
 			}
 		}
+	
+		$this->load->view('default/header_legal_research',array('title'=> "Articles")); 	
 		$this->load->view('answers_page',$data);
+		$this->load->view('default/footer_legal_research');
 		// print_r($data);
 	}
 

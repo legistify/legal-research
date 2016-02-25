@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <h1>Articles</h1>
 
 <?php
