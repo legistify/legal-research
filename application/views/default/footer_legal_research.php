@@ -115,23 +115,9 @@
                 
 
     <!-- jQuery -->
-     <script src="assets/js/jquery.js"></script>
+     
     <!-- Bootstrap Core JavaScript -->
-     <script src="assets/js/bootstrap.min.js"></script>
-    <!-- Plugin JavaScript -->
-     <script src="assets/js/jquery.easing.min.js"></script>
-    <!-- Custom Theme JavaScript -->
-     <script src="assets/js/grayscale.js"></script>
-     <!-- plugin for select2 -->
-     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
-	 <!-- <script src="assets/js/hover.js"></script> -->
-     <script src="assets/js/services.js"></script>
-     <script src="assets/js/search.js"></script>
-     <script src="assets/js/login.js"></script>
-     <!-- <script src="assets/js/categories.js"></script> -->
-     <script src="assets/js/fuzzy.js"></script>
-     <script src="assets/js/legal_research/main.js"></script>
-     <script src="assets/js/sweetalert-master/dist/sweetalert.min.js"></script> 
+
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip(); 
@@ -149,8 +135,7 @@
         });
     </script>
      
-     
-     <link rel="stylesheet" type="text/css" href="assets/js/sweetalert-master/dist/sweetalert.css">     
+       
 
 </body>
 

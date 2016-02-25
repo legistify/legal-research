@@ -1,65 +1,3 @@
-<?php
-require_once APPPATH."third_party/Facebook/autoload.php";
-require_once APPPATH."third_party/google-api-php-client-1-master/src/Google/autoload.php";
-require_once APPPATH."third_party/google-api-php-client-1-master/src/Google/Service/Oauth2.php";
-
-$fb = new Facebook\Facebook([
-  'app_id' => '1651245151804892',
-  'app_secret' => '3bace24d6444e8030d45735eabd9c754',
-  'default_graph_version' => 'v2.5',
-  ]);
-
-$helper = $fb->getRedirectLoginHelper();
-$permissions = ['email']; // optional
-try {  
-  $accessToken = $helper->getAccessToken();  
-} catch(Facebook\Exceptions\FacebookResponseException $e) {  
-  // When Graph returns an error  
-  echo 'Graph returned an error: ' . $e->getMessage();  
-  exit;  
-} catch(Facebook\Exceptions\FacebookSDKException $e) {  
-  // When validation fails or other local issues  
-  echo 'Facebook SDK returned an error: ' . $e->getMessage();  
-  exit;  
-} 
-$loginUrl = $helper->getLoginUrl('https://www.legistify.com/user/fblogin', $permissions);
-
-
-$client_id='1053461526558-j8n4a08eqd1a8uk0ij5c13dhvgnepkd8.apps.googleusercontent.com';
-$client_secret='QCO6EyN9efazyAGAcB3fiL-K';
-$redirect_uri='https://www.legistify.com/user/gpluslogin';
-$simple_api_key='AIzaSyBk06zzFMp-7ig8PzrjG8AxlLaj6R8AwLk';
-
-// Create Client Request to access Google API
-$client = new Google_Client();
-$client->setApplicationName("Legistify");
-$client->setClientId($client_id);
-$client->setClientSecret($client_secret);
-$client->setRedirectUri($redirect_uri);
-$client->setDeveloperKey($simple_api_key);
-$client->addScope("https://www.googleapis.com/auth/userinfo.email");
-
-// Send Client Request
-$objOAuthService = new Google_Service_Oauth2($client);
-
-
-
-// Add Access Token to Session
-if (isset($_GET['code'])) {
-$client->authenticate($_GET['code']);
-$_SESSION['access_token'] = $client->getAccessToken();
-header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
-}
-
-// Set Access Token to make Request
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-$client->setAccessToken($_SESSION['access_token']);
-}
-
-$authUrl = $client->createAuthUrl();
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -167,22 +105,11 @@ We also aim at providing the big exposure that students currently pursuing law d
     <!-- Bootstrap Core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- icons CSS -->
-    <link href="assets/css/socialIcons.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="assets/css/main.css" rel="stylesheet">
-
-    <link href="assets/css/docmaking.css" rel="stylesheet">
 
 
-	  <link href="assets/css/hover.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="assets/js/sweetalert-master/dist/sweetalert.css">
 	
 	
-
-    <!-- Custom Fonts -->
-    <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"> -->
     <!-- <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
@@ -192,7 +119,7 @@ We also aim at providing the big exposure that students currently pursuing law d
     <link rel="stylesheet" type="text/css" href="assets/css/legal_research/style.css"></link>
     
     <link rel="stylesheet" type="text/css" href="assets/css/legal_research/newStyle.css"></link>
-
+     
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -201,6 +128,9 @@ We also aim at providing the big exposure that students currently pursuing law d
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+      
+    <script src="assets/js/jquery.min(1.11.1).js"></script> 
+    <script src="assets/js/main.js"></script>
 
     <!-- google analytics code -->
     <script>
@@ -244,9 +174,9 @@ We also aim at providing the big exposure that students currently pursuing law d
                               <div id="loginErrorMsg" style="display:none"><span style="color:red">Wrong username or password</span></div>
                               <div align="right" style="margin-top:2px"><a style="color:black;cursor:pointer;font-size:12px" id="forgetpassword">Forgot Password?</a></div>
                               <div align="center" style="margin-top:5px"><b>OR</b></div>
-                              <a href="<?php echo $loginUrl; ?>" class="btn btn-social-dark azm-facebook" ><i class="fa fa-facebook"></i> &nbsp;&nbsp;Log in with Facebook</a>
+                              <a href="" class="btn btn-social-dark azm-facebook" ><i class="fa fa-facebook"></i> &nbsp;&nbsp;Log in with Facebook</a>
                               <!-- <div align="center" style="margin-top:5px"><b>OR</b></div> -->
-                              <a href="<?php echo $authUrl; ?>" class="btn btn-social-dark azm-google-plus"><i class="fa fa-google-plus"></i>&nbsp;&nbsp; Sign in with Google+</a>
+                              <a href="" class="btn btn-social-dark azm-google-plus"><i class="fa fa-google-plus"></i>&nbsp;&nbsp; Sign in with Google+</a>
                           </form>
                       </div>                      
                   </div>
